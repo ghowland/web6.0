@@ -1,0 +1,890 @@
+package web6
+
+/*
+
+TODO:
+
+- Make the accessors, that run off the last output
+	- Terminate the function, so that accessors can start, using ".__access."
+	- `__sql.dbselect.'SELECT * FROM table WHERE id = 5'.__.0.json_data_field.fieldname.10.anotherfieldname.etc`
+- Change the quotes from single to double-quotes, so that we can write raw SQL commands, and still have quoting work in them
+- `__query.1.__slice.-5,-1` - get the last 5 elements
+- `__query.1.__sort.fieldname1.fieldname2` sort on multiple fieldnames
+
+*/
+
+import (
+	"database/sql"
+	"encoding/json"
+	"fmt"
+	"sort"
+	"github.com/jcasts/gosrv"
+	//_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
+	//"io"
+	"container/list"
+	"github.com/junhsieh/goexamples/fieldbinding/fieldbinding"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+	"strings"
+	"text/template"
+	//"github.com/jacksontj/goUDN"
+	//"container/list"
+	//  "net/url"
+	//  "io"
+	//  "bytes"
+	//  "path"
+	"bytes"
+	"strconv"
+	"io"
+	"github.com/jacksontj/dataman/src/storage_node"
+	"github.com/jacksontj/dataman/src/storage_node/metadata"
+	"github.com/jacksontj/dataman/src/query"
+	"github.com/segmentio/ksuid"
+	"context"
+	"os/user"
+	"gopkg.in/ldap.v2"
+	"time"
+	"sync"
+)
+
+var PgConnect string
+
+var Debug_Udn bool
+var Debug_Udn_Api bool
+
+type ApiRequest struct {
+	// User information
+	UserId        int
+	UserName      string
+	UserAuthToken string
+
+	// Ingress API information
+	IngressHostname  string
+	IngressProtocol  string
+	IngressUri       string
+	IngressArgs      string
+	IngressHeaderMap map[string]string
+	IngressCookieMap map[string]string
+	IngressDataMap   map[string]interface{}
+
+	// Database information -- For security reasons, dont put DBs in this map that this user doesnt have access to
+	DatabaseList map[int64]*sql.DB
+}
+
+
+type StringFile struct {
+	String string
+}
+
+func (s *StringFile) Write(ingress []byte) (count int, err error) {
+	s.String += string(ingress)
+
+	return len(ingress), nil
+}
+
+func NewTextTemplateMap() *TextTemplateMap {
+	return &TextTemplateMap{
+		Map: make(map[string]interface{}),
+	}
+}
+
+func NewTextTemplateMapItem() TextTemplateMap {
+	return TextTemplateMap{
+		Map: make(map[string]interface{}),
+	}
+}
+
+type TextTemplateMap struct {
+	Map map[string]interface{}
+}
+
+func InitDataman() {
+	config := storagenode.DatasourceInstanceConfig{
+		StorageNodeType: "postgres",
+		StorageConfig:  map[string]interface{} {
+			"pg_string": PgConnect,
+		},
+	}
+
+	schema_str, err := ioutil.ReadFile("./data/schema.json")
+	if err != nil {
+		log.Panic(err)
+	}
+
+	//fmt.Printf("Schema STR: %s\n\n", schema_str)
+
+	var meta metadata.Meta
+	err = json.Unmarshal(schema_str, &meta)
+	if err != nil {
+		panic(err)
+	}
+
+	if datasource, err := storagenode.NewLocalDatasourceInstance(&config, &meta); err == nil {
+		DatasourceInstance["opsdb"] = datasource
+	} else {
+		panic(err)
+	}
+}
+
+func init() {
+	PgConnect = ReadPathData("data/opsdb.connect")
+
+	// Initialize Dataman
+	InitDataman()
+}
+
+func main() {
+	////DEBUG: Testing
+	//TestUdn()
+
+	//go RunJobWorkers()
+
+	s, err := gosrv.NewFromFlag()
+	if err != nil {
+		panic(err)
+	}
+
+	s.HandleFunc("/", handler)
+
+	err = s.ListenAndServe()
+	if err != nil {
+		panic(err)
+	}
+}
+
+func ReadPathData(path string) string {
+	file, err := os.Open(path)
+	if err == nil {
+		defer file.Close()
+
+		file_info, err := file.Stat()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// If this isnt a directory
+		if !file_info.IsDir() {
+			size := file_info.Size()
+
+			data := make([]byte, size)
+			_, err := file.Read(data)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			return string(data)
+		}
+	}
+
+	return ""
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+
+	//url := fmt.Sprintf("%s", r.URL)
+
+	url := r.URL.RequestURI()
+
+	parts := strings.SplitN(url, "?", 2)
+
+	uri := parts[0]
+
+	relative_path := "./web/limitless5" + uri
+
+	//log.Println("Testing path:", relative_path)
+
+	is_static := false
+
+	file, err := os.Open(relative_path)
+	if err == nil {
+		defer file.Close()
+
+		file_info, err := file.Stat()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// If this isnt a directory
+		if !file_info.IsDir() {
+			is_static = true
+
+			size := file_info.Size()
+
+			data := make([]byte, size)
+			_, err := file.Read(data)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if strings.HasSuffix(relative_path, ".css") {
+				w.Header().Set("Content-Type", "text/css")
+			} else if strings.HasSuffix(relative_path, ".js") {
+				w.Header().Set("Content-Type", "text/javascript")
+			} else if strings.HasSuffix(relative_path, ".jpg") {
+				w.Header().Set("Content-Type", "image/jpg")
+			} else if strings.HasSuffix(relative_path, ".png") {
+				w.Header().Set("Content-Type", "image/png")
+			} else if strings.HasSuffix(relative_path, ".woff2") {
+				w.Header().Set("Content-Type", "font/woff2")
+			} else {
+				w.Header().Set("Content-Type", "text/html")
+			}
+
+			// Write the file into the body
+			w.Write(data)
+		}
+	}
+
+	// If this is not dynamic, then it's static
+	if !is_static {
+		// Handle all dynamic pages
+		dynamicPage(uri, w, r)
+	}
+}
+
+func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
+
+	// DB
+	db, err := sql.Open("postgres", PgConnect)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	// DB Web
+	db_web, err := sql.Open("postgres", PgConnect)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db_web.Close()
+
+	web_site_id := 1
+
+	//TODO(g): Get the web_site_domain from host header
+	//web_site_domain_id := 1
+
+	// Get the path to match from the DB
+	sql := fmt.Sprintf("SELECT * FROM web_site WHERE _id = %d", web_site_id)
+	web_site_result := Query(db_web, sql)
+	if web_site_result == nil {
+		panic("Failed to load website")
+	}
+
+	fmt.Printf("Type: %T\n\n", web_site_result)
+
+	web_site_row := web_site_result[0]
+	web_site := web_site_row
+
+	fmt.Printf("\n\nGetting Web Site Page from URI: %s\n\n", uri)
+
+	// Get the path to match from the DB
+	sql = fmt.Sprintf("SELECT * FROM web_site_page WHERE web_site_id = %d AND name = '%s'", web_site_id, SanitizeSQL(uri))
+	fmt.Printf("\n\nQuery: %s\n\n", sql)
+	web_site_page_result := Query(db_web, sql)
+	fmt.Printf("\n\nWeb Page Results: %v\n\n", web_site_page_result)
+
+	// Check if this is a match for an API call
+	found_api := false
+	web_site_api_result := make([]map[string]interface{}, 0)
+	if web_site["api_prefix_path"] == nil || strings.HasPrefix(uri, web_site["api_prefix_path"].(string)) {
+		short_path := uri
+		if web_site["api_prefix_path"] != nil {
+			short_path = strings.Replace(uri, web_site["api_prefix_path"].(string), "", -1)
+		}
+
+		// Get the path to match from the DB
+		sql = fmt.Sprintf("SELECT * FROM web_site_api WHERE web_site_id = %d AND name = '%s'", web_site_id, SanitizeSQL(short_path))
+		fmt.Printf("\n\nQuery: %s\n\n", sql)
+		web_site_api_result = Query(db_web, sql)
+
+		if len(web_site_api_result) > 0 {
+			found_api = true
+		}
+	}
+
+	// If we found a matching page
+	if found_api {
+		fmt.Printf("\n\nFound API: %v\n\n", web_site_api_result[0])
+		dynamicPage_API(db_web, db, web_site, web_site_api_result[0], uri, w, r)
+	} else if len(web_site_page_result) > 0 {
+		fmt.Printf("\n\nFound Dynamic Page: %v\n\n", web_site_page_result[0])
+		dynamePage_RenderWidgets(db_web, db, web_site, web_site_page_result[0], uri, w, r)
+	} else {
+		fmt.Printf("\n\nPage not found: 404: %v\n\n", web_site_page_result)
+
+		dynamicPage_404(uri, w, r)
+	}
+}
+
+func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_page map[string]interface{}, uri string, body io.Reader, param_map map[string][]string,  header_map map[string][]string, cookie_array []*http.Cookie) map[string]interface{} {
+
+	// Data pool for UDN
+	udn_data := make(map[string]interface{})
+
+	// Prepare the udn_data with it's fixed pools of data
+	//udn_data["widget"] = *NewTextTemplateMap()
+	udn_data["data"] = make(map[string]interface{})
+	udn_data["temp"] = make(map[string]interface{})
+	udn_data["output"] = make(map[string]interface{})			// Staging output goes here, can share them with appending as well.
+	//TODO(g): Make args accessible at the start of every ExecuteUdnPart after getting the args!
+	udn_data["arg"] = make(map[string]interface{})				// Every function call blows this away, and sets the args in it's data, so it's accessable
+	udn_data["function_arg"] = make(map[string]interface{})		// Function arguments, from Stored UDN Function __function, sets the incoming function args
+	udn_data["page"] = make(map[string]interface{})				//TODO(g):NAMING: __widget is access here, and not from "widget", this can be changed, since thats what it is...
+
+	udn_data["set_api_result"] = make(map[string]interface{})		// If this is an API call, set values in here, which will be encoded in JSON and sent back to the client on return
+	udn_data["set_cookie"] = make(map[string]interface{})			// Set Cookies.  Any data set in here goes into a cookie.  Will use standard expiration and domain for now.
+	udn_data["set_header"] = make(map[string]interface{})			// Set HTTP Headers.
+	udn_data["set_http_options"] = make(map[string]interface{})		// Any other things we want to control from UDN, we put in here to be processed.  Can be anything, not based on a specific standard.
+
+	//TODO(g): Move this so we arent doing it every page load
+
+	// Get the params: map[string]interface{}
+	udn_data["param"] = make(map[string]interface{})
+	//TODO(g): Get the POST params too, not just GET...
+	for key, value := range param_map {
+		//fmt.Printf("\n----KEY: %s  VALUE:  %s\n\n", key, value[0])
+		//TODO(g): Decide what to do with the extra headers in the array later, we may not want to allow this ever, but thats not necessarily true.  Think about it, its certainly not the typical case, and isnt required
+		udn_data["param"].(map[string]interface{})[key] = value[0]
+	}
+
+	// Get the JSON Body, if it exists, from an API-style call in
+	udn_data["api_input"] = make(map[string]interface{})
+	json_body := make(map[string]interface{})
+	decoder := json.NewDecoder(body)
+	err := decoder.Decode(&json_body)
+	// If we got it, then add all the keys to api_input
+	if err == nil {
+		for body_key, body_value := range json_body {
+			udn_data["api_input"].(map[string]interface{})[body_key] = body_value
+		}
+	}
+
+	// Get the cookies: map[string]interface{}
+	udn_data["cookie"] = make(map[string]interface{})
+	for _, cookie := range cookie_array {
+		udn_data["cookie"].(map[string]interface{})[cookie.Name] = cookie.Value
+	}
+
+	// Get the headers: map[string]interface{}
+	udn_data["header"] = make(map[string]interface{})
+	for header_key, header_value_array := range header_map {
+		//TODO(g): Decide what to do with the extra headers in the array later, these will be useful and are necessary to be correct
+		udn_data["header"].(map[string]interface{})[header_key] = header_value_array[0]
+	}
+
+	// Verify that this user is logged in, render the login page, if they arent logged in
+	udn_data["session"] = make(map[string]interface{})
+	udn_data["user"] = make(map[string]interface{})
+	udn_data["user_data"] = make(map[string]interface{})
+	udn_data["web_site"] = web_site
+	udn_data["web_site_page"] = web_site_page
+	if session_value, ok := udn_data["cookie"].(map[string]interface{})["opsdb_session"]; ok {
+		session_sql := fmt.Sprintf("SELECT * FROM web_user_session WHERE web_site_id = %d AND name = '%s'", web_site["_id"], SanitizeSQL(session_value.(string)))
+		session_rows := Query(db_web, session_sql)
+		if len(session_rows) == 1 {
+			session := session_rows[0]
+			user_id := session["user_id"]
+
+			fmt.Printf("Found User ID: %d  Session: %v\n\n", user_id, session)
+
+			// Load session from json_data
+			target_map := make(map[string]interface{})
+			if session["data_json"] != nil {
+				err := json.Unmarshal([]byte(session["data_json"].(string)), &target_map)
+				if err != nil {
+					log.Panic(err)
+				}
+			}
+
+			fmt.Printf( "Session Data: %v\n\n", target_map)
+
+			udn_data["session"] = target_map
+
+			// Load the user data too
+			user_sql := fmt.Sprintf("SELECT * FROM \"user\" WHERE _id = %d", user_id)
+			user_rows := Query(db_web, user_sql)
+			target_map_user := make(map[string]interface{})
+			if len(user_rows) == 1 {
+				// Set the user here
+				udn_data["user"] = user_rows[0]
+
+				// Load from user data from json_data
+				if user_rows[0]["data_json"] != nil {
+					err := json.Unmarshal([]byte(user_rows[0]["data_json"].(string)), &target_map_user)
+					if err != nil {
+						log.Panic(err)
+					}
+				}
+			}
+			fmt.Printf("User Data: %v\n\n", target_map_user)
+
+			udn_data["user_data"] = target_map_user
+		}
+	}
+
+	// Get the UUID for this request
+	id := ksuid.New()
+	udn_data["uuid"] = id.String()
+
+	return udn_data
+}
+
+func SetCookies(cookie_map map[string]interface{}, w http.ResponseWriter, r *http.Request) {
+	for key, value := range cookie_map {
+		//TODO(g):REMOVE: Testing only...
+		new_cookie := http.Cookie{}
+		new_cookie.Name = key
+		new_cookie.Value = fmt.Sprintf("%v", value)
+		new_cookie.Path = "/"
+		http.SetCookie(w, &new_cookie)
+
+		fmt.Printf("** Setting COOKIE: %s = %s\n", key, value)
+	}
+}
+
+func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_api map[string]interface{}, uri string, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
+
+
+	// Get UDN starting data values
+	request_body := r.Body
+	param_map := r.URL.Query()
+	header_map := r.Header
+	cookie_array := r.Cookies()
+
+	// Get our starting UDN data
+	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_api, uri, request_body, param_map, header_map, cookie_array)
+
+	fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
+
+	fmt.Printf("Params: %v\n\n", param_map)
+
+	// Get the base widget
+	sql := fmt.Sprintf("SELECT * FROM web_widget")
+	all_widgets := Query(db_web, sql)
+
+	// Save all our base web_widgets, so we can access them anytime we want
+	udn_data["base_widget"] = MapArrayToMap(all_widgets, "name")
+
+	// Get UDN schema per request
+	//TODO(g): Dont do this every request
+	udn_schema := PrepareSchemaUDN(db_web)
+
+	// If we are being told to debug, do so
+	if param_map["__debug"] != nil {
+		udn_schema["udn_debug"] = true
+	} else if Debug_Udn_Api == true {
+		// API calls are harder to change than web page requests, so made a separate in code var to toggle debugging
+		udn_schema["udn_debug"] = true
+	}
+
+
+	// Process the UDN, which updates the pool at udn_data
+	if web_site_api["udn_data_json"] != nil {
+		ProcessSchemaUDNSet(db_web, udn_schema, web_site_api["udn_data_json"].(string), udn_data)
+	} else {
+		fmt.Printf("UDN Execution: API: %s: None\n\n", web_site_api["name"])
+	}
+
+	// Set Cookies
+	SetCookies(udn_data["set_cookie"].(map[string]interface{}), w, r)
+
+
+	// Write whatever is in the API result map, as a JSON result
+	var buffer bytes.Buffer
+	body, _ := json.Marshal(udn_data["set_api_result"])
+	buffer.Write(body)
+
+	fmt.Printf("Writing API body: %s\n\n", body)
+
+	// Write out our output as HTML
+	html_path := UdnDebugWriteHtml(udn_schema)
+	fmt.Printf("UDN Debug HTML Log: %s\n", html_path)
+
+	// Write out the final page
+	w.Write([]byte(buffer.String()))
+
+}
+
+func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_page map[string]interface{}, uri string, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
+
+	sql := fmt.Sprintf("SELECT * FROM web_site_page_widget WHERE web_site_page_id = %d ORDER BY priority ASC", web_site_page["_id"])
+	web_site_page_widgets := Query(db_web, sql)
+
+	// Get the base web site widget
+	sql = fmt.Sprintf("SELECT * FROM web_site_page_widget WHERE _id = %d", web_site_page["base_page_web_site_page_widget_id"])
+	base_page_widgets := Query(db_web, sql)
+
+	// If we couldnt find the page, quit (404)
+	if len(base_page_widgets) < 1 {
+		fmt.Printf("No base page widgets found, going 404\n")
+
+		dynamicPage_404(uri, w, r)
+		return
+	}
+
+	base_page_widget := base_page_widgets[0]
+
+	// Get the base widget
+	sql = fmt.Sprintf("SELECT * FROM web_widget WHERE _id = %d", base_page_widget["web_widget_id"])
+	base_widgets := Query(db_web, sql)
+
+	base_page_html, err := ioutil.ReadFile(base_widgets[0]["path"].(string))
+	if err != nil {
+		log.Panic(err)
+	}
+
+	// Get UDN starting data values
+	request_body := r.Body
+	param_map := r.URL.Query()
+	header_map := r.Header
+	cookie_array := r.Cookies()
+
+	// Get our starting UDN data
+	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_page, uri, request_body, param_map, header_map, cookie_array)
+
+	fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
+
+	// Get the base widget
+	sql = fmt.Sprintf("SELECT * FROM web_widget")
+	all_widgets := Query(db_web, sql)
+
+	// Save all our base web_widgets, so we can access them anytime we want
+	udn_data["base_widget"] = MapArrayToMap(all_widgets, "name")
+
+	//fmt.Printf("Base Widget: base_list2_header: %v\n\n", udn_data["base_widget"].(map[string]interface{})["base_list2_header"])
+
+	// We need to use this as a variable, so make it accessible to reduce casting
+	page_map := udn_data["page"].(map[string]interface{})
+
+
+	//TODO(g):HARDCODED: Im just forcing /login for now to make bootstrapping faster, it can come from the data source, think about it
+	if uri != "/login" {
+		if udn_data["user"].(map[string]interface{})["_id"] == nil {
+			login_page_id := web_site["login_web_site_page_id"].(int64)
+			login_page_sql := fmt.Sprintf("SELECT * FROM web_site_page WHERE _id = %d", login_page_id)
+			login_page_rows := Query(db_web, login_page_sql)
+			if len(login_page_rows) >= 1 {
+				login_page := login_page_rows[0]
+
+				// Render the Login Page
+				//TODO(g): Verify we can only ever recurse once, this is the only time I do this, so far.  Think out whether this is a good idea...
+				dynamePage_RenderWidgets(db_web, db, web_site, login_page, "/login", w, r)
+
+				// Return, as the Login page has been rendered, so we abandon rendering the requested page
+				return
+			}
+		}
+
+	}
+
+	// Get UDN schema per request
+	//TODO(g): Dont do this every request
+	udn_schema := PrepareSchemaUDN(db_web)
+
+	// If we are being told to debug, do so
+	if param_map["__debug"] != nil {
+		udn_schema["udn_debug"] = true
+	}
+
+
+	// Loop over the page widgets, and template them
+	for _, site_page_widget := range web_site_page_widgets {
+		// Skip it if this is the base page, because we
+		if site_page_widget["_id"] == web_site_page["base_page_web_site_page_widget_id"] {
+			continue
+		}
+
+		// Put the Site Page Widget into the UDN Data, so we can operate on it
+		udn_data["page_widget"] = site_page_widget
+
+		widget_map := make(map[string]interface{})
+
+		// Put the widget map into the UDN Data too
+		udn_data["widget_map"] = widget_map
+
+		// web_widget_id rendering widget -- single widget rendering
+		var page_widget map[string]interface{}
+
+		// Get any static content associated with this page widget.  Then we dont need to worry about quoting or other stuff
+		widget_static := make(map[string]interface{})
+		udn_data["widget_static"] = widget_static
+		if site_page_widget["static_data_json"] != nil {
+			err = json.Unmarshal([]byte(site_page_widget["static_data_json"].(string)), &widget_static)
+			if err != nil {
+				log.Panic(err)
+			}
+		}
+
+		// If we have web_widget specified, use it
+		if site_page_widget["web_widget_id"] != nil {
+
+			// Get the base widget
+			sql = fmt.Sprintf("SELECT * FROM web_widget WHERE _id = %d", site_page_widget["web_widget_id"])
+			page_widgets := Query(db_web, sql)
+			page_widget = page_widgets[0]
+
+			fmt.Printf("Page Widget: %s: %s\n", site_page_widget["name"], page_widget["name"])
+
+			// wigdet_map has all the UDN operations we will be using to embed child-widgets into this widget
+			//TODO(g): We need to use the page_map data here too, because we need to template in the sub-widgets.  Think about this after testing it as-is...
+			err = json.Unmarshal([]byte(site_page_widget["data_json"].(string)), &widget_map)
+			if err != nil {
+				log.Panic(err)
+			}
+
+			udn_data["web_widget"] = page_widget
+
+
+
+			// Processing UDN: which updates the data pool at udn_data
+			if site_page_widget["udn_data_json"] != nil {
+				ProcessSchemaUDNSet(db_web, udn_schema, site_page_widget["udn_data_json"].(string), udn_data)
+			} else {
+				fmt.Printf("UDN Execution: %s: None\n\n", site_page_widget["name"])
+			}
+
+
+			// Process the Widget's Rendering UDN statements (singles)
+			for widget_key, widget_value := range widget_map {
+				//fmt.Printf("\n\nWidget Key: %s:  Value: %v\n\n", widget_key, widget_value)
+
+				// Force the UDN string into a string
+				//TODO(g): Not the best way to do this, fix later, doing now for dev speed/simplicity
+				widget_udn_string := fmt.Sprintf("%v", widget_value)
+
+				// Process the UDN with our new method.  Only uses Source, as we are getting, but not setting in this phase
+				widget_udn_result := ProcessUDN(db, udn_schema, widget_udn_string, "", udn_data)
+
+				widget_map[widget_key] = fmt.Sprintf("%v", GetResult(widget_udn_result, type_string))
+
+				//fmt.Printf("Widget Key Result: %s   Result: %s\n\n", widget_key, SnippetData(widget_map[widget_key], 600))
+			}
+
+			//fmt.Printf("Title: %s\n", widget_map.Map["title"])
+
+			item_html, err := ioutil.ReadFile(page_widget["path"].(string))
+			if err != nil {
+				log.Panic(err)
+			}
+
+			//TODO(g): Replace reading from the "path" above with the "html" stored in the DB, so it can be edited and displayed live
+			//item_html := page_widget.Map["html"].(string)
+
+			//fmt.Printf("Page Widget: %s   HTML: %s\n", page_widget["name"], SnippetData(page_widget["html"], 600))
+
+			item_template := template.Must(template.New("text").Parse(string(item_html)))
+
+			widget_map_template := NewTextTemplateMap()
+			widget_map_template.Map = widget_map
+
+			//fmt.Printf("  Templating with data: %v\n\n", SnippetData(widget_map, 600))
+
+			item := StringFile{}
+			err = item_template.Execute(&item, widget_map_template)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// Append to our total forum_list_string
+			key := site_page_widget["name"]
+
+			//fmt.Printf("====== Finalized Template: %s\n%s\n\n", key, item.String)
+
+			//fmt.Printf("=-=-=-=-= UDN Data: Output:\n%v\n\n", udn_data["output"])
+
+			page_map[key.(string)] = item.String
+
+		} else if site_page_widget["web_widget_instance_id"] != nil {
+			// Render the Widget Instance
+			udn_update_map := make(map[string]interface{})
+			RenderWidgetInstance(db_web, udn_schema, udn_data, site_page_widget, udn_update_map)
+
+		} else if site_page_widget["web_data_widget_instance_id"] != nil {
+			// Render the Widget Instance, from the web_data_widget_instance
+			udn_update_map := make(map[string]interface{})
+			RenderWidgetInstance(db_web, udn_schema, udn_data, site_page_widget, udn_update_map)
+
+		} else {
+			panic("No web_widget_id, web_widget_instance_id, web_data_widget_instance_id.  Site Page Widgets need at least one of these.")
+		}
+
+	}
+
+	// Get base page widget items.  These were also processed above, as the base_page_widget was included with the page...
+	base_page_widget_map := NewTextTemplateMap()
+	err = json.Unmarshal([]byte(base_page_widget["data_json"].(string)), &base_page_widget_map.Map)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	// Add base_page_widget entries to page_map, if they dont already exist
+	for key, value := range base_page_widget_map.Map {
+		if _, ok := page_map[key]; ok {
+			// Pass, already has this value
+		} else {
+			value_str := fmt.Sprintf("%v", value)
+
+			// Process the UDN with our new method.  Only uses Source, as we are getting, but not setting in this phase
+			widget_udn_result := ProcessUDN(db, udn_schema, value_str, "", udn_data)
+
+			if widget_udn_result != nil {
+				page_map[key] = fmt.Sprintf("%v", GetResult(widget_udn_result, type_string))
+			} else {
+				// Use the base page widget, without any processing, because we got back nil
+				page_map[key] = value_str
+			}
+
+			//// Set the value, static text
+			//page_map[key] = value
+		}
+	}
+
+	fmt.Println("Rendering base page")
+
+	// Put them into the base page
+	base_page_template := template.Must(template.New("text").Parse(string(base_page_html)))
+
+	// Set up the TextTemplateMap for page_map, now that it is map[string]interface{}
+	page_map_text_template_map := NewTextTemplateMap()
+	page_map_text_template_map.Map = page_map
+
+	// Write the base page
+	base_page := StringFile{}
+	err = base_page_template.Execute(&base_page, page_map_text_template_map)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+
+	// Set Cookies
+	SetCookies(udn_data["set_cookie"].(map[string]interface{}), w, r)
+
+	// Write out our output as HTML
+	html_path := UdnDebugWriteHtml(udn_schema)
+	fmt.Printf("UDN Debug HTML Log: %s\n", html_path)
+
+	// Write out the final page
+	w.Write([]byte(base_page.String))
+
+}
+
+func RenderWidgetInstance(db_web *sql.DB, udn_schema map[string]interface{}, udn_data map[string]interface{}, site_page_widget map[string]interface{}, udn_update_map map[string]interface{}) {
+	// Render a Widget Instance
+
+
+	// data_static  --  data_instance_static --  Available for default data...
+
+
+
+	// We are rendering a Web Widget Instance here instead, load the data necessary for the Processing UDN
+	// Data for the widget instance goes here (Inputs: data, columns, rows, etc.  These are set from the Processing UDN
+	//udn_data["widget_instance"] = make(map[string]interface{})
+	// If we dont have this bucket yet, make it
+	if udn_data["widget_instance"] == nil {
+		udn_data["widget_instance"] = make(map[string]interface{})
+	}
+
+	// Get the UUID for this widget instance
+	id := ksuid.New()
+	udn_data["widget_instance"].(map[string]interface{})["uuid"] = id.String()
+
+
+	// Widgets go here (ex: base, row, row_column, header).  We set this here, below.
+	udn_data["widget"] = make(map[string]interface{})
+
+	// Set web_widget_instance output location (where the Instance's UDN will string append the output)
+	udn_data["widget_instance"].(map[string]interface{})["output_location"] = site_page_widget["web_widget_instance_output"]
+
+
+	// Use this to abstract between site_page_widget and web_data_widget_instance
+	widget_instance := site_page_widget
+
+	if site_page_widget["web_data_widget_instance_id"] != nil {
+		// Get the web_data_widget_instance data
+		sql := fmt.Sprintf("SELECT * FROM web_data_widget_instance WHERE _id = %d", site_page_widget["web_data_widget_instance_id"])
+		web_data_widget_instance := Query(db_web, sql)[0]
+
+		// Set this as the new widget instance data, since it supercedes the site_page_widget
+		widget_instance = web_data_widget_instance
+
+		// Save the widget instance ID too, so we can put it in our hidden field for re-rendering
+		udn_data["widget_instance"].(map[string]interface{})["_web_data_widget_instance_id"] = web_data_widget_instance["_id"]
+
+		fmt.Printf("Web Data Widget Instance: %s\n", web_data_widget_instance["name"])
+
+		// If we havent overridden this already, then get it
+		if udn_update_map["widget_static"] == nil {
+			// Get any static content associated with this page widget.  Then we dont need to worry about quoting or other stuff
+			widget_static := make(map[string]interface{})
+			udn_data["widget_static"] = widget_static
+			if web_data_widget_instance["static_data_json"] != nil {
+				err := json.Unmarshal([]byte(web_data_widget_instance["static_data_json"].(string)), &widget_static)
+				if err != nil {
+					log.Panic(err)
+				}
+			}
+		}
+	}
+
+	// Get the web_widget_instance data
+	sql := fmt.Sprintf("SELECT * FROM web_widget_instance WHERE _id = %d", widget_instance["web_widget_instance_id"])
+	web_widget_instance := Query(db_web, sql)[0]
+
+	fmt.Printf("Web Widget Instance: %s\n", web_widget_instance["name"])
+	fmt.Printf("Web Widget Instance Data: %s\n", JsonDump(udn_data["widget_instance"]))
+
+	// Get any static content associated with this page widget.  Then we dont need to worry about quoting or other stuff
+	widget_static := make(map[string]interface{})
+	udn_data["static_instance"] = widget_static
+	if web_widget_instance["static_data_json"] != nil {
+		err := json.Unmarshal([]byte(web_widget_instance["static_data_json"].(string)), &widget_static)
+		if err != nil {
+			log.Panic(err)
+		}
+	}
+
+	fmt.Printf("Web Widget Instance Data Static: %s\n", JsonDump(udn_data["data_static"]))
+
+	// Get all the web widgets, by their web_widget_instance_widget.name
+	sql = fmt.Sprintf("SELECT * FROM web_widget_instance_widget WHERE web_widget_instance_id = %d", widget_instance["web_widget_instance_id"])
+	web_instance_widgets := Query(db_web, sql)
+	for _, widget := range web_instance_widgets {
+		sql = fmt.Sprintf("SELECT * FROM web_widget WHERE _id = %d", widget["web_widget_id"])
+		web_widgets := Query(db_web, sql)
+		web_widget := web_widgets[0]
+
+		udn_data["widget"].(map[string]interface{})[widget["name"].(string)] = web_widget["html"]
+	}
+
+	// Processing UDN: which updates the data pool at udn_data
+	if widget_instance["udn_data_json"] != nil {
+		ProcessSchemaUDNSet(db_web, udn_schema, widget_instance["udn_data_json"].(string), udn_data)
+	} else {
+		fmt.Printf("UDN Execution: %s: None\n\n", site_page_widget["name"])
+	}
+
+	// We have prepared the data, we can now execute the Widget Instance UDN, which will string append the output to udn_data["widget_instance"]["output_location"] when done
+	if web_widget_instance["udn_data_json"] != nil {
+		ProcessSchemaUDNSet(db_web, udn_schema, web_widget_instance["udn_data_json"].(string), udn_data)
+	} else {
+		fmt.Printf("Widget Instance UDN Execution: %s: None\n\n", site_page_widget["name"])
+	}
+}
+
+func dynamicPage_404(uri string, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
+
+	base_html, err := ioutil.ReadFile("web/limitless5/error_404.html")
+	if err != nil {
+		log.Panic(err)
+	}
+
+	w.Write([]byte(base_html))
+}
+
+
