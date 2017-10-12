@@ -17,7 +17,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/jcasts/gosrv"
 	_ "github.com/lib/pq"
 	"io/ioutil"
 	"log"
@@ -65,26 +64,8 @@ const (
 func init() {
 }
 
-func main() {
-	////DEBUG: Testing
-	//TestUdn()
 
-	//go RunJobWorkers()
-
-	s, err := gosrv.NewFromFlag()
-	if err != nil {
-		panic(err)
-	}
-
-	s.HandleFunc("/", handler)
-
-	err = s.ListenAndServe()
-	if err != nil {
-		panic(err)
-	}
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
+func Handler(w http.ResponseWriter, r *http.Request) {
 
 	//url := fmt.Sprintf("%s", r.URL)
 
