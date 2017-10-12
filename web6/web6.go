@@ -28,9 +28,9 @@ import (
 	"bytes"
 	"io"
 	"github.com/segmentio/ksuid"
-	. "yudien/yudienutil"
-	. "yudien/yudiendata"
-	. "yudien/yudien"
+	. "github.com/ghowland/yudien/yudienutil"
+	. "github.com/ghowland/yudien/yudiendata"
+	. "github.com/ghowland/yudien/yudien"
 )
 
 

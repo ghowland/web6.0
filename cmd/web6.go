@@ -1,7 +1,7 @@
 package main
 
 import (
-	"web6.0/web6"
+	"github.com/ghowland/web6.0/web6"
 	"github.com/jcasts/gosrv"
 )
 
