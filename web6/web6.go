@@ -1,3 +1,4 @@
+// Web6.0 is a dynamic integrated web server, that runs off a Database
 package web6
 
 /*
@@ -32,25 +33,6 @@ import (
 	. "yudien/yudien"
 )
 
-type ApiRequest struct {
-	// User information
-	UserId        int
-	UserName      string
-	UserAuthToken string
-
-	// Ingress API information
-	IngressHostname  string
-	IngressProtocol  string
-	IngressUri       string
-	IngressArgs      string
-	IngressHeaderMap map[string]string
-	IngressCookieMap map[string]string
-	IngressDataMap   map[string]interface{}
-
-	// Database information -- For security reasons, dont put DBs in this map that this user doesnt have access to
-	DatabaseList map[int64]*sql.DB
-}
-
 
 const (
 	type_int				= iota
@@ -61,10 +43,7 @@ const (
 	type_map				= iota	// map[string]interface{}
 )
 
-func init() {
-}
-
-
+// Core Web Page Handler.  All other routing occurs inside this function.
 func Handler(w http.ResponseWriter, r *http.Request) {
 
 	//url := fmt.Sprintf("%s", r.URL)
@@ -202,6 +181,7 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Set up UDN data for an HTTP request
 func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_page map[string]interface{}, uri string, body io.Reader, param_map map[string][]string,  header_map map[string][]string, cookie_array []*http.Cookie) map[string]interface{} {
 
 	// Data pool for UDN
@@ -315,6 +295,7 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 	return udn_data
 }
 
+// Set cookies against the HTTP Request
 func SetCookies(cookie_map map[string]interface{}, w http.ResponseWriter, r *http.Request) {
 	for key, value := range cookie_map {
 		//TODO(g):REMOVE: Testing only...
