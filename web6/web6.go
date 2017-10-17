@@ -204,7 +204,7 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 
 	// Prepare the udn_data with it's fixed pools of data
 	//udn_data["widget"] = *NewTextTemplateMap()
-	udn_data["web_protocol"] = web_protocol_action
+	udn_data["web_protocol_action"] = web_protocol_action
 	udn_data["data"] = make(map[string]interface{})
 	udn_data["temp"] = make(map[string]interface{})
 	udn_data["output"] = make(map[string]interface{}) // Staging output goes here, can share them with appending as well.
