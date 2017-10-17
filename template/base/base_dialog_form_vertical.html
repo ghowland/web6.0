@@ -1,0 +1,160 @@
+<!-- Vertical form -->
+<div id="jui-dialog-form-vertical" title="Vertical form">
+    <form action="#">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>First name</label>
+                    <input type="text" placeholder="Eugene" class="form-control">
+                </div>
+
+                <div class="col-sm-6">
+                    <label>Last name</label>
+                    <input type="text" placeholder="Kopyov" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group form-group-material has-feedback">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Address line 1</label>
+                    <input type="text" placeholder="Ring street 12" class="form-control">
+                </div>
+
+
+
+                <div class="col-sm-6">
+                    <label>Address line 2</label>
+                    <input type="text" placeholder="building D, flat #67" class="form-control">
+                    <div class="form-control-feedback" style="margin-right: 0.5em;">
+                        <i class="icon-hand"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group form-group-material has-feedback">
+            <div class="row">
+                <div class="col-sm-4 has-success">
+                    <label class="control-label">City</label>
+                    <input type="text" placeholder="City" class="form-control">
+                    <div class="form-control-feedback" style="margin-right: 0.5em;">
+                        <i class="icon-checkmark3"></i>
+                    </div>
+                    <span class="help-block">Input helper text block</span>
+                </div>
+
+                <div class="col-sm-4 has-warning">
+                    <label class="control-label">State/Province</label>
+                    <input type="text" placeholder="Bayern" class="form-control">
+                    <div class="form-control-feedback" style="margin-right: 0.5em;">
+                        <i class="icon-cross3"></i>
+                    </div>
+                    <span class="help-block">Validation error goes here</span>
+                </div>
+
+                <div class="col-sm-4">
+                    <label>ZIP code</label>
+                    <input type="text" placeholder="1031" class="form-control">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label">Single Select2 select</label>
+            <select data-placeholder="Single Select2 select" class="select">
+                <option></option>
+                <optgroup label="Alaskan/Hawaiian Time Zone">
+                    <option value="AK">Alaska</option>
+                    <option value="HI">Hawaii</option>
+                </optgroup>
+                <optgroup label="Pacific Time Zone">
+                    <option value="CA">California</option>
+                    <option value="NV">Nevada</option>
+                    <option value="WA">Washington</option>
+                </optgroup>
+                <optgroup label="Mountain Time Zone">
+                    <option value="AZ">Arizona</option>
+                    <option value="CO">Colorado</option>
+                    <option value="WY">Wyoming</option>
+                </optgroup>
+            </select>
+            <span class="help-block">Select help block</span>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Email</label>
+                    <input type="text" placeholder="eugene@kopyov.com" class="form-control">
+                    <span class="help-block">name@domain.com</span>
+                </div>
+
+                <div class="col-sm-6">
+                    <label>Phone #</label>
+                    <input type="text" placeholder="+99-99-9999-9999" data-mask="+99-99-9999-9999" class="form-control">
+                    <span class="help-block">+99-99-9999-9999</span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- /vertical form -->
+
+<table>
+    <tr>
+        <td>Vertical form</td>
+        <td><button type="button" class="btn btn-default btn-sm" id="jui-dialog-form-vertical-opener">Launch <i class="icon-play3 position-right"></i></button></td>
+        <td>Example of a dialog with default <strong>vertical</strong> form layout. For better appearance set desired width in the dialog configuration</td>
+    </tr>
+</table>
+
+
+<script>
+
+
+    $(function() {
+        // Basic button
+        $(".jui-button").button();
+
+        // Disabling search, because its not working right now.  Deal with that later.  It's when I turn on tagsinput.min.js import that it breaks, because without that it renders to the page immediately.
+
+        $('.select').select2();
+
+
+        // Basic initialization
+        $('.token-field').tokenfield();
+
+
+        // Basic initialization
+        $('.tags-input').tagsinput();
+
+
+        // Button set
+        $(".jui-button-set").buttonset();
+
+
+        $('#jui-dialog-form-vertical-opener').click(function() {
+            $('#jui-dialog-form-vertical').dialog('open');
+        });
+
+        // Vertical form dialog
+        $('#jui-dialog-form-vertical').dialog({
+            autoOpen: false,
+            modal: false,
+            width: 500,
+            draggable: false,
+            resizable: false,
+            buttons: {
+                Submit: function () {
+                    $(this).dialog('close');
+                },
+                Cancel: function () {
+                    $(this).dialog('close');
+                }
+            }
+        });
+    });
+</script>

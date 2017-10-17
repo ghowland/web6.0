@@ -1,0 +1,138 @@
+
+<!-- Detailed task -->
+<div class="row">
+    <!-- bigger left panel-->
+    <div class="col-lg-9">
+
+        <!-- Task overview -->
+        <div class="panel panel-flat">
+            <div class="panel-heading mt-5">
+                <h5 class="panel-title">Network: {{index .Map "name"}} <span class="label label-success">{{index .Map "alias"}}</span></h5>
+                <div class="heading-elements">
+                    <a href="#" class="btn bg-teal-400 btn-sm btn-labeled btn-labeled-right heading-btn">Active <b><i class="icon-satellite-dish2"></i></b></a>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <h6 class="text-semibold">Overview</h6>
+                <p class="content-group">This is a mixed static-dynamic data test, to give an example View page on data.  Will expand with more defaults later.</p>
+
+
+            </div>
+
+            <div class="panel-footer">
+                <div class="heading-elements">
+                    <ul class="list-inline list-inline-condensed heading-text">
+                        <li><span class="status-mark border-blue position-left"></span> Status:</li>
+                        <li class="dropdown">
+                            <a href="#" class="text-default text-semibold dropdown-toggle" data-toggle="dropdown">Open <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class="active"><a href="#">Open</a></li>
+                                <li><a href="#">On hold</a></li>
+                                <li><a href="#">Resolved</a></li>
+                                <li><a href="#">Closed</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Dublicate</a></li>
+                                <li><a href="#">Invalid</a></li>
+                                <li><a href="#">Wontfix</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="list-inline list-inline-condensed heading-text pull-right">
+                        <li><a href="#" class="text-default"><i class="icon-compose"></i></a></li>
+                        <li><a href="#" class="text-default"><i class="icon-trash"></i></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-grid-alt"></i> <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="#"><i class="icon-alarm-add"></i> Check in</a></li>
+                                <li><a href="#"><i class="icon-attachment"></i> Attach screenshot</a></li>
+                                <li><a href="#"><i class="icon-user-plus"></i> Assign users</a></li>
+                                <li><a href="#"><i class="icon-warning2"></i> Report</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /task overview -->
+
+
+    </div>
+    <!-- /bigger left panel-->
+
+    <!-- right side panel-->
+    <div class="col-lg-3">
+
+
+        <!-- Task details -->
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+                <h6 class="panel-title"><i class="icon-files-empty position-left"></i> Network Details</h6>
+                <div class="heading-elements">
+                    <ul class="icons-list">
+                        <li><a data-action="reload"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <table class="table table-borderless table-xs content-group-sm">
+                <tbody>
+                <tr>
+                    <td><i class="icon-briefcase position-left"></i> Network:</td>
+                    <td class="text-right"><span class="pull-right"><a href="#">{{index .Map "name"}}</a></span></td>
+                </tr>
+                <tr>
+                    <td><i class="icon-alarm-add position-left"></i> Address:</td>
+                    <td class="text-right">{{index .Map "address"}}</td>
+                </tr>
+                <tr>
+                    <td><i class="icon-alarm-check position-left"></i> CIDR:</td>
+                    <td class="text-right">{{index .Map "cidr"}}</td>
+                </tr>
+                <tr>
+                    <td><i class="icon-alarm-check position-left"></i> Location:</td>
+                    <td class="text-right"><span class="label label-success">{{index .Map "alias"}}</span></td>
+                </tr>
+                <tr>
+                    <td><i class="icon-circles2 position-left"></i> Default Gateway:</td>
+                    <td class="text-right"></td>
+                </tr>
+                <tr>
+                    <td><i class="icon-history position-left"></i> Default VLAN:</td>
+                    <td class="text-right"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="panel-footer panel-footer-condensed">
+                <div class="heading-elements">
+                    <ul class="list-inline list-inline-condensed heading-text">
+                        <li><a href="#" class="text-default"><i class="icon-pencil7"></i></a></li>
+                        <li><a href="#" class="text-default"><i class="icon-bin"></i></a></li>
+                    </ul>
+
+                    <ul class="list-inline list-inline-condensed heading-text pull-right">
+                        <li><a href="#" class="text-default"><i class="icon-statistics"></i></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-gear"></i><span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="#"><i class="icon-alarm-add"></i> Check in</a></li>
+                                <li><a href="#"><i class="icon-attachment"></i> Attach screenshot</a></li>
+                                <li><a href="#"><i class="icon-user-plus"></i> Assign users</a></li>
+                                <li><a href="#"><i class="icon-warning2"></i> Report</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /task details -->
+
+
+
+    </div>
+    <!-- /right side panel-->
+
+</div>
+<!-- /detailed task -->

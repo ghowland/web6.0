@@ -1,0 +1,33 @@
+				<!-- Row selector -->
+				<div class="panel panel-flat">
+					<div class="panel-heading">
+						<h5 class="panel-title">Monitors</h5>
+						<div class="heading-elements">
+							<ul class="icons-list">
+		                		<li><a data-action="collapse"></a></li>
+		                		<li><a data-action="reload"></a></li>
+		                		<li><a data-action="close"></a></li>
+		                	</ul>
+	                	</div>
+					</div>
+
+					<div class="panel-body">
+						Monitors for the service: Something
+					</div>
+
+					<table class="table datatable-button-print-columns">
+						<thead>
+							<tr>
+								<th>Service Type</th>
+								<th>Product</th>
+								<th>JSON</th>
+								<th>Date</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+{{index .Map "monitor_list_rows"}}
+						</tbody>
+					</table>
+				</div>
+				<!-- /row selector -->

@@ -1,0 +1,40 @@
+<!-- {{index .Map "title"}} -->
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h6 class="panel-title"><i class="icon-files-empty position-left"></i> {{index .Map "title"}}</h6>
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="reload"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <table class="table table-borderless table-xs content-group-sm">
+        <tbody>
+{{index .Map "rows"}}
+        </tbody>
+    </table>
+
+    <div class="panel-footer panel-footer-condensed">
+        <div class="heading-elements">
+            <ul class="list-inline list-inline-condensed heading-text">
+                <li><a href="#" class="text-default"><i class="icon-pencil7"></i></a></li>
+                <li><a href="#" class="text-default"><i class="icon-bin"></i></a></li>
+            </ul>
+
+            <ul class="list-inline list-inline-condensed heading-text pull-right">
+                <li><a href="#" class="text-default"><i class="icon-statistics"></i></a></li>
+                <li class="dropdown">
+                    <a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-gear"></i><span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#"><i class="icon-alarm-add"></i> Check in</a></li>
+                        <li><a href="#"><i class="icon-attachment"></i> Attach screenshot</a></li>
+                        <li><a href="#"><i class="icon-user-plus"></i> Assign users</a></li>
+                        <li><a href="#"><i class="icon-warning2"></i> Report</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /{{index .Map "title"}} -->

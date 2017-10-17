@@ -1,0 +1,12 @@
+[
+  [
+    [
+      "__query.9.{id=52}",
+      "__iterate.__set.temp.field_widget.__get.temp.field_widget.html.__debug_output.__end_iterate"
+    ],
+    [
+      "__input.['some' , 'thing', 'here', 'there']",
+      "__iterate.__set.temp.item.__template_string.(__get.temp.field_widget.html).__string_append.output.field_render.__end_iterate.__get.output.field_render"
+    ]
+  ]
+]

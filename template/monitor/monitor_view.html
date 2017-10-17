@@ -1,0 +1,641 @@
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/buttons.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/select.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
+
+	<script type="text/javascript" src="assets/js/plugins/ui/prism.min.js"></script>
+	<script type="text/javascript" src="assets/js/pages/datatables_extension_buttons_print.js"></script>
+
+	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery_ui/widgets.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script>
+
+	<script type="text/javascript" src="assets/js/plugins/visualization/echarts/echarts.js"></script>
+
+	<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/ui/fullcalendar/fullcalendar.min.js"></script>
+	
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<!-- /theme JS files -->
+
+	<script type="text/javascript" src="assets/js/pages/task_detailed.js"></script>
+	<!--<script type="text/javascript" src="assets/js/charts/echarts/lines_areas__monitor.js"></script>-->
+
+
+
+				<!-- Detailed task -->
+				<div class="row">
+					<div class="col-lg-9">
+
+						<!-- Monitor overview -->
+						<div class="panel panel-flat">
+							<div class="panel-heading mt-5">
+								<h5 class="panel-title">Website: HTTP Monitor</h5>
+								<div class="heading-elements">
+									<a href="#" class="btn bg-success btn-sm btn-labeled btn-labeled-right heading-btn">Active and Healthy <b><i class="icon-check"></i></b></a>
+			                	</div>
+							</div>
+
+							<div class="panel-body">
+								
+								
+								<div class="chart-container">
+									<div class="chart has-fixed-height" id="stacked_area"></div>
+								</div>
+								
+{{index .Map "graph"}}
+								
+								
+								<h6 class="text-semibold">Description</h6>
+								<p class="content-group">Testing the index page of the corporate website.</p>
+
+
+								<h6 class="text-semibold">Scheduled Maintenance</h6>
+								<p class="content-group">Upcoming maintenance periods.  If downtime is required, be sure to specify that.</p>
+
+								<div class="table-responsive content-group">
+									<table class="table table-framed">
+										<thead>
+											<tr>
+												<th style="width: 20px;">#</th>
+												<th class="col-xs-3">Reason</th>
+												<th class="col-xs-2">Due date</th>
+												<th>Description</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td><span class="text-semibold">DB Schema Upgrade</span></td>
+												<td>
+								                	<div class="input-group input-group-transparent">
+								                		<div class="input-group-addon"><i class="icon-calendar22 position-left"></i></div>
+								                		<input type="text" class="form-control datepicker" value="21 January, 17">
+								                	</div>
+												</td>
+												<td>Primary customer databases need a schema upgrade.</td>
+											</tr>
+											<tr>
+												<td>2</td>
+												<td><span class="text-semibold">Network OS Upgrade</span></td>
+												<td>
+								                	<div class="input-group input-group-transparent">
+								                		<div class="input-group-addon"><i class="icon-calendar22 position-left"></i></div>
+								                		<input type="text" class="form-control datepicker" value="24 February, 17">
+								                	</div>
+												</td>
+												<td>Network element OS is out of date</td>
+											</tr>
+											<tr>
+												<td>3</td>
+												<td><span class="text-semibold">Datacenter Move</span></td>
+												<td>
+								                	<div class="input-group input-group-transparent">
+								                		<div class="input-group-addon"><i class="icon-calendar22 position-left"></i></div>
+								                		<input type="text" class="form-control datepicker" value="28 March, 17">
+								                	</div>
+												</td>
+												<td>Moving everything to the other side of the world, to save money.</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+
+							</div>
+
+					    	<div class="panel-footer">
+								<div class="heading-elements">
+									<ul class="list-inline list-inline-condensed heading-text">
+										<li><span class="status-mark border-blue position-left"></span> Status:</li>
+										<li class="dropdown">
+											<a href="#" class="text-default text-semibold dropdown-toggle" data-toggle="dropdown">Open <span class="caret"></span></a>
+											<ul class="dropdown-menu">
+												<li class="active"><a href="#">Open</a></li>
+												<li><a href="#">On hold</a></li>
+												<li><a href="#">Resolved</a></li>
+												<li><a href="#">Closed</a></li>
+												<li class="divider"></li>
+												<li><a href="#">Dublicate</a></li>
+												<li><a href="#">Invalid</a></li>
+												<li><a href="#">Wontfix</a></li>
+											</ul>
+										</li>
+									</ul>
+
+									<ul class="list-inline list-inline-condensed heading-text pull-right">
+										<li><a href="#" class="text-default"><i class="icon-compose"></i></a></li>
+										<li><a href="#" class="text-default"><i class="icon-trash"></i></a></li>
+										<li class="dropdown">
+											<a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-grid-alt"></i> <span class="caret"></span></a>
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="#"><i class="icon-alarm-add"></i> Check in</a></li>
+												<li><a href="#"><i class="icon-attachment"></i> Attach screenshot</a></li>
+												<li><a href="#"><i class="icon-user-plus"></i> Assign users</a></li>
+												<li><a href="#"><i class="icon-warning2"></i> Report</a></li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!-- /task overview -->
+
+
+						<!-- Comments -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h5 class="panel-title text-semiold"><i class="icon-bubbles4 position-left"></i> Comments</h5>
+								<div class="heading-elements">
+									<a href="#" class="btn bg-blue btn-xs btn-icon"><i class="icon-minus2"></i></a>
+			                	</div>
+							</div>
+
+							<div class="panel-body">
+								<ul class="media-list content-group-lg stack-media-on-mobile">
+									
+									<li class="media">
+										<div class="media-left">
+											<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+										</div>
+
+										<div class="media-body">
+											<div class="media-heading">
+												<a href="#" class="text-semibold">Thomas Jackson</a>
+												<span class="media-annotation dotted">5 minutes ago</span>
+											</div>
+
+											<p>Place voice no arise along to. Parlors waiting so against me no. Wishing calling are warrant settled was luckily. Express besides it present if at an opinion visitor.</p>
+
+											<ul class="list-inline list-inline-separate text-size-small">
+												<li>90 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+												<li><a href="#">Reply</a></li>
+												<li><a href="#">Edit</a></li>
+											</ul>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left">
+											<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+										</div>
+
+										<div class="media-body">
+											<div class="media-heading">
+												<a href="#" class="text-semibold">Rauf Guliyev</a>
+												<span class="media-annotation dotted">7 minutes ago</span>
+											</div>
+
+											<p>Savings her pleased are several started females met. Short her not among being any. Thing of judge fruit charm views do. Miles mr an forty along as he.</p>
+
+											<ul class="list-inline list-inline-separate text-size-small">
+												<li>70 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+												<li><a href="#">Reply</a></li>
+												<li><a href="#">Edit</a></li>
+											</ul>
+
+											<div class="media">
+												<div class="media-left">
+													<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-heading">
+														<a href="#" class="text-semibold">Weilu Jia</a>
+														<span class="media-annotation dotted">10 minutes ago</span>
+													</div>
+
+													<p>She education get middleton day agreement performed preserved unwilling. Do however as pleased offence outward beloved by present. By outward neither he so covered.</p>
+
+													<ul class="list-inline list-inline-separate text-size-small">
+														<li>67 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+														<li><a href="#">Reply</a></li>
+														<li><a href="#">Edit</a></li>
+													</ul>
+
+													<div class="media">
+														<div class="media-left">
+															<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+														</div>
+
+														<div class="media-body">
+															<div class="media-heading">
+																<a href="#" class="text-semibold">Bret Palsson</a>
+																<span class="media-annotation dotted">1 hour ago</span>
+															</div>
+
+															<p>Juvenile proposal betrayed he an informed weddings followed. Precaution day see imprudence sympathize principles. At full leaf give quit to in they up.</p>
+
+															<ul class="list-inline list-inline-separate text-size-small">
+																<li>54 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+																<li><a href="#">Reply</a></li>
+																<li><a href="#">Edit</a></li>
+															</ul>
+														</div>
+													</div>
+
+													<div class="media">
+														<div class="media-left">
+															<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+														</div>
+
+														<div class="media-body">
+															<div class="media-heading">
+																<a href="#" class="text-semibold">Rauf Guliyev</a>
+																<span class="media-annotation dotted">2 hours ago</span>
+															</div>
+
+															<p>Although moreover mistaken kindness me feelings do be marianne. Son over own nay with tell they cold upon are. Cordial village and settled she ability law herself.</p>
+
+															<ul class="list-inline list-inline-separate text-size-small">
+																<li>41 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+																<li><a href="#">Reply</a></li>
+																<li><a href="#">Edit</a></li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left">
+											<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+										</div>
+
+										<div class="media-body">
+											<div class="media-heading">
+												<a href="#" class="text-semibold">Geoff Howland</a>
+												<span class="media-annotation dotted">3 hours ago</span>
+											</div>
+
+											<p>Finished why bringing but sir bachelor unpacked any thoughts. Unpleasing unsatiable particular inquietude did nor sir.</p>
+
+											<ul class="list-inline list-inline-separate text-size-small">
+												<li>32 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+												<li><a href="#">Reply</a></li>
+												<li><a href="#">Edit</a></li>
+											</ul>
+										</div>
+									</li>
+								</ul>
+
+								<h6 class="text-semibold"><i class="icon-pencil7 position-left"></i> Your comment</h6>
+								<div class="content-group">
+									<div id="add-comment"></div>
+								</div>
+								
+								<div class="text-right">
+									<button type="button" class="btn bg-blue"><i class="icon-plus22"></i> Add comment</button>
+								</div>
+							</div>
+						</div>
+						<!-- /comments -->
+
+					</div>
+
+					<div class="col-lg-3">
+
+
+						<!-- Monitor details -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title"><i class="icon-files-empty position-left"></i> Monitor Details</h6>
+								<div class="heading-elements">
+									<ul class="icons-list">
+				                		<li><a data-action="collapse"></a></li>
+				                		<li><a data-action="reload"></a></li>
+				                		<li><a data-action="close"></a></li>
+				                	</ul>
+			                	</div>
+							</div>
+
+							<table class="table table-borderless table-xs content-group-sm">
+								<tbody>
+									<tr>
+										<td><i class="icon-briefcase position-left"></i> Product:</td>
+										<td class="text-right"><span class="pull-right"><a href="#">Website</a></span></td>
+									</tr>
+									<tr>
+										<td><i class="icon-alarm-add position-left"></i> Last Outage:</td>
+										<td class="text-right"><a href="#">4 days ago</a></td>
+									</tr>
+									<tr>
+										<td><i class="icon-alarm-check position-left"></i> Created:</td>
+										<td class="text-right">25 Feb, 2015</td>
+									</tr>
+									<tr>
+										<td><i class="icon-circles2 position-left"></i> Active:</td>
+										<td class="text-right">
+											<div class="btn-group">
+												<a href="#" class="label label-success dropdown-toggle" data-toggle="dropdown">Active <span class="caret"></span></a>
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><span class="status-mark position-left bg-danger"></span> Out of Rotation</a></li>
+													<li><a href="#"><span class="status-mark position-left bg-info"></span> Decommissioned</a></li>
+													<li><a href="#"><span class="status-mark position-left bg-primary"></span> Pre-Launch</a></li>
+													<li><a href="#"><span class="status-mark position-left bg-success"></span> Active</a></li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td><i class="icon-history position-left"></i> Revisions:</td>
+										<td class="text-right">29</td>
+									</tr>
+									<tr>
+										<td><i class="icon-file-plus position-left"></i> Added by:</td>
+										<td class="text-right"><a href="#">ghowland</a></td>
+									</tr>
+									<tr>
+										<td><i class="icon-file-check position-left"></i> Status:</td>
+										<td class="text-right"><span class="label label-success">Good</span></td>
+									</tr>
+								</tbody>
+							</table>
+
+					    	<div class="panel-footer panel-footer-condensed">
+								<div class="heading-elements">
+									<ul class="list-inline list-inline-condensed heading-text">
+										<li><a href="#" class="text-default"><i class="icon-pencil7"></i></a></li>
+										<li><a href="#" class="text-default"><i class="icon-bin"></i></a></li>
+									</ul>
+
+									<ul class="list-inline list-inline-condensed heading-text pull-right">
+										<li><a href="#" class="text-default"><i class="icon-statistics"></i></a></li>
+										<li class="dropdown">
+											<a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-gear"></i><span class="caret"></span></a>
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li><a href="#"><i class="icon-alarm-add"></i> Check in</a></li>
+												<li><a href="#"><i class="icon-attachment"></i> Attach screenshot</a></li>
+												<li><a href="#"><i class="icon-user-plus"></i> Assign users</a></li>
+												<li><a href="#"><i class="icon-warning2"></i> Report</a></li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!-- /task details -->
+
+
+						<!-- Revisions -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title"><i class="icon-git-commit position-left"></i> Recent Revisions</h6>
+								<div class="heading-elements">
+									<ul class="icons-list">
+				                		<li><a data-action="collapse"></a></li>
+				                		<li><a data-action="reload"></a></li>
+				                		<li><a data-action="close"></a></li>
+				                	</ul>
+			                	</div>
+							</div>
+
+							<div class="panel-body">
+								<ul class="media-list">
+
+									<li class="media">
+										<div class="media-left"><a href="#" class="btn border-success text-success btn-icon btn-flat btn-sm btn-rounded"><i class="icon-arrow-down16"></i></a></div>
+										<div class="media-body">
+											<a href="#">Geoff Howland</a> set <span class="text-semibold">Enabled</span>
+											<div class="media-annotation">4 days ago</div>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left"><a href="#" class="btn border-danger text-success btn-icon btn-flat btn-sm btn-rounded"><i class="icon-arrow-up16 text-danger"></i></a></div>
+										<div class="media-body">
+											<a href="#">Geoff Howland</a> set <span class="text-semibold">Disabled</span>
+											<div class="media-annotation">4 days ago</div>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left"><a href="#" class="btn border-info text-primary btn-icon btn-flat btn-sm btn-rounded"><i class="icon-pencil4 text-primary"></i></a></div>
+										<div class="media-body">
+											<a href="#">Weilu Jia</a> changed <span class="text-semibold">Port</span>
+											<div class="media-annotation">6 days ago</div>
+										</div>
+									</li>
+
+								</ul>
+							</div>
+						</div>
+						<!-- /revisions -->
+
+
+						<!-- Assigned users -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title"><i class="icon-users position-left"></i> Owners</h6>
+								<div class="heading-elements">
+									<ul class="icons-list">
+				                		<li><a data-action="collapse"></a></li>
+				                		<li><a data-action="reload"></a></li>
+				                		<li><a data-action="close"></a></li>
+				                	</ul>
+			                	</div>
+							</div>
+
+							<div class="panel-body">
+								<ul class="media-list">
+									<li class="media">
+										<div class="media-left">
+											<a href="#">
+												<img src="assets/images/placeholder.jpg" class="img-sm img-circle" alt="">
+												<span class="badge bg-warning-400 media-badge">9</span>
+											</a>
+										</div>
+
+										<div class="media-body media-middle text-semibold">
+											Bret Palsson
+											<div class="media-annotation">CMO</div>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list text-nowrap">
+												<li>
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-more2"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-comment-discussion pull-right"></i> Start chat</a></li>
+														<li><a href="#"><i class="icon-phone2 pull-right"></i> Make a call</a></li>
+														<li><a href="#"><i class="icon-mail5 pull-right"></i> Send mail</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-statistics pull-right"></i> Statistics</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left">
+											<a href="#">
+												<img src="assets/images/placeholder.jpg" class="img-sm img-circle" alt="">
+												<span class="badge bg-warning-400 media-badge">6</span>
+											</a>
+										</div>
+
+										<div class="media-body media-middle text-semibold">
+											Geoff Howland
+											<div class="media-annotation">CTO</div>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list text-nowrap">
+												<li>
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-more2"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-comment-discussion pull-right"></i> Start chat</a></li>
+														<li><a href="#"><i class="icon-phone2 pull-right"></i> Make a call</a></li>
+														<li><a href="#"><i class="icon-mail5 pull-right"></i> Send mail</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-statistics pull-right"></i> Statistics</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left">
+											<a href="#"><img src="assets/images/placeholder.jpg" class="img-sm img-circle" alt=""></a>
+										</div>
+
+										<div class="media-body media-middle text-semibold">
+											Rauf Guliyev
+											<div class="media-annotation">Founder</div>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list text-nowrap">
+												<li>
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-more2"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-comment-discussion pull-right"></i> Start chat</a></li>
+														<li><a href="#"><i class="icon-phone2 pull-right"></i> Make a call</a></li>
+														<li><a href="#"><i class="icon-mail5 pull-right"></i> Send mail</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-statistics pull-right"></i> Statistics</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left">
+											<a href="#"><img src="assets/images/placeholder.jpg" class="img-sm img-circle" alt=""></a>
+										</div>
+
+										<div class="media-body media-middle text-semibold">
+											Thomas Jackson
+											<div class="media-annotation">CEO</div>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list text-nowrap">
+												<li>
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-more2"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-comment-discussion pull-right"></i> Start chat</a></li>
+														<li><a href="#"><i class="icon-phone2 pull-right"></i> Make a call</a></li>
+														<li><a href="#"><i class="icon-mail5 pull-right"></i> Send mail</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-statistics pull-right"></i> Statistics</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left">
+											<a href="#"><img src="assets/images/placeholder.jpg" class="img-sm img-circle" alt=""></a>
+										</div>
+
+										<div class="media-body media-middle text-semibold">
+											Weilu Jia
+											<div class="media-annotation">Founder</div>
+										</div>
+
+										<div class="media-right media-middle">
+											<ul class="icons-list text-nowrap">
+												<li>
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-more2"></i></a>
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li><a href="#"><i class="icon-comment-discussion pull-right"></i> Start chat</a></li>
+														<li><a href="#"><i class="icon-phone2 pull-right"></i> Make a call</a></li>
+														<li><a href="#"><i class="icon-mail5 pull-right"></i> Send mail</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><i class="icon-statistics pull-right"></i> Statistics</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<!-- /assigned users -->
+
+
+						<!-- Preferences -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h6 class="panel-title"><i class="icon-cog3 position-left"></i> Preferences</h6>
+								<div class="heading-elements">
+									<ul class="icons-list">
+				                		<li><a data-action="collapse"></a></li>
+				                		<li><a data-action="reload"></a></li>
+				                		<li><a data-action="close"></a></li>
+				                	</ul>
+			                	</div>
+							</div>
+
+							<div class="panel-body">
+								<form action="#">
+									<div class="form-group">
+										<div class="checkbox checkbox-switchery checkbox-right switchery-xs">
+											<label class="display-block">
+												<input type="checkbox" class="switchery" checked="checked">
+												Burst On Failure
+											</label>
+										</div>
+
+										<div class="checkbox checkbox-switchery checkbox-right switchery-xs">
+											<label class="display-block">
+												<input type="checkbox" class="switchery">
+												Quick Alert
+											</label>
+										</div>
+
+										<div class="checkbox checkbox-switchery checkbox-right switchery-xs">
+											<label class="display-block">
+												<input type="checkbox" class="switchery" checked="checked">
+												No Secondary Delay
+											</label>
+										</div>
+
+									</div>
+
+									<div class="row">
+										<div class="col-md-6">
+											<p><button class="btn btn-default btn-sm btn-block" type="button">Reset</button></p>
+										</div>
+
+										<div class="col-md-6">
+											<p><button class="btn btn-primary btn-sm btn-block" type="button">Save</button></p>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<!-- /Preferences -->
+
+
+					</div>
+				</div>
+				<!-- /detailed task -->

@@ -1,0 +1,328 @@
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/pages/form_layouts.js"></script>
+
+				<!-- 2 columns form -->
+				<form action="#">
+					<div class="panel panel-flat">
+						<div class="panel-heading">
+							<h5 class="panel-title">Create a Ticket</h5>
+							<div class="heading-elements">
+								<ul class="icons-list">
+			                		<li><a data-action="collapse"></a></li>
+			                		<li><a data-action="reload"></a></li>
+			                		<li><a data-action="close"></a></li>
+			                	</ul>
+		                	</div>
+						</div>
+
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-6">
+									<fieldset>
+										<legend class="text-semibold"><i class="icon-reading position-left"></i> Description</legend>
+
+										<div class="form-group">
+											<label>Subject:</label>
+											<input type="text" class="form-control" placeholder="Eugene Kopyov">
+										</div>
+
+										<div class="form-group">
+											<label>Enter your password:</label>
+											<input type="password" class="form-control" placeholder="Your strong password">
+										</div>
+
+										<div class="form-group">
+											<label>Select your state:</label>
+											<select data-placeholder="Select your state" class="select">
+												<option></option>
+												<optgroup label="Alaskan/Hawaiian Time Zone">
+													<option value="AK">Alaska</option>
+													<option value="HI">Hawaii</option>
+												</optgroup>
+												<optgroup label="Pacific Time Zone">
+													<option value="CA">California</option>
+													<option value="NV">Nevada</option>
+													<option value="WA">Washington</option>
+												</optgroup>
+												<optgroup label="Mountain Time Zone">
+													<option value="AZ">Arizona</option>
+													<option value="CO">Colorado</option>
+													<option value="WY">Wyoming</option>
+												</optgroup>
+												<optgroup label="Central Time Zone">
+													<option value="AL">Alabama</option>
+													<option value="AR">Arkansas</option>
+													<option value="KY">Kentucky</option>
+												</optgroup>
+												<optgroup label="Eastern Time Zone">
+													<option value="CT">Connecticut</option>
+													<option value="DE">Delaware</option>
+													<option value="WV">West Virginia</option>
+												</optgroup>
+											</select>
+										</div>
+
+										<div class="form-group">
+											<label class="display-block">Attach screenshot:</label>
+											<input type="file" class="file-styled">
+										</div>
+
+										<div class="form-group">
+											<label>Your message:</label>
+											<textarea rows="5" cols="5" class="form-control" placeholder="Enter your message here"></textarea>
+										</div>
+									</fieldset>
+								</div>
+
+								<div class="col-md-6">
+									<fieldset>
+					                	<legend class="text-semibold"><i class="icon-truck position-left"></i> Details</legend>
+
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Priority:</label>
+													<input type="text" placeholder="Eugene" class="form-control">
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Status:</label>
+													<input type="text" placeholder="Kopyov" class="form-control">
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Owner:</label>
+													<input type="text" placeholder="eugene@kopyov.com" class="form-control">
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Reporter:</label>
+													<input type="text" placeholder="+99-99-9999-9999" class="form-control">
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+						                            <label>Country:</label>
+						                            <select data-placeholder="Select your country" class="select">
+						                            	<option></option>
+						                                <option value="Cambodia">Cambodia</option> 
+						                                <option value="Cameroon">Cameroon</option> 
+						                                <option value="Canada">Canada</option> 
+						                                <option value="Cape Verde">Cape Verde</option> 
+						                            </select>
+					                            </div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>State/Province:</label>
+													<input type="text" placeholder="Bayern" class="form-control">
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-3">
+												<div class="form-group">
+													<label>ZIP code:</label>
+													<input type="text" placeholder="1031" class="form-control">
+												</div>
+											</div>
+
+											<div class="col-md-3">
+												<div class="form-group">
+													<label>City:</label>
+													<input type="text" placeholder="Munich" class="form-control">
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Address line:</label>
+													<input type="text" placeholder="Ring street 12" class="form-control">
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label>Additional message:</label>
+											<textarea rows="5" cols="5" class="form-control" placeholder="Enter your message here"></textarea>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+
+							<div class="text-right">
+								<button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
+							</div>
+						</div>
+					</div>
+				</form>
+				<!-- /2 columns form -->
+
+
+
+						<!-- Comments -->
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h5 class="panel-title text-semiold"><i class="icon-bubbles4 position-left"></i> Comments</h5>
+								<div class="heading-elements">
+									<a href="#" class="btn bg-blue btn-xs btn-icon"><i class="icon-minus2"></i></a>
+			                	</div>
+							</div>
+
+							<div class="panel-body">
+								<ul class="media-list content-group-lg stack-media-on-mobile">
+									
+									<li class="media">
+										<div class="media-left">
+											<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+										</div>
+
+										<div class="media-body">
+											<div class="media-heading">
+												<a href="#" class="text-semibold">Thomas Jackson</a>
+												<span class="media-annotation dotted">5 minutes ago</span>
+											</div>
+
+											<p>Place voice no arise along to. Parlors waiting so against me no. Wishing calling are warrant settled was luckily. Express besides it present if at an opinion visitor.</p>
+
+											<ul class="list-inline list-inline-separate text-size-small">
+												<li>90 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+												<li><a href="#">Reply</a></li>
+												<li><a href="#">Edit</a></li>
+											</ul>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left">
+											<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+										</div>
+
+										<div class="media-body">
+											<div class="media-heading">
+												<a href="#" class="text-semibold">Rauf Guliyev</a>
+												<span class="media-annotation dotted">7 minutes ago</span>
+											</div>
+
+											<p>Savings her pleased are several started females met. Short her not among being any. Thing of judge fruit charm views do. Miles mr an forty along as he.</p>
+
+											<ul class="list-inline list-inline-separate text-size-small">
+												<li>70 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+												<li><a href="#">Reply</a></li>
+												<li><a href="#">Edit</a></li>
+											</ul>
+
+											<div class="media">
+												<div class="media-left">
+													<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+												</div>
+
+												<div class="media-body">
+													<div class="media-heading">
+														<a href="#" class="text-semibold">Weilu Jia</a>
+														<span class="media-annotation dotted">10 minutes ago</span>
+													</div>
+
+													<p>She education get middleton day agreement performed preserved unwilling. Do however as pleased offence outward beloved by present. By outward neither he so covered.</p>
+
+													<ul class="list-inline list-inline-separate text-size-small">
+														<li>67 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+														<li><a href="#">Reply</a></li>
+														<li><a href="#">Edit</a></li>
+													</ul>
+
+													<div class="media">
+														<div class="media-left">
+															<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+														</div>
+
+														<div class="media-body">
+															<div class="media-heading">
+																<a href="#" class="text-semibold">Bret Palsson</a>
+																<span class="media-annotation dotted">1 hour ago</span>
+															</div>
+
+															<p>Juvenile proposal betrayed he an informed weddings followed. Precaution day see imprudence sympathize principles. At full leaf give quit to in they up.</p>
+
+															<ul class="list-inline list-inline-separate text-size-small">
+																<li>54 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+																<li><a href="#">Reply</a></li>
+																<li><a href="#">Edit</a></li>
+															</ul>
+														</div>
+													</div>
+
+													<div class="media">
+														<div class="media-left">
+															<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+														</div>
+
+														<div class="media-body">
+															<div class="media-heading">
+																<a href="#" class="text-semibold">Rauf Guliyev</a>
+																<span class="media-annotation dotted">2 hours ago</span>
+															</div>
+
+															<p>Although moreover mistaken kindness me feelings do be marianne. Son over own nay with tell they cold upon are. Cordial village and settled she ability law herself.</p>
+
+															<ul class="list-inline list-inline-separate text-size-small">
+																<li>41 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+																<li><a href="#">Reply</a></li>
+																<li><a href="#">Edit</a></li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+
+									<li class="media">
+										<div class="media-left">
+											<a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+										</div>
+
+										<div class="media-body">
+											<div class="media-heading">
+												<a href="#" class="text-semibold">Geoff Howland</a>
+												<span class="media-annotation dotted">3 hours ago</span>
+											</div>
+
+											<p>Finished why bringing but sir bachelor unpacked any thoughts. Unpleasing unsatiable particular inquietude did nor sir.</p>
+
+											<ul class="list-inline list-inline-separate text-size-small">
+												<li>32 <a href="#"><i class="icon-arrow-up22 text-success"></i></a><a href="#"><i class="icon-arrow-down22 text-danger"></i></a></li>
+												<li><a href="#">Reply</a></li>
+												<li><a href="#">Edit</a></li>
+											</ul>
+										</div>
+									</li>
+								</ul>
+
+								<h6 class="text-semibold"><i class="icon-pencil7 position-left"></i> Your comment</h6>
+								<div class="content-group">
+									<div id="add-comment"></div>
+								</div>
+								
+								<div class="text-right">
+									<button type="button" class="btn bg-blue"><i class="icon-plus22"></i> Add comment</button>
+								</div>
+							</div>
+						</div>
+						<!-- /comments -->

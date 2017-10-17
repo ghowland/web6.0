@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpsDB</title>
+
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/core.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/components.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+
+    <!-- Core JS files -->
+    <script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+    <script type="text/javascript" src="../assets/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="../assets/js/core/libraries/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+    <script type="text/javascript" src="../assets/js/plugins/ui/nicescroll.min.js"></script>
+    <script type="text/javascript" src="../assets/js/plugins/ui/drilldown.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/ui/fab.min.js"></script>
+    <!-- /core JS files -->
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="../assets/js/core/app.js"></script>
+
+    <script type="text/javascript" src="assets/js/plugins/tables/datatables/datatables.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/buttons.min.js"></script>
+
+    <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="assets/js/core/libraries/jquery_ui/widgets.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script>
+
+
+    <script type="text/javascript" src="assets/js/pages/datatables_extension_buttons_html5__base.js"></script>
+
+    <script type="text/javascript" src="assets/js/pages/task_detailed__base.js"></script>
+    <!-- /theme JS files -->
+
+</head>
+
+<body class="navbar-bottom">
+
+<!-- Page header -->
+<div class="page-header page-header-inverse">
+
+    <!-- Main navbar -->
+    <div class="navbar navbar-inverse navbar-transparent">
+        <div class="navbar-header">
+            <!--<a class="navbar-brand" href="index.html"><img src="assets/images/logo_light.png" alt=""></a>-->
+            <a class="navbar-brand" href="index.html" style="font-size: 1.5em;"><i style="font-size: 1.5em;" class="icon-pyramid2"></i> OpsDB</a>
+
+            <ul class="nav navbar-nav pull-right visible-xs-block">
+                <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+                <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="navbar-collapse collapse" id="navbar-mobile">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="sidebar-control sidebar-main-toggle hidden-xs">
+                        <i class="icon-paragraph-justify3"></i>
+                    </a>
+                </li>
+
+                <li><a href="#">Text link</a></li>
+
+                <li>
+                    <a href="#">
+                        <i class="icon-calendar3"></i>
+                        <span class="visible-xs-inline-block position-right">Icon link</span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Text link</a></li>
+
+                <li>
+                    <a href="#">
+                        <i class="icon-cog3"></i>
+                        <span class="visible-xs-inline-block position-right">Icon link</span>
+                    </a>
+                </li>
+
+                <li class="dropdown dropdown-user">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="assets/images/placeholder.jpg" alt="">
+                        <span>Geoff</span>
+                        <i class="caret"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
+                        <li><a href="#"><i class="icon-coins"></i> My balance</a></li>
+                        <li><a href="#"><span class="badge badge-warning pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
+                        <li><a href="#"><i class="icon-switch2"></i> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /main navbar -->
+
+
+    <!-- Page header content -->
+    <div class="page-header-content">
+        <div class="page-title">
+            <h4>OpsDB - Floor 40 VLANs</h4>
+        </div>
+
+        <div class="heading-elements">
+            <ul class="breadcrumb heading-text">
+                <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+                <li><a href="1_col.html">Network</a></li>
+                <li class="active">VLANs</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /page header content -->
+
+
+    <!-- Second navbar -->
+    <div class="navbar navbar-inverse navbar-transparent" id="navbar-second">
+        <ul class="nav navbar-nav no-border visible-xs-block">
+            <li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
+        </ul>
+
+        <div class="navbar-collapse collapse" id="navbar-second-toggle">
+            <ul class="nav navbar-nav navbar-nav-material">
+                <li><a href="../index.html">Dashboard</a></li>
+
+                <li class="dropdown mega-menu mega-menu-wide">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mega menu <span class="caret"></span></a>
+
+                    <div class="dropdown-menu dropdown-content">
+                        <div class="dropdown-content-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Column 1 title</span>
+                                    <ul class="menu-list">
+                                        <li><a href="#">First link, first column</a></li>
+                                        <li>
+                                            <a href="#">Second link (multilevel)</a>
+                                            <ul>
+                                                <li><a href="#">Second level, first link</a></li>
+                                                <li><a href="#">Second level, second link</a></li>
+                                                <li><a href="#">Second level, third link</a></li>
+                                                <li><a href="#">Second level, fourth link</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Third link, first column</a></li>
+                                        <li><a href="#">Fourth link, first column</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Column 2 title</span>
+                                    <ul class="menu-list">
+                                        <li><a href="#">First link, second column</a></li>
+                                        <li>
+                                            <a href="#">Second link (multilevel)</a>
+                                            <ul>
+                                                <li><a href="#">Second level, first link</a></li>
+                                                <li><a href="#">Second level, second link</a></li>
+                                                <li><a href="#">Second level, third link</a></li>
+                                                <li><a href="#">Second level, fourth link</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Third link, second column</a></li>
+                                        <li><a href="#">Fourth link, second column</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Column 3 title</span>
+                                    <ul class="menu-list">
+                                        <li><a href="#">First link, third column</a></li>
+                                        <li>
+                                            <a href="#">Second link (multilevel)</a>
+                                            <ul>
+                                                <li><a href="#">Second level, first link</a></li>
+                                                <li><a href="#">Second level, second link</a></li>
+                                                <li><a href="#">Second level, third link</a></li>
+                                                <li><a href="#">Second level, fourth link</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Third link, third column</a></li>
+                                        <li><a href="#">Fourth link, third column</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Column 4 title</span>
+                                    <ul class="menu-list">
+                                        <li><a href="#">First link, fourth column</a></li>
+                                        <li>
+                                            <a href="#">Second link (multilevel)</a>
+                                            <ul>
+                                                <li><a href="#">Second level, first link</a></li>
+                                                <li><a href="#">Second level, second link</a></li>
+                                                <li><a href="#">Second level, third link</a></li>
+                                                <li><a href="#">Second level, fourth link</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Third link, fourth column</a></li>
+                                        <li><a href="#">Fourth link, fourth column</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Starter kit <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu width-200">
+                        <li class="dropdown-header">Basic layouts</li>
+                        <li class="dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-grid2"></i> Columns</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header highlight">Options</li>
+                                <li class="active"><a href="1_col.html">One column</a></li>
+                                <li><a href="2_col.html">Two columns</a></li>
+                                <li class="dropdown-submenu">
+                                    <a href="#">Three columns</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-header highlight">Sidebar position</li>
+                                        <li><a href="3_col_dual.html">Dual sidebars</a></li>
+                                        <li><a href="3_col_double.html">Double sidebars</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="4_col.html">Four columns</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-paragraph-justify3"></i> Navbars</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header highlight">Fixed navbars</li>
+                                <li><a href="layout_navbar_fixed_main.html">Fixed main navbar</a></li>
+                                <li><a href="layout_navbar_fixed_secondary.html">Fixed secondary navbar</a></li>
+                                <li><a href="layout_navbar_fixed_both.html">Both navbars fixed</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-header">Optional layouts</li>
+                        <li><a href="layout_boxed.html"><i class="icon-align-center-horizontal"></i> Fixed width</a></li>
+                        <li><a href="layout_sidebar_sticky.html"><i class="icon-flip-vertical3"></i> Sticky sidebar</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-nav-material navbar-right">
+                <li><a href="#">Text link</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-cog3"></i>
+                        <span class="visible-xs-inline-block position-right">Dropdown</span>
+                        <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">One more separated line</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /second navbar -->
+
+</div>
+<!-- /page header -->
+
+
+<!-- Page container -->
+<div class="page-container">
+
+    <!-- Page content -->
+    <div class="page-content">
+
+        <!-- Main content -->
+        <div class="content-wrapper">
+
+            <!-- Simple panel -->
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h5 class="panel-title">Simple panel</h5>
+                    <div class="heading-elements">
+                        <ul class="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                            <!--<li><a data-action="close"></a></li>-->
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <h6 class="text-semibold">Start your development with no hassle!</h6>
+                    <p class="content-group">Common problem of templates is that all code is deeply integrated into the core. This limits your freedom in decreasing amount of code, i.e. it becomes pretty difficult to remove unnecessary code from the project. Limitless allows you to remove unnecessary and extra code easily just by removing the path to specific LESS file with component styling. All plugins and their options are also in separate files. Use only components you actually need!</p>
+
+                    <h6 class="text-semibold">What is this?</h6>
+                    <p class="content-group">Starter kit is a set of pages, useful for developers to start development process from scratch. Each layout includes base components only: layout, page kits, color system which is still optional, bootstrap files and bootstrap overrides. No extra CSS/JS files and markup. CSS files are compiled without any plugins or components. Starter kit was moved to a separate folder for better accessibility.</p>
+
+                    <h6 class="text-semibold">How does it work?</h6>
+                    <p>You open one of the starter pages, add necessary plugins, uncomment paths to files in components.less file, compile new CSS. That's it. I'd also recommend to open one of main pages with functionality you need and copy all paths/JS code from there to your new page, it's just faster and easier.</p>
+                </div>
+            </div>
+            <!-- /simple panel -->
+
+
+
+            <!-- Column selectors -->
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h5 class="panel-title">Column selectors</h5>
+                    <div class="heading-elements">
+                        <ul class="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                            <li><a data-action="reload"></a></li>
+                            <li><a data-action="close"></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    All of the data export buttons have a <code>exportOptions</code> option which can be used to specify information about what data should be exported and how. In this example the copy button will export column index 0 and all visible columns, the Excel button will export only the visible columns and the PDF button will export column indexes 0, 1, 2 and 5 only. Column visibility controls are also included so you can change the columns easily.
+                </div>
+
+                <table class="table datatable-button-html5-columns">
+                    <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Job Title</th>
+                        <th>DOB</th>
+                        <th>Status</th>
+                        <th>Salary</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Marth</td>
+                        <td><a href="#">Enright</a></td>
+                        <td>Traffic Court Referee</td>
+                        <td>22 Jun 1972</td>
+                        <td><span class="label label-success">Active</span></td>
+                        <td>$85,600</td>
+                    </tr>
+                    <tr>
+                        <td>Jackelyn</td>
+                        <td>Weible</td>
+                        <td><a href="#">Airline Transport Pilot</a></td>
+                        <td>3 Oct 1981</td>
+                        <td><span class="label label-default">Inactive</span></td>
+                        <td>$106,450</td>
+                    </tr>
+                    <tr>
+                        <td>Aura</td>
+                        <td>Hard</td>
+                        <td>Business Services Sales Representative</td>
+                        <td>19 Apr 1969</td>
+                        <td><span class="label label-danger">Suspended</span></td>
+                        <td>$237,500</td>
+                    </tr>
+                    <tr>
+                        <td>Nathalie</td>
+                        <td><a href="#">Pretty</a></td>
+                        <td>Drywall Stripper</td>
+                        <td>13 Dec 1977</td>
+                        <td><span class="label label-info">Pending</span></td>
+                        <td>$198,500</td>
+                    </tr>
+                    <tr>
+                        <td>Sharan</td>
+                        <td>Leland</td>
+                        <td>Aviation Tactical Readiness Officer</td>
+                        <td>30 Dec 1991</td>
+                        <td><span class="label label-default">Inactive</span></td>
+                        <td>$470,600</td>
+                    </tr>
+                    <tr>
+                        <td>Maxine</td>
+                        <td><a href="#">Woldt</a></td>
+                        <td><a href="#">Business Services Sales Representative</a></td>
+                        <td>17 Oct 1987</td>
+                        <td><span class="label label-info">Pending</span></td>
+                        <td>$90,560</td>
+                    </tr>
+                    <tr>
+                        <td>Sylvia</td>
+                        <td><a href="#">Mcgaughy</a></td>
+                        <td>Hemodialysis Technician</td>
+                        <td>11 Nov 1983</td>
+                        <td><span class="label label-danger">Suspended</span></td>
+                        <td>$103,600</td>
+                    </tr>
+                    <tr>
+                        <td>Lizzee</td>
+                        <td><a href="#">Goodlow</a></td>
+                        <td>Technical Services Librarian</td>
+                        <td>1 Nov 1961</td>
+                        <td><span class="label label-danger">Suspended</span></td>
+                        <td>$205,500</td>
+                    </tr>
+                    <tr>
+                        <td>Kennedy</td>
+                        <td>Haley</td>
+                        <td>Senior Marketing Designer</td>
+                        <td>18 Dec 1960</td>
+                        <td><span class="label label-success">Active</span></td>
+                        <td>$137,500</td>
+                    </tr>
+                    <tr>
+                        <td>Chantal</td>
+                        <td><a href="#">Nailor</a></td>
+                        <td>Technical Services Librarian</td>
+                        <td>10 Jan 1980</td>
+                        <td><span class="label label-default">Inactive</span></td>
+                        <td>$372,000</td>
+                    </tr>
+                    <tr>
+                        <td>Delma</td>
+                        <td>Bonds</td>
+                        <td>Lead Brand Manager</td>
+                        <td>21 Dec 1968</td>
+                        <td><span class="label label-info">Pending</span></td>
+                        <td>$162,700</td>
+                    </tr>
+                    <tr>
+                        <td>Roland</td>
+                        <td>Salmos</td>
+                        <td><a href="#">Senior Program Developer</a></td>
+                        <td>5 Jun 1986</td>
+                        <td><span class="label label-default">Inactive</span></td>
+                        <td>$433,060</td>
+                    </tr>
+                    <tr>
+                        <td>Coy</td>
+                        <td>Wollard</td>
+                        <td>Customer Service Operator</td>
+                        <td>12 Oct 1982</td>
+                        <td><span class="label label-success">Active</span></td>
+                        <td>$86,000</td>
+                    </tr>
+                    <tr>
+                        <td>Maxwell</td>
+                        <td>Maben</td>
+                        <td>Regional Representative</td>
+                        <td>25 Feb 1988</td>
+                        <td><span class="label label-danger">Suspended</span></td>
+                        <td>$130,500</td>
+                    </tr>
+                    <tr>
+                        <td>Cicely</td>
+                        <td>Sigler</td>
+                        <td><a href="#">Senior Research Officer</a></td>
+                        <td>15 Mar 1960</td>
+                        <td><span class="label label-info">Pending</span></td>
+                        <td>$159,000</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /column selectors -->
+
+
+
+            <!-- Grid -- forms -->
+            <div class="row">
+                <div class="col-md-6">
+
+                    <!-- Horizontal form -->
+                    <div class="panel panel-flat">
+                        <div class="panel-heading">
+                            <h5 class="panel-title">Horizontal form</h5>
+                            <div class="heading-elements">
+                                <ul class="icons-list">
+                                    <li><a data-action="collapse"></a></li>
+                                    <li><a data-action="close"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <form class="form-horizontal" action="#">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2">Text input</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2">Password</label>
+                                    <div class="col-lg-10">
+                                        <input type="password" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2">Select</label>
+                                    <div class="col-lg-10">
+                                        <select name="select" class="form-control">
+                                            <option value="opt1">Basic select</option>
+                                            <option value="opt2">Option 2</option>
+                                            <option value="opt3">Option 3</option>
+                                            <option value="opt4">Option 4</option>
+                                            <option value="opt5">Option 5</option>
+                                            <option value="opt6">Option 6</option>
+                                            <option value="opt7">Option 7</option>
+                                            <option value="opt8">Option 8</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2">Textarea</label>
+                                    <div class="col-lg-10">
+                                        <textarea rows="5" cols="5" class="form-control" placeholder="Default textarea"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /horizotal form -->
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <!-- Vertical form -->
+                    <div class="panel panel-flat">
+                        <div class="panel-heading">
+                            <h5 class="panel-title">Vertical form</h5>
+                            <div class="heading-elements">
+                                <ul class="icons-list">
+                                    <li><a data-action="collapse"></a></li>
+                                    <li><a data-action="close"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <form action="#">
+                                <div class="form-group">
+                                    <label>Text input</label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Select</label>
+                                    <select name="select" class="form-control">
+                                        <option value="opt1">Basic select</option>
+                                        <option value="opt2">Option 2</option>
+                                        <option value="opt3">Option 3</option>
+                                        <option value="opt4">Option 4</option>
+                                        <option value="opt5">Option 5</option>
+                                        <option value="opt6">Option 6</option>
+                                        <option value="opt7">Option 7</option>
+                                        <option value="opt8">Option 8</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Textarea</label>
+                                    <textarea rows="4" cols="4" class="form-control" placeholder="Default textarea"></textarea>
+                                </div>
+
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /vertical form -->
+
+                </div>
+            </div>
+            <!-- /grid -->
+
+
+            <!-- Detailed task -->
+            <div class="row">
+                <!-- bigger left panel-->
+                <div class="col-lg-9">
+
+                    <!-- Task overview -->
+                    <div class="panel panel-flat">
+                        <div class="panel-heading mt-5">
+                            <h5 class="panel-title">#23: Support tickets list doesn't support commas</h5>
+                            <div class="heading-elements">
+                                <a href="#" class="btn bg-teal-400 btn-sm btn-labeled btn-labeled-right heading-btn">Check in <b><i class="icon-alarm-check"></i></b></a>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <h6 class="text-semibold">Overview</h6>
+                            <p class="content-group">Then sluggishly this camel learned woodchuck far stretched unspeakable notwithstanding the walked owing stung mellifluously glumly rooster more examined one that combed until a less less witless pouted up voluble timorously glared elaborate giraffe steady while grinned and got one beaver to walked. Connected picked rashly ocelot flirted while wherever unwound much more one inside emotionally well much woolly amidst upon far burned ouch sadistically became.</p>
+
+                            <h6 class="text-semibold">What we need</h6>
+                            <p class="content-group-lg">Some cow goose out and sweeping wow the skillfully goodness one crazily far some jeez darn well so peevish pending nudged categorically in between about much alas handsome intolerable devotedly helpfully smiled momentously next much this this next sweepingly far. Together prim and limpet much extravagantly quail longing a ouch that walking a jeepers flamingo more.</p>
+
+                            <div class="row container-fluid">
+                                <div class="col-sm-6">
+                                    <div class="content-group">
+                                        <dl>
+                                            <dt class="text-size-small text-primary text-uppercase">1. Salamander much that on much</dt>
+                                            <dd>Like partook magic this enthusiastic tasteful far crud otter this the ferret honey iguana.</dd>
+
+                                            <dt class="text-size-small text-primary text-uppercase">2. Well far some raccoon</dt>
+                                            <dd>Python laudably euphemistically since this copious much human this briefly hello ouch less one diligent however impotently made gave a slick up much.</dd>
+
+                                            <dt class="text-size-small text-primary text-uppercase">3. Goldfish rapidly that far</dt>
+                                            <dd>Well far some raccoon knew goose and crud behind salmon amenable oh the poignant sufficiently yikes a naked showed far reindeer imminently.</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="content-group">
+                                        <dl>
+                                            <dt class="text-size-small text-primary text-uppercase">1. Misunderstood cuffed more depending</dt>
+                                            <dd>And earthworm dear arose bald agilely sad so below cowered within ceremonially therefore via much this symbolically and newt capably.</dd>
+
+                                            <dt class="text-size-small text-primary text-uppercase">2. Voluble much saddled mechanic</dt>
+                                            <dd>Much took between less goodness jay mallard kneeled gnashed this up strong cooperative.</dd>
+
+                                            <dt class="text-size-small text-primary text-uppercase">3. Before some one more</dt>
+                                            <dd>Pending some contrary rabbit up that the more conditionally ouch confidently far so was darn logic thus dove the juicily because that placed otter.</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h6 class="text-semibold">Requirements</h6>
+                            <p class="content-group">So slit more darn hey well wore submissive savage this shark aardvark fumed thoughtfully much drank when angelfish so outgrew some alas vigorously therefore warthog superb less oh groundhog less alas gibbered barked some hey despicably with aesthetic hamster jay by luckily.</p>
+
+                            <div class="table-responsive content-group">
+                                <table class="table table-framed">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 20px;">#</th>
+                                        <th class="col-xs-3">Task</th>
+                                        <th class="col-xs-2">Due date</th>
+                                        <th>Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><span class="text-semibold">Design mockup</span></td>
+                                        <td>
+                                            <div class="input-group input-group-transparent">
+                                                <div class="input-group-addon"><i class="icon-calendar22 position-left"></i></div>
+                                                <input type="text" class="form-control datepicker" value="21 January, 15">
+                                            </div>
+                                        </td>
+                                        <td>Create design mockups for a new app, must be delivered before 1st of March</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><span class="text-semibold">User interface research</span></td>
+                                        <td>
+                                            <div class="input-group input-group-transparent">
+                                                <div class="input-group-addon"><i class="icon-calendar22 position-left"></i></div>
+                                                <input type="text" class="form-control datepicker" value="24 January, 15">
+                                            </div>
+                                        </td>
+                                        <td>Create a focus group with random people, provide a research statement</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><span class="text-semibold">New icons set</span></td>
+                                        <td>
+                                            <div class="input-group input-group-transparent">
+                                                <div class="input-group-addon"><i class="icon-calendar22 position-left"></i></div>
+                                                <input type="text" class="form-control datepicker" value="28 January, 15">
+                                            </div>
+                                        </td>
+                                        <td>Create a full set of icons required for the iOS application, send them to team lead for review</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td><span class="text-semibold">Loading optimization</span></td>
+                                        <td>
+                                            <div class="input-group input-group-transparent">
+                                                <div class="input-group-addon"><i class="icon-calendar22 position-left"></i></div>
+                                                <input type="text" class="form-control datepicker" value="1 February, 15">
+                                            </div>
+                                        </td>
+                                        <td>Review image sizes, compress them as much as possible, make sure page loading time is less than 1 second</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h6 class="text-semibold">Uploaded files</h6>
+                            <p>A much goodness between destructive that save stupid firefly destructively dog goldfinch continually alas pinched for outside flailed inescapably hey brought rid crud and awakened sobbed extraordinarily wherever deer before tenable yet into dalmatian opposite save close ahead next independent mindful but far.</p>
+
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="thumbnail">
+                                        <div class="thumb">
+                                            <img src="assets/images/placeholder.jpg" alt="">
+                                            <div class="caption-overflow">
+													<span>
+														<a href="#" class="btn bg-success-300 btn-xs btn-icon"><i class="icon-zoomin3"></i></a>
+														<a href="#" class="btn bg-success-300 btn-xs btn-icon"><i class="icon-download"></i></a>
+													</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="caption text-center">
+                                            dashboard_draft.png
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="thumbnail">
+                                        <div class="thumb">
+                                            <img src="assets/images/placeholder.jpg" alt="">
+                                            <div class="caption-overflow">
+													<span>
+														<a href="#" class="btn bg-success-300 btn-xs btn-icon"><i class="icon-zoomin3"></i></a>
+														<a href="#" class="btn bg-success-300 btn-xs btn-icon"><i class="icon-download"></i></a>
+													</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="caption text-center">
+                                            profile_page.png
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="thumbnail">
+                                        <div class="thumb">
+                                            <img src="assets/images/placeholder.jpg" alt="">
+                                            <div class="caption-overflow">
+													<span>
+														<a href="#" class="btn bg-success-300 btn-xs btn-icon"><i class="icon-zoomin3"></i></a>
+														<a href="#" class="btn bg-success-300 btn-xs btn-icon"><i class="icon-download"></i></a>
+													</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="caption text-center">
+                                            shopping_cart.png
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="thumbnail">
+                                        <div class="thumb">
+                                            <img src="assets/images/placeholder.jpg" alt="">
+                                            <div class="caption-overflow">
+													<span>
+														<a href="#" class="btn bg-success-300 btn-xs btn-icon"><i class="icon-zoomin3"></i></a>
+														<a href="#" class="btn bg-success-300 btn-xs btn-icon"><i class="icon-download"></i></a>
+													</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="caption text-center">
+                                            sales_statistics.png
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-footer">
+                            <div class="heading-elements">
+                                <ul class="list-inline list-inline-condensed heading-text">
+                                    <li><span class="status-mark border-blue position-left"></span> Status:</li>
+                                    <li class="dropdown">
+                                        <a href="#" class="text-default text-semibold dropdown-toggle" data-toggle="dropdown">Open <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li class="active"><a href="#">Open</a></li>
+                                            <li><a href="#">On hold</a></li>
+                                            <li><a href="#">Resolved</a></li>
+                                            <li><a href="#">Closed</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#">Dublicate</a></li>
+                                            <li><a href="#">Invalid</a></li>
+                                            <li><a href="#">Wontfix</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <ul class="list-inline list-inline-condensed heading-text pull-right">
+                                    <li><a href="#" class="text-default"><i class="icon-compose"></i></a></li>
+                                    <li><a href="#" class="text-default"><i class="icon-trash"></i></a></li>
+                                    <li class="dropdown">
+                                        <a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-grid-alt"></i> <span class="caret"></span></a>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li><a href="#"><i class="icon-alarm-add"></i> Check in</a></li>
+                                            <li><a href="#"><i class="icon-attachment"></i> Attach screenshot</a></li>
+                                            <li><a href="#"><i class="icon-user-plus"></i> Assign users</a></li>
+                                            <li><a href="#"><i class="icon-warning2"></i> Report</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /task overview -->
+
+
+                </div>
+                <!-- /bigger left panel-->
+
+                <!-- right side panel-->
+                <div class="col-lg-3">
+
+
+                    <!-- Task details -->
+                    <div class="panel panel-flat">
+                        <div class="panel-heading">
+                            <h6 class="panel-title"><i class="icon-files-empty position-left"></i> Task details</h6>
+                            <div class="heading-elements">
+                                <ul class="icons-list">
+                                    <li><a data-action="collapse"></a></li>
+                                    <li><a data-action="reload"></a></li>
+                                    <li><a data-action="close"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <table class="table table-borderless table-xs content-group-sm">
+                            <tbody>
+                            <tr>
+                                <td><i class="icon-briefcase position-left"></i> Project:</td>
+                                <td class="text-right"><span class="pull-right"><a href="#">Singular app</a></span></td>
+                            </tr>
+                            <tr>
+                                <td><i class="icon-alarm-add position-left"></i> Updated:</td>
+                                <td class="text-right">12 May, 2015</td>
+                            </tr>
+                            <tr>
+                                <td><i class="icon-alarm-check position-left"></i> Created:</td>
+                                <td class="text-right">25 Feb, 2015</td>
+                            </tr>
+                            <tr>
+                                <td><i class="icon-circles2 position-left"></i> Priority:</td>
+                                <td class="text-right">
+                                    <div class="btn-group">
+                                        <a href="#" class="label label-danger dropdown-toggle" data-toggle="dropdown">Highest <span class="caret"></span></a>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li><a href="#"><span class="status-mark position-left bg-danger"></span> Highest priority</a></li>
+                                            <li><a href="#"><span class="status-mark position-left bg-info"></span> High priority</a></li>
+                                            <li><a href="#"><span class="status-mark position-left bg-primary"></span> Normal priority</a></li>
+                                            <li><a href="#"><span class="status-mark position-left bg-success"></span> Low priority</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i class="icon-history position-left"></i> Revisions:</td>
+                                <td class="text-right">29</td>
+                            </tr>
+                            <tr>
+                                <td><i class="icon-file-plus position-left"></i> Added by:</td>
+                                <td class="text-right"><a href="#">Winnie</a></td>
+                            </tr>
+                            <tr>
+                                <td><i class="icon-file-check position-left"></i> Status:</td>
+                                <td class="text-right">Published</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="panel-footer panel-footer-condensed">
+                            <div class="heading-elements">
+                                <ul class="list-inline list-inline-condensed heading-text">
+                                    <li><a href="#" class="text-default"><i class="icon-pencil7"></i></a></li>
+                                    <li><a href="#" class="text-default"><i class="icon-bin"></i></a></li>
+                                </ul>
+
+                                <ul class="list-inline list-inline-condensed heading-text pull-right">
+                                    <li><a href="#" class="text-default"><i class="icon-statistics"></i></a></li>
+                                    <li class="dropdown">
+                                        <a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-gear"></i><span class="caret"></span></a>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li><a href="#"><i class="icon-alarm-add"></i> Check in</a></li>
+                                            <li><a href="#"><i class="icon-attachment"></i> Attach screenshot</a></li>
+                                            <li><a href="#"><i class="icon-user-plus"></i> Assign users</a></li>
+                                            <li><a href="#"><i class="icon-warning2"></i> Report</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /task details -->
+
+
+                    <!-- Task settings -->
+                    <div class="panel panel-flat">
+                        <div class="panel-heading">
+                            <h6 class="panel-title"><i class="icon-cog3 position-left"></i> Task settings</h6>
+                            <div class="heading-elements">
+                                <ul class="icons-list">
+                                    <li><a data-action="collapse"></a></li>
+                                    <li><a data-action="reload"></a></li>
+                                    <li><a data-action="close"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="checkbox checkbox-switchery checkbox-right switchery-xs">
+                                        <label class="display-block">
+                                            <input type="checkbox" class="switchery" checked="checked">
+                                            Publish after save
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox checkbox-switchery checkbox-right switchery-xs">
+                                        <label class="display-block">
+                                            <input type="checkbox" class="switchery">
+                                            Allow comments
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox checkbox-switchery checkbox-right switchery-xs">
+                                        <label class="display-block">
+                                            <input type="checkbox" class="switchery" checked="checked">
+                                            Allow users to edit the task
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox checkbox-switchery checkbox-right switchery-xs">
+                                        <label class="display-block">
+                                            <input type="checkbox" class="switchery" checked="checked">
+                                            Use task timer
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox checkbox-switchery checkbox-right switchery-xs">
+                                        <label class="display-block">
+                                            <input type="checkbox" class="switchery">
+                                            Auto saving
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox checkbox-switchery checkbox-right switchery-xs">
+                                        <label class="display-block">
+                                            <input type="checkbox" class="switchery" checked="checked">
+                                            Allow attachments
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><button class="btn btn-default btn-sm btn-block" type="button">Reset</button></p>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <p><button class="btn btn-primary btn-sm btn-block" type="button">Save</button></p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /task settings -->
+
+
+                </div>
+                <!-- /right side panel-->
+
+            </div>
+            <!-- /detailed task -->
+
+
+        </div>
+        <!-- /main content -->
+
+    </div>
+    <!-- /page content -->
+
+</div>
+<!-- /page container -->
+
+
+<!-- Footer -->
+<div class="navbar navbar-default navbar-fixed-bottom footer">
+    <ul class="nav navbar-nav visible-xs-block">
+        <li><a class="text-center collapsed" data-toggle="collapse" data-target="#footer"><i class="icon-circle-up2"></i></a></li>
+    </ul>
+
+    <div class="navbar-collapse collapse" id="footer">
+        <div class="navbar-text">
+            &copy; 2017. <a href="#" class="navbar-link">OpsDB</a> by <a href="http://github.com/ghowland" class="navbar-link" target="_blank">Geoff Howland</a>
+        </div>
+
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /footer -->
+
+</body>
+</html>

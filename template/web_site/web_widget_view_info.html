@@ -1,0 +1,33 @@
+
+							<table class="table table-borderless table-xs content-group-sm">
+								<tbody>
+									<tr>
+										<td><i class="icon-briefcase position-left"></i> Web Widget:</td>
+										<td class="text-right"><span class="pull-right">{{index .Map "item_name"}}</span></td>
+									</tr>
+									<tr>
+										<td><i class="icon-alarm-add position-left"></i> Path:</td>
+										<td class="text-right">{{index .Map "item_path"}}</td>
+									</tr>
+									<tr>
+										<td><i class="icon-alarm-check position-left"></i> Info:</td>
+										<td class="text-right">{{index .Map "item_info"}}</td>
+									</tr>
+									<tr>
+										<td><i class="icon-circles2 position-left"></i> Active:</td>
+										<td class="text-right">
+											<div class="btn-group">
+												<a href="#" class="label label-success dropdown-toggle" data-toggle="dropdown">Active <span class="caret"></span></a>
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><span class="status-mark position-left bg-danger"></span> Out of Rotation</a></li>
+													<li><a href="#"><span class="status-mark position-left bg-info"></span> Decommissioned</a></li>
+													<li><a href="#"><span class="status-mark position-left bg-primary"></span> Pre-Launch</a></li>
+													<li><a href="#"><span class="status-mark position-left bg-success"></span> Active</a></li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+<div id="html_editor">{{index .Map "item_html"}}</div>

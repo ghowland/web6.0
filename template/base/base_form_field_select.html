@@ -1,0 +1,11 @@
+<label class="control-label">{{index .Map "label"}}</label>
+<select name="{{index .Map "name"}}" class="selectbox-{{index .Map "name"}}" {{if index .Map "onchange"}}onchange="{{index .Map "onchange"}}"{{end}}>
+{{index .Map "value"}}
+</select>
+<script>
+    $(".selectbox-{{index .Map "name"}}").selectBoxIt({
+        autoWidth: false,
+        downArrowIcon: "{{index .Map "icon"}}"
+    });
+</script>
+<span class="help-block">{{index .Map "info"}}</span>

@@ -1,0 +1,163 @@
+<script>
+/* ------------------------------------------------------------------------------
+ *
+ *  # Echarts - lines and areas
+ *
+ *  Lines and areas chart configurations
+ *
+ *  Version: 1.0
+ *  Latest update: August 1, 2015
+ *
+ * ---------------------------------------------------------------------------- */
+
+$(function() {
+
+
+    // Set paths
+    // ------------------------------
+
+    require.config({
+        paths: {
+            echarts: 'assets/js/plugins/visualization/echarts'
+        }
+    });
+
+
+    // Configuration
+    // ------------------------------
+
+    require(
+        [
+            'echarts',
+            'echarts/theme/limitless',
+            'echarts/chart/bar',
+            'echarts/chart/line'
+        ],
+
+
+        // Charts setup
+        function (ec, limitless) {
+
+            // Data
+
+var created_list = eval('{{index .Map "created_list"}}'.replace('{', '[').replace('}', ']'))
+
+var connect_list = eval('{{index .Map "connect_duration_list"}}'.replace('{', '[').replace('}', ']'))
+
+var dns_list = eval('{{index .Map "dns_duration_list"}}'.replace('{', '[').replace('}', ']'))
+
+var ttfb_list = eval('{{index .Map "ttfb_list"}}'.replace('{', '[').replace('}', ']'))
+
+var total_time_list = eval('{{index .Map "total_time_list"}}'.replace('{', '[').replace('}', ']'))
+        
+
+            // Initialize charts
+            // ------------------------------
+
+            var stacked_area = ec.init(document.getElementById('stacked_area'), limitless);
+
+
+
+            // Charts setup
+            // ------------------------------
+
+
+            //
+            // Stacked area options
+            //
+
+            stacked_area_options = {
+
+                // Setup grid
+                grid: {
+                    x: 40,
+                    x2: 20,
+                    y: 35,
+                    y2: 25
+                },
+
+                // Add tooltip
+                tooltip: {
+                    trigger: 'axis'
+                },
+
+                // Add legend
+                legend: {
+                    data: ['DNS', 'Connecting', 'First Byte', 'Complete']
+                },
+
+                // Enable drag recalculate
+                calculable: true,
+
+                // Add horizontal axis 
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    //data: ['00:00', '01:01', '02:02', '03:03', '04:04', '05:05', '06:06', '07:07', '08:08', '09:09', '10:10', '11:11', '00:12', '01:13', '02:14', '03:15', '04:16', '05:17', '06:18', '07:19', '08:20', '09:21', '10:22', '11:23', '00:24', '01:25', '02:26', '03:27', '04:28', '05:29', '06:30', '07:31', '08:32', '09:33', '10:34', '11:35', '00:36', '01:37', '02:38', '03:39', '04:40', '05:41', '06:42', '07:43', '08:44', '09:45', '10:46', '11:47', '00:48', '01:49']
+                    data: created_list
+                }],
+
+                // Add vertical axis
+                yAxis: [{
+                    type: 'value'
+                }],
+
+                // Add series
+                series: [
+                    {
+                        name: 'DNS',
+                        type: 'line',
+                        stack: 'Total',
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        //data: [168, 243, 143, 367, 299, 382, 226, 103, 374, 130, 130, 161, 275, 104, 306, 105, 272, 139, 380, 316, 300, 337, 305, 208, 171, 128, 251, 392, 226, 285, 289, 144, 369, 185, 342, 208, 298, 323, 144, 277, 360, 339, 384, 348, 382, 187, 277, 318, 184, 163]
+                        data: dns_list
+                    },
+                    {
+                        name: 'Connecting',
+                        type: 'line',
+                        stack: 'Total',
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        //data: [168, 337, 182, 331, 212, 204, 367, 222, 199, 102, 163, 318, 397, 115, 256, 158, 398, 190, 381, 391, 334, 281, 231, 260, 383, 140, 212, 228, 100, 162, 310, 103, 202, 134, 119, 330, 217, 333, 117, 232, 279, 382, 177, 383, 376, 374, 275, 221, 367, 299]
+                        data: connect_list
+                    },
+                    {
+                        name: 'First Byte',
+                        type: 'line',
+                        stack: 'Total',
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        //data: [179, 357, 359, 125, 112, 286, 104, 133, 361, 330, 213, 202, 254, 118, 381, 230, 177, 242, 371, 118, 100, 373, 103, 126, 362, 261, 231, 256, 379, 365, 119, 297, 287, 246, 325, 145, 296, 122, 174, 395, 335, 225, 205, 288, 203, 356, 293, 122, 165, 341]
+                        data: ttfb_list
+                    },
+                    {
+                        name: 'Complete',
+                        type: 'line',
+                        stack: 'Total',
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        //data: [225, 122, 101, 220, 266, 344, 286, 293, 301, 330, 235, 168, 392, 373, 330, 314, 213, 335, 327, 310, 339, 154, 195, 151, 219, 152, 279, 173, 236, 305, 221, 368, 125, 249, 100, 371, 323, 121, 284, 215, 356, 245, 224, 104, 311, 132, 228, 361, 399, 354]
+                        data: total_time_list
+                    }
+                ]
+            };
+
+
+
+            // Apply options
+            // ------------------------------
+
+            stacked_area.setOption(stacked_area_options);
+
+
+
+            // Resize charts
+            // ------------------------------
+
+            window.onresize = function () {
+                setTimeout(function () {
+                    stacked_area.resize();
+                }, 200);
+            }
+        }
+    );
+});
+
+</script>

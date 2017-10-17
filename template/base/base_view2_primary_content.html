@@ -1,0 +1,51 @@
+<!-- {{index .Map "title"}} -->
+<div class="panel panel-flat">
+    <div class="panel-heading mt-5">
+        <h5 class="panel-title">{{index .Map "title"}} <span class="label label-success">{{index .Map "status"}}</span></h5>
+        <div class="heading-elements">
+            <a href="#" class="btn bg-teal-400 btn-sm btn-labeled btn-labeled-right heading-btn">Active <b><i class="{{index .Map "icon"}}"></i></b></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <h6 class="text-semibold">{{index .Map "name"}}</h6>
+        <p class="content-group">{{index .Map "info"}}</p>
+
+    </div>
+
+    <div class="panel-footer">
+        <div class="heading-elements">
+            <ul class="list-inline list-inline-condensed heading-text">
+                <li><span class="status-mark border-blue position-left"></span> Status:</li>
+                <li class="dropdown">
+                    <a href="#" class="text-default text-semibold dropdown-toggle" data-toggle="dropdown">Open <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="active"><a href="#">Open</a></li>
+                        <li><a href="#">On hold</a></li>
+                        <li><a href="#">Resolved</a></li>
+                        <li><a href="#">Closed</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Dublicate</a></li>
+                        <li><a href="#">Invalid</a></li>
+                        <li><a href="#">Wontfix</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="list-inline list-inline-condensed heading-text pull-right">
+                <li><a href="#" class="text-default"><i class="icon-compose"></i></a></li>
+                <li><a href="#" class="text-default"><i class="icon-trash"></i></a></li>
+                <li class="dropdown">
+                    <a href="#" class="text-default dropdown-toggle" data-toggle="dropdown"><i class="icon-grid-alt"></i> <span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#"><i class="icon-alarm-add"></i> Check in</a></li>
+                        <li><a href="#"><i class="icon-attachment"></i> Attach screenshot</a></li>
+                        <li><a href="#"><i class="icon-user-plus"></i> Assign users</a></li>
+                        <li><a href="#"><i class="icon-warning2"></i> Report</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /{{index .Map "title"}} -->

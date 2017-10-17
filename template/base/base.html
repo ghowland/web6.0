@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpsDB</title>
+
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/core.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/components.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+
+    <!-- Core JS files -->
+    <script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+    <script type="text/javascript" src="../assets/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="../assets/js/core/libraries/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+    <script type="text/javascript" src="../assets/js/plugins/ui/nicescroll.min.js"></script>
+    <script type="text/javascript" src="../assets/js/plugins/ui/drilldown.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/ui/fab.min.js"></script>
+    <!-- /core JS files -->
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="../assets/js/core/app.js"></script>
+
+    <script type="text/javascript" src="assets/js/plugins/tables/datatables/datatables.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/tables/datatables/extensions/buttons.min.js"></script>
+
+    <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="assets/js/core/libraries/jquery_ui/widgets.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script>
+
+    <script type="text/javascript" src="assets/js/core/libraries/jquery_ui/core.min.js"></script>
+
+    <script type="text/javascript" src="assets/js/core/libraries/jquery_ui/widgets.min.js"></script>
+    <script type="text/javascript" src="assets/js/core/libraries/jquery_ui/effects.min.js"></script>
+
+
+    <script type="text/javascript" src="assets/js/core/libraries/jasny_bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="assets/js/plugins/forms/styling/uniform.min.js"></script>
+    <!--<script type="text/javascript" src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>-->
+    <script type="text/javascript" src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
+
+
+    <script type="text/javascript" src="assets/js/plugins/forms/inputs/touchspin.min.js"></script>
+    <!--<script type="text/javascript" src="assets/js/plugins/forms/inputs/maxlength.min.js"></script>-->
+    <!--<script type="text/javascript" src="assets/js/plugins/forms/inputs/formatter.min.js"></script>-->
+    <script type="text/javascript" src="assets/js/plugins/forms/selects/selectboxit.min.js"></script>
+
+    <script type="text/javascript" src="assets/js/plugins/forms/tags/tokenfield.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/notifications/sweet_alert.min.js"></script>
+
+    <script type="text/javascript" src="assets/js/pages/datatables_extension_buttons_html5__base.js"></script>
+
+    <script type="text/javascript" src="assets/js/plugins/editors/ace/ace.js"></script>
+
+    <script type="text/javascript" src="assets/js/pages/task_detailed__base.js"></script>
+    <!-- /theme JS files -->
+
+    <script type="text/javascript" src="assets/js/web6_rpc.js"></script>
+
+    <!-- Test code, before breaking out to libs -->
+    <script>
+        function ReloadPage() {
+            window.location.reload(false);
+        }
+
+        function UserLogout() {
+            RPC("/api/logout", {}, ReloadPage)
+        }
+    </script>
+
+    <style>
+        .centermiddle {
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body class="navbar-bottom">
+
+<!-- Page header -->
+<div class="page-header page-header-inverse">
+
+    <!-- Main navbar -->
+    <div class="navbar navbar-inverse navbar-transparent">
+        <div class="navbar-header">
+            <!--<a class="navbar-brand" href="index.html"><img src="assets/images/logo_light.png" alt=""></a>-->
+            <a class="navbar-brand" href="index.html" style="font-size: 1.5em;"><i style="font-size: 1.5em;" class="icon-pyramid2"></i> {{index .Map "web_site"}}</a>
+
+            <ul class="nav navbar-nav pull-right visible-xs-block">
+                <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+                <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="navbar-collapse collapse" id="navbar-mobile">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="sidebar-control sidebar-main-toggle hidden-xs">
+                        <i class="icon-paragraph-justify3"></i>
+                    </a>
+                </li>
+
+                <li><a href="#">Text link</a></li>
+
+                <li>
+                    <a href="#">
+                        <i class="icon-calendar3"></i>
+                        <span class="visible-xs-inline-block position-right">Icon link</span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">{{index .Map "welcome"}}</a></li>
+
+                <li>
+                    <a href="#">
+                        <i class="icon-cog3"></i>
+                        <span class="visible-xs-inline-block position-right">Icon link</span>
+                    </a>
+                </li>
+
+                <li class="dropdown dropdown-user">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="assets/images/placeholder.jpg" alt="">
+                        <span>{{index .Map "username"}}</span>
+                        <i class="caret"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
+                        <li><a href="#"><i class="icon-coins"></i> My balance</a></li>
+                        <li><a href="#"><span class="badge badge-warning pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
+                        <li><a href="#" onclick="UserLogout(); return false;"><i class="icon-switch2"></i> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /main navbar -->
+
+
+    <!-- Page header content -->
+    <div class="page-header-content">
+        <div class="page-title">
+            <h4>{{index .Map "page_name"}}</h4>
+        </div>
+
+        <div class="heading-elements">
+            <ul class="breadcrumb heading-text">
+                <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+                <li><a href="1_col.html">Network</a></li>
+                <li class="active">VLANs</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /page header content -->
+
+
+    <!-- Second navbar -->
+    <div class="navbar navbar-inverse navbar-transparent" id="navbar-second">
+        <ul class="nav navbar-nav no-border visible-xs-block">
+            <li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
+        </ul>
+
+        <div class="navbar-collapse collapse" id="navbar-second-toggle">
+            <ul class="nav navbar-nav navbar-nav-material">
+                <li><a href="../index.html">Dashboard</a></li>
+
+                <li class="dropdown mega-menu mega-menu-wide">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mega menu <span class="caret"></span></a>
+
+                    <div class="dropdown-menu dropdown-content">
+                        <div class="dropdown-content-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Column 1 title</span>
+                                    <ul class="menu-list">
+                                        <li><a href="#">First link, first column</a></li>
+                                        <li>
+                                            <a href="#">Second link (multilevel)</a>
+                                            <ul>
+                                                <li><a href="#">Second level, first link</a></li>
+                                                <li><a href="#">Second level, second link</a></li>
+                                                <li><a href="#">Second level, third link</a></li>
+                                                <li><a href="#">Second level, fourth link</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Third link, first column</a></li>
+                                        <li><a href="#">Fourth link, first column</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Column 2 title</span>
+                                    <ul class="menu-list">
+                                        <li><a href="#">First link, second column</a></li>
+                                        <li>
+                                            <a href="#">Second link (multilevel)</a>
+                                            <ul>
+                                                <li><a href="#">Second level, first link</a></li>
+                                                <li><a href="#">Second level, second link</a></li>
+                                                <li><a href="#">Second level, third link</a></li>
+                                                <li><a href="#">Second level, fourth link</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Third link, second column</a></li>
+                                        <li><a href="#">Fourth link, second column</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Column 3 title</span>
+                                    <ul class="menu-list">
+                                        <li><a href="#">First link, third column</a></li>
+                                        <li>
+                                            <a href="#">Second link (multilevel)</a>
+                                            <ul>
+                                                <li><a href="#">Second level, first link</a></li>
+                                                <li><a href="#">Second level, second link</a></li>
+                                                <li><a href="#">Second level, third link</a></li>
+                                                <li><a href="#">Second level, fourth link</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Third link, third column</a></li>
+                                        <li><a href="#">Fourth link, third column</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Column 4 title</span>
+                                    <ul class="menu-list">
+                                        <li><a href="#">First link, fourth column</a></li>
+                                        <li>
+                                            <a href="#">Second link (multilevel)</a>
+                                            <ul>
+                                                <li><a href="#">Second level, first link</a></li>
+                                                <li><a href="#">Second level, second link</a></li>
+                                                <li><a href="#">Second level, third link</a></li>
+                                                <li><a href="#">Second level, fourth link</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Third link, fourth column</a></li>
+                                        <li><a href="#">Fourth link, fourth column</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Starter kit <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu width-200">
+                        <li class="dropdown-header">Basic layouts</li>
+                        <li class="dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-grid2"></i> Columns</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header highlight">Options</li>
+                                <li class="active"><a href="1_col.html">One column</a></li>
+                                <li><a href="2_col.html">Two columns</a></li>
+                                <li class="dropdown-submenu">
+                                    <a href="#">Three columns</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-header highlight">Sidebar position</li>
+                                        <li><a href="3_col_dual.html">Dual sidebars</a></li>
+                                        <li><a href="3_col_double.html">Double sidebars</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="4_col.html">Four columns</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-paragraph-justify3"></i> Navbars</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header highlight">Fixed navbars</li>
+                                <li><a href="layout_navbar_fixed_main.html">Fixed main navbar</a></li>
+                                <li><a href="layout_navbar_fixed_secondary.html">Fixed secondary navbar</a></li>
+                                <li><a href="layout_navbar_fixed_both.html">Both navbars fixed</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-header">Optional layouts</li>
+                        <li><a href="layout_boxed.html"><i class="icon-align-center-horizontal"></i> Fixed width</a></li>
+                        <li><a href="layout_sidebar_sticky.html"><i class="icon-flip-vertical3"></i> Sticky sidebar</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-nav-material navbar-right">
+                <li><a href="#">Text link</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-cog3"></i>
+                        <span class="visible-xs-inline-block position-right">Dropdown</span>
+                        <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">One more separated line</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /second navbar -->
+
+</div>
+<!-- /page header -->
+
+
+<!-- Page container -->
+<div class="page-container">
+
+    <!-- Page content -->
+    <div class="page-content">
+
+        <!-- Main content -->
+        <div class="content-wrapper">
+
+
+{{index .Map "body"}}
+
+
+        </div>
+        <!-- /main content -->
+
+    </div>
+    <!-- /page content -->
+
+</div>
+<!-- /page container -->
+
+
+<!-- Footer -->
+<div class="navbar navbar-default navbar-fixed-bottom footer">
+    <ul class="nav navbar-nav visible-xs-block">
+        <li><a class="text-center collapsed" data-toggle="collapse" data-target="#footer"><i class="icon-circle-up2"></i></a></li>
+    </ul>
+
+    <div class="navbar-collapse collapse" id="footer">
+        <div class="navbar-text">
+            &copy; 2017. <a href="#" class="navbar-link">OpsDB</a> by <a href="http://github.com/ghowland" class="navbar-link" target="_blank">Geoff Howland</a>
+        </div>
+
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /footer -->
+
+<div id="dialog_target"></div>
+
+</body>
+</html>

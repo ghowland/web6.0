@@ -1,0 +1,29 @@
+<!-- Column selectors -->
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h5 class="panel-title">{{index .Map "name"}}</h5>
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="collapse"></a></li>
+                <!--<li><a data-action="reload"></a></li>-->
+                <li><a data-action="close"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        {{index .Map "info"}}
+    </div>
+
+    <table class="table datatable-button-html5-columns">
+        <thead>
+        <tr>
+{{index .Map "table_headers"}}
+        </tr>
+        </thead>
+        <tbody>
+{{index .Map "table_rows"}}
+        </tbody>
+    </table>
+</div>
+<!-- /column selectors -->

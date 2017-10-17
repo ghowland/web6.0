@@ -1,0 +1,8 @@
+[
+  [
+    [
+      "__function.render_table3.(__query.14).['name','address','cidr','alias','default_gateway_ip_v4_address_id','default_vlan_id'].{name='Network Name',address='Address',cidr='CIDR',alias='Location',default_gateway_ip_v4_address_id='Default Gateway',default_vlan_id='Default VLAN'}.(__get.base_widget.base_list2_header.html).'output.networks_header'.(__get.base_widget.base_list2_row.html).'output.networks_rows'.(__get.base_widget.base_list2_row_field.html)",
+      "__get.output.networks_rows"
+    ]
+  ]
+]

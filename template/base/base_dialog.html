@@ -1,0 +1,52 @@
+<!-- Dialog -->
+<div id="dialog-{{index .Map "uuid"}}" title="{{index .Map "name"}}">
+{{index .Map "value"}}
+
+<p class="pull-right">
+    <button type="button" class="btn btn-primary btn-lg" id="dialog-submit-{{index .Map "uuid"}}"><i class="icon-checkmark position-left"></i> Submit</button>
+    <button type="button" class="btn btn-lg" id="dialog-cancel-{{index .Map "uuid"}}"><i class="icon-cross2 position-left"></i> Cancel</button>
+    <script>
+        $(function() {
+            // Enable our buttons to do their thing
+            $('#dialog-submit-{{index .Map "uuid"}}').click(function() {
+                var data = {};
+
+                $('#dialog-{{index .Map "uuid"}}').find('input, select, textarea').each(
+                    function(index) {
+                        var input = $(this);
+                        data[input.attr('name')] = input.val();
+                    }
+                );
+
+                RPC('{{index .Map "submit_rpc_url"}}', {'data': JSON.stringify(data)})
+
+                $(this).closest('.ui-dialog-content').dialog('close');
+
+            });
+
+            // Enable our buttons to do their thing
+            $('#dialog-cancel-{{index .Map "uuid"}}').click(function() {
+                $(this).closest('.ui-dialog-content').dialog('close');
+            });
+
+        });
+    </script>
+</p>
+</div>
+<!-- /Dialog -->
+
+<script>
+    $(function() {
+        // Instantiate the Dialog Object
+        $('#dialog-{{index .Map "uuid"}}').dialog({
+            autoOpen: true,
+            modal: true,
+            width: 500,
+            draggable: false,
+            resizable: false,
+            create: function(event, ui) {
+            }
+        });
+
+    });
+</script>

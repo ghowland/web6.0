@@ -1,0 +1,13 @@
+<div id="html_editor">
+{{index .Map "value"}}
+</div>
+
+<script type="text/javascript" src="assets/js/plugins/editors/ace/ace.js"></script>
+
+<script>
+    // HTML editor
+    var html_editor = ace.edit("html_editor");
+    html_editor.setTheme("ace/theme/monokai");
+    html_editor.getSession().setMode("ace/mode/html");
+    html_editor.setShowPrintMargin(false);
+</script>

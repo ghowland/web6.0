@@ -1,0 +1,31 @@
+<div class="col-lg-3 col-md-6">
+    <div class="panel panel-body">
+        <div class="media">
+            <div class="media-left">
+                <a href="{{index .Map "link"}}" data-popup="lightbox">
+                    <img src="{{index .Map "image"}}" class="img-circle img-lg" alt="">
+                </a>
+            </div>
+
+            <div class="media-body">
+                <h6 class="media-heading">{{index .Map "value"}}</h6>
+                <span class="text-muted">{{index .Map "subvalue"}}</span>
+            </div>
+
+            <div class="media-right media-middle">
+                <ul class="icons-list">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="#"><i class="icon-comment-discussion pull-right"></i> Start chat</a></li>
+                            <li><a href="#"><i class="icon-phone2 pull-right"></i> Make a call</a></li>
+                            <li><a href="#"><i class="icon-mail5 pull-right"></i> Send mail</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="icon-statistics pull-right"></i> Statistics</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<div id="ace_editor_{{index .Map "uuid"}}">{{index .Map "value"}}</div>
+<script>
+    var ace_editor = ace.edit("ace_editor_{{index .Map "uuid"}}");
+    ace_editor.setTheme("ace/theme/monokai");
+    ace_editor.getSession().setMode("ace/mode/{{index .Map "format"}}");
+    ace_editor.setShowPrintMargin(false);
+</script>
