@@ -1,0 +1,1 @@
+user=postgres dbname=opsdb password='password' host=localhost sslmode=disable
