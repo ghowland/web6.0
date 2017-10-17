@@ -182,35 +182,43 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 }
 
 // Set up UDN data for an HTTP request
-func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_page map[string]interface{}, uri string, body io.Reader, param_map map[string][]string,  header_map map[string][]string, cookie_array []*http.Cookie) map[string]interface{} {
+func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_page map[string]interface{}, uri string, method string, body io.Reader, param_map map[string][]string, param_body_map map[string][]string, header_map map[string][]string, cookie_array []*http.Cookie) map[string]interface{} {
 
 	// Data pool for UDN
 	udn_data := make(map[string]interface{})
 
 	// Prepare the udn_data with it's fixed pools of data
 	//udn_data["widget"] = *NewTextTemplateMap()
+	udn_data["method"] = method
 	udn_data["data"] = make(map[string]interface{})
 	udn_data["temp"] = make(map[string]interface{})
-	udn_data["output"] = make(map[string]interface{})			// Staging output goes here, can share them with appending as well.
+	udn_data["output"] = make(map[string]interface{}) // Staging output goes here, can share them with appending as well.
 	//TODO(g): Make args accessible at the start of every ExecuteUdnPart after getting the args!
-	udn_data["arg"] = make(map[string]interface{})				// Every function call blows this away, and sets the args in it's data, so it's accessable
-	udn_data["function_arg"] = make(map[string]interface{})		// Function arguments, from Stored UDN Function __function, sets the incoming function args
-	udn_data["page"] = make(map[string]interface{})				//TODO(g):NAMING: __widget is access here, and not from "widget", this can be changed, since thats what it is...
+	udn_data["arg"] = make(map[string]interface{})          // Every function call blows this away, and sets the args in it's data, so it's accessable
+	udn_data["function_arg"] = make(map[string]interface{}) // Function arguments, from Stored UDN Function __function, sets the incoming function args
+	udn_data["page"] = make(map[string]interface{})         //TODO(g):NAMING: __widget is access here, and not from "widget", this can be changed, since thats what it is...
 
-	udn_data["set_api_result"] = make(map[string]interface{})		// If this is an API call, set values in here, which will be encoded in JSON and sent back to the client on return
-	udn_data["set_cookie"] = make(map[string]interface{})			// Set Cookies.  Any data set in here goes into a cookie.  Will use standard expiration and domain for now.
-	udn_data["set_header"] = make(map[string]interface{})			// Set HTTP Headers.
-	udn_data["set_http_options"] = make(map[string]interface{})		// Any other things we want to control from UDN, we put in here to be processed.  Can be anything, not based on a specific standard.
+	udn_data["set_api_result"] = make(map[string]interface{})   // If this is an API call, set values in here, which will be encoded in JSON and sent back to the client on return
+	udn_data["set_cookie"] = make(map[string]interface{})       // Set Cookies.  Any data set in here goes into a cookie.  Will use standard expiration and domain for now.
+	udn_data["set_header"] = make(map[string]interface{})       // Set HTTP Headers.
+	udn_data["set_http_options"] = make(map[string]interface{}) // Any other things we want to control from UDN, we put in here to be processed.  Can be anything, not based on a specific standard.
 
 	//TODO(g): Move this so we arent doing it every page load
 
 	// Get the params: map[string]interface{}
 	udn_data["param"] = make(map[string]interface{})
-	//TODO(g): Get the POST params too, not just GET...
-	for key, value := range param_map {
-		//fmt.Printf("\n----KEY: %s  VALUE:  %s\n\n", key, value[0])
-		//TODO(g): Decide what to do with the extra headers in the array later, we may not want to allow this ever, but thats not necessarily true.  Think about it, its certainly not the typical case, and isnt required
-		udn_data["param"].(map[string]interface{})[key] = value[0]
+
+	// POST/PUT params would be restricted to the body of the request
+	if method == "POST" || method == "PUT" {
+		for key, value := range param_body_map {
+			udn_data["param"].(map[string]interface{})[key] = value[0]
+		}
+	} else {
+		for key, value := range param_map {
+			//fmt.Printf("\n----KEY: %s  VALUE:  %s\n\n", key, value[0])
+			//TODO(g): Decide what to do with the extra headers in the array later, we may not want to allow this ever, but thats not necessarily true.  Think about it, its certainly not the typical case, and isnt required
+			udn_data["param"].(map[string]interface{})[key] = value[0]
+		}
 	}
 
 	// Get the JSON Body, if it exists, from an API-style call in
@@ -314,17 +322,23 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 
 
 	// Get UDN starting data values
+	err := r.ParseForm()
+	var param_body_map map[string][]string
+
+	method := r.Method
 	request_body := r.Body
 	param_map := r.URL.Query()
 	header_map := r.Header
 	cookie_array := r.Cookies()
 
+	if err == nil {
+		param_body_map = r.PostForm
+	}
+
 	// Get our starting UDN data
-	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_api, uri, request_body, param_map, header_map, cookie_array)
+	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_api, uri, method, request_body, param_map, param_body_map, header_map, cookie_array)
 
 	fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
-
-	fmt.Printf("Params: %v\n\n", param_map)
 
 	// Get the base widget
 	sql := fmt.Sprintf("SELECT * FROM web_widget")
@@ -403,13 +417,21 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	}
 
 	// Get UDN starting data values
+	err = r.ParseForm()
+	var param_body_map map[string][]string
+
+	method := r.Method
 	request_body := r.Body
 	param_map := r.URL.Query()
 	header_map := r.Header
 	cookie_array := r.Cookies()
 
+	if err == nil {
+		param_body_map = r.PostForm
+	}
+
 	// Get our starting UDN data
-	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_page, uri, request_body, param_map, header_map, cookie_array)
+	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_page, uri, method, request_body, param_map, param_body_map, header_map, cookie_array)
 
 	fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
 
