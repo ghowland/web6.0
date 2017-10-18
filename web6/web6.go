@@ -172,7 +172,7 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 			found_api = true
 		} else {
 			// Check if there is a general web_site_api entry without specified web protocol
-			sql = fmt.Sprintf("SELECT * FROM web_site_api WHERE web_site_id = %d AND name = '%s'", web_site_id, SanitizeSQL(short_path))
+			sql = fmt.Sprintf("SELECT * FROM web_site_api WHERE web_site_id = %d AND name = '%s' AND web_protocol_action_id IS NULL", web_site_id, SanitizeSQL(short_path))
 			fmt.Printf("\n\nQuery: %s\n\n", sql)
 			web_site_api_result = Query(db_web, sql)
 
@@ -197,7 +197,7 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 }
 
 // Set up UDN data for an HTTP request
-func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_page map[string]interface{}, uri string, web_protocol_action string, body io.Reader, param_map map[string][]string, param_body_map map[string][]string, header_map map[string][]string, cookie_array []*http.Cookie) map[string]interface{} {
+func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_page map[string]interface{}, uri string, web_protocol_action string, body io.Reader, param_map map[string][]string, header_map map[string][]string, cookie_array []*http.Cookie) map[string]interface{} {
 
 	// Data pool for UDN
 	udn_data := make(map[string]interface{})
@@ -223,17 +223,10 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 	// Get the params: map[string]interface{}
 	udn_data["param"] = make(map[string]interface{})
 
-	// POST/PUT params would be restricted to the body of the request
-	if web_protocol_action == "POST" || web_protocol_action == "PUT" {
-		for key, value := range param_body_map {
-			udn_data["param"].(map[string]interface{})[key] = value[0]
-		}
-	} else {
-		for key, value := range param_map {
-			//fmt.Printf("\n----KEY: %s  VALUE:  %s\n\n", key, value[0])
-			//TODO(g): Decide what to do with the extra headers in the array later, we may not want to allow this ever, but thats not necessarily true.  Think about it, its certainly not the typical case, and isnt required
-			udn_data["param"].(map[string]interface{})[key] = value[0]
-		}
+	for key, value := range param_map {
+		//fmt.Printf("\n----KEY: %s  VALUE:  %s\n\n", key, value[0])
+		//TODO(g): Decide what to do with the extra headers in the array later, we may not want to allow this ever, but thats not necessarily true.  Think about it, its certainly not the typical case, and isnt required
+		udn_data["param"].(map[string]interface{})[key] = value[0]
 	}
 
 	// Get the JSON Body, if it exists, from an API-style call in
@@ -332,26 +325,39 @@ func SetCookies(cookie_map map[string]interface{}, w http.ResponseWriter, r *htt
 	}
 }
 
+// Get the params of the HTTP request
+func GetHTTPParams(r *http.Request) map[string][]string{
+
+	// Check the web protocol action - for POST/PUT requests, params are found in the body
+	var param_map map[string][]string
+
+	web_protocol_action := r.Method
+
+	if web_protocol_action == "POST" || web_protocol_action == "PUT" {
+		err := r.ParseForm()
+
+		if err == nil {
+			param_map = r.PostForm
+		}
+	} else {
+		param_map = r.URL.Query()
+	}
+
+	return param_map
+}
+
 func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_api map[string]interface{}, uri string, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
-
 	// Get UDN starting data values
-	err := r.ParseForm()
-	var param_body_map map[string][]string
-
 	web_protocol_action := r.Method
 	request_body := r.Body
-	param_map := r.URL.Query()
+	param_map := GetHTTPParams(r)
 	header_map := r.Header
 	cookie_array := r.Cookies()
 
-	if err == nil {
-		param_body_map = r.PostForm
-	}
-
 	// Get our starting UDN data
-	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_api, uri, web_protocol_action, request_body, param_map, param_body_map, header_map, cookie_array)
+	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_api, uri, web_protocol_action, request_body, param_map, header_map, cookie_array)
 
 	fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
 
@@ -432,21 +438,14 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	}
 
 	// Get UDN starting data values
-	err = r.ParseForm()
-	var param_body_map map[string][]string
-
 	web_protocol_action := r.Method
 	request_body := r.Body
-	param_map := r.URL.Query()
+	param_map := GetHTTPParams(r)
 	header_map := r.Header
 	cookie_array := r.Cookies()
 
-	if err == nil {
-		param_body_map = r.PostForm
-	}
-
 	// Get our starting UDN data
-	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_page, uri, web_protocol_action, request_body, param_map, param_body_map, header_map, cookie_array)
+	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_page, uri, web_protocol_action, request_body, param_map, header_map, cookie_array)
 
 	fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
 
