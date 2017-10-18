@@ -361,6 +361,8 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 
 	fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
 
+	fmt.Printf("Params: %v\n\n", param_map)
+
 	// Get the base widget
 	sql := fmt.Sprintf("SELECT * FROM web_widget")
 	all_widgets := Query(db_web, sql)
