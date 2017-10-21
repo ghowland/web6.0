@@ -30,6 +30,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -68,11 +69,13 @@
                 "label": {
                   "name": "label",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -123,6 +126,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "only_allow_user_group_id": {
@@ -260,6 +264,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -294,6 +299,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "parent_customer_id": {
@@ -374,6 +380,7 @@
                 "database": {
                   "name": "database",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "datasource_cluster_id": {
@@ -394,21 +401,25 @@
                 "hostname": {
                   "name": "hostname",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "password_path": {
                   "name": "password_path",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "path": {
                   "name": "path",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "port": {
@@ -419,6 +430,7 @@
                 "username": {
                   "name": "username",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -452,6 +464,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -492,6 +505,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "parameter_json_data": {
@@ -536,6 +550,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -570,6 +585,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -620,6 +636,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "operating_system_instance_id": {
@@ -685,6 +702,7 @@
                   "name": "dns_part",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "info": {
@@ -696,6 +714,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -706,6 +725,15 @@
                     "_id"
                   ],
                   "unique": true,
+                  "provision_state": 3
+                },
+                "enviroment_pkey": {
+                  "name": "enviroment_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
                   "provision_state": 3
                 },
                 "service_enviroment_dns_part_key": {
@@ -722,15 +750,6 @@
                     "name"
                   ],
                   "unique": true,
-                  "provision_state": 3
-                },
-                "service_enviroment_pkey": {
-                  "name": "service_enviroment_pkey",
-                  "fields": [
-                    "_id"
-                  ],
-                  "unique": true,
-                  "primary": true,
                   "provision_state": 3
                 }
               },
@@ -749,6 +768,7 @@
                   "name": "address",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "info": {
@@ -768,6 +788,7 @@
                 "mac_address": {
                   "name": "mac_address",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -863,6 +884,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -916,6 +938,7 @@
                   "name": "address",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "info": {
@@ -931,6 +954,7 @@
                 "mac_address": {
                   "name": "mac_address",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -1010,6 +1034,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -1066,6 +1091,7 @@
                 "label": {
                   "name": "label",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "machine_id": {
@@ -1114,6 +1140,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -1143,6 +1170,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "vlan_id": {
@@ -1247,6 +1275,7 @@
                 "running_host_key": {
                   "name": "running_host_key",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "running_operating_system_instance_id": {
@@ -1296,10 +1325,16 @@
                   "not_null": true,
                   "provision_state": 3
                 },
+                "input_ddd_id": {
+                  "name": "input_ddd_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
                 "name": {
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "static_data_json": {
@@ -1371,6 +1406,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "on_failure_abort": {
@@ -1496,11 +1532,13 @@
                 "alias": {
                   "name": "alias",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "external_alias": {
                   "name": "external_alias",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "info": {
@@ -1521,6 +1559,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "parent_id": {
@@ -1580,11 +1619,13 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "name_alternative": {
                   "name": "name_alternative",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -1626,6 +1667,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -1665,11 +1707,13 @@
                 "label": {
                   "name": "label",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -1732,6 +1776,7 @@
                 "serial_number": {
                   "name": "serial_number",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "vendor_part_id": {
@@ -1796,6 +1841,7 @@
                 "serial_number": {
                   "name": "serial_number",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "vendor_part_id": {
@@ -1860,6 +1906,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "order": {
@@ -1914,6 +1961,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -1948,6 +1996,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -1982,6 +2031,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -2075,6 +2125,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -2181,6 +2232,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -2223,6 +2275,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "operating_system_type_id": {
@@ -2400,6 +2453,7 @@
                 "device": {
                   "name": "device",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "machine_part_id": {
@@ -2416,6 +2470,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "operating_system_instance_id": {
@@ -2481,6 +2536,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -2515,6 +2571,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -2569,11 +2626,13 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "post_mortem_url": {
                   "name": "post_mortem_url",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "started": {
@@ -2584,8 +2643,8 @@
                 }
               },
               "indexes": {
-                "status_site_pkey": {
-                  "name": "status_site_pkey",
+                "outage_site_status_pkey": {
+                  "name": "outage_site_status_pkey",
                   "fields": [
                     "_id"
                   ],
@@ -2614,6 +2673,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -2647,6 +2707,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -2681,6 +2742,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "owner_user_id": {
@@ -2709,78 +2771,6 @@
               },
               "provision_state": 3
             },
-            "schedule_event": {
-              "name": "schedule_event",
-              "fields": {
-                "_id": {
-                  "name": "_id",
-                  "field_type": "_serial",
-                  "not_null": true,
-                  "provision_state": 3
-                },
-                "admin_json_data": {
-                  "name": "admin_json_data",
-                  "field_type": "_json",
-                  "provision_state": 3
-                },
-                "exclude_hour_range": {
-                  "name": "exclude_hour_range",
-                  "field_type": "_int",
-                  "provision_state": 3
-                },
-                "info": {
-                  "name": "info",
-                  "field_type": "_text",
-                  "provision_state": 3
-                },
-                "json_data": {
-                  "name": "json_data",
-                  "field_type": "_json",
-                  "provision_state": 3
-                },
-                "name": {
-                  "name": "name",
-                  "field_type": "_string",
-                  "not_null": true,
-                  "provision_state": 3
-                },
-                "owner_user_id": {
-                  "name": "owner_user_id",
-                  "field_type": "_int",
-                  "not_null": true,
-                  "provision_state": 3
-                },
-                "schedule_event_type_id": {
-                  "name": "schedule_event_type_id",
-                  "field_type": "_int",
-                  "not_null": true,
-                  "provision_state": 3
-                },
-                "schedule_id": {
-                  "name": "schedule_id",
-                  "field_type": "_int",
-                  "not_null": true,
-                  "provision_state": 3
-                },
-                "time_range": {
-                  "name": "time_range",
-                  "field_type": "_datetime",
-                  "provision_state": 3
-                }
-              },
-              "indexes": {
-                "schedule_event_pkey": {
-                  "name": "schedule_event_pkey",
-                  "fields": [
-                    "_id"
-                  ],
-                  "unique": true,
-                  "primary": true,
-                  "provision_state": 3
-                }
-              },
-              "provision_state": 3
-            },
             "schedule_event_type": {
               "name": "schedule_event_type",
               "fields": {
@@ -2793,6 +2783,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "schedule_type_id": {
@@ -2833,6 +2824,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -2866,6 +2858,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -2909,6 +2902,7 @@
                 "default_value": {
                   "name": "default_value",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "is_primary_key": {
@@ -2919,11 +2913,13 @@
                 "label_default": {
                   "name": "label_default",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "schema_table_id": {
@@ -2957,6 +2953,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "schema_id": {
@@ -3010,6 +3007,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "parent_service_id": {
@@ -3082,11 +3080,13 @@
                 "git_branch": {
                   "name": "git_branch",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "git_hash": {
                   "name": "git_hash",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "is_auto_bisect_build": {
@@ -3222,6 +3222,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -3264,6 +3265,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -3465,6 +3467,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -3494,6 +3497,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -3591,6 +3595,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -3679,6 +3684,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "processing_stage": {
@@ -3689,6 +3695,7 @@
                 "sigil": {
                   "name": "sigil",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -3718,17 +3725,20 @@
                   "name": "alias",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "end_block_alias": {
                   "name": "end_block_alias",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "function": {
                   "name": "function",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "info": {
@@ -3740,6 +3750,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -3781,6 +3792,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "processing_order": {
@@ -3792,18 +3804,21 @@
                   "name": "sigil_start",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "sigil_stop": {
                   "name": "sigil_stop",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "udn_function_id": {
                   "name": "udn_function_id",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -3838,6 +3853,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "udn_data_json": {
@@ -3896,6 +3912,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -3945,6 +3962,7 @@
                 "email": {
                   "name": "email",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "google_data_json": {
@@ -3968,21 +3986,25 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "name_full": {
                   "name": "name_full",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "password_digest": {
                   "name": "password_digest",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "password_salt": {
                   "name": "password_salt",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "primary_user_group_id": {
@@ -4056,6 +4078,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "user_id": {
@@ -4089,6 +4112,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -4138,6 +4162,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -4224,6 +4249,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "result_value_type_id": {
@@ -4240,6 +4266,7 @@
                   "name": "sigil",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -4276,6 +4303,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -4318,6 +4346,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "parent_vendor_id": {
@@ -4327,8 +4356,171 @@
                 }
               },
               "indexes": {
+                "vendor_id_key": {
+                  "name": "vendor_id_key",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
                 "vendor_pkey": {
                   "name": "vendor_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "vendor_order": {
+              "name": "vendor_order",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "cost_sales_tax": {
+                  "name": "cost_sales_tax",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "cost_shipping": {
+                  "name": "cost_shipping",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "cost_total": {
+                  "name": "cost_total",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "invoice_number": {
+                  "name": "invoice_number",
+                  "field_type": "_string",
+                  "default": "NULL::character varying",
+                  "provision_state": 3
+                },
+                "order_date": {
+                  "name": "order_date",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                },
+                "order_number": {
+                  "name": "order_number",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "default": "NULL::character varying",
+                  "provision_state": 3
+                },
+                "order_purchaser": {
+                  "name": "order_purchaser",
+                  "field_type": "_string",
+                  "default": "NULL::character varying",
+                  "provision_state": 3
+                },
+                "shipping_address": {
+                  "name": "shipping_address",
+                  "field_type": "_string",
+                  "default": "NULL::character varying",
+                  "provision_state": 3
+                },
+                "vendor_id": {
+                  "name": "vendor_id",
+                  "field_type": "_int",
+                  "relation": {
+                    "collection": "vendor",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "order_id_unique": {
+                  "name": "order_id_unique",
+                  "fields": [
+                    "order_number"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
+                "vendor_order_pkey": {
+                  "name": "vendor_order_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "vendor_order_item": {
+              "name": "vendor_order_item",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "cost_unit": {
+                  "name": "cost_unit",
+                  "field_type": "_float",
+                  "provision_state": 3
+                },
+                "expensed": {
+                  "name": "expensed",
+                  "field_type": "_bool",
+                  "default": false,
+                  "provision_state": 3
+                },
+                "info": {
+                  "name": "info",
+                  "field_type": "_string",
+                  "default": "NULL::character varying",
+                  "provision_state": 3
+                },
+                "quantity": {
+                  "name": "quantity",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "seller": {
+                  "name": "seller",
+                  "field_type": "_string",
+                  "default": "NULL::character varying",
+                  "provision_state": 3
+                },
+                "vendor_order_id ": {
+                  "name": "vendor_order_id ",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "relation": {
+                    "collection": "vendor_order",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                },
+                "vendor_part_id": {
+                  "name": "vendor_part_id",
+                  "field_type": "_int",
+                  "relation": {
+                    "collection": "vendor_part",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "vendor_order_item_pkey": {
+                  "name": "vendor_order_item_pkey",
                   "fields": [
                     "_id"
                   ],
@@ -4350,7 +4542,7 @@
                 },
                 "bandwidth_bps": {
                   "name": "bandwidth_bps",
-                  "field_type": "_int",
+                  "field_type": "_float",
                   "provision_state": 3
                 },
                 "capacity_byte": {
@@ -4361,11 +4553,13 @@
                 "make": {
                   "name": "make",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "model": {
                   "name": "model",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "performance_iops": {
@@ -4376,6 +4570,7 @@
                 "revision": {
                   "name": "revision",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "vendor_id": {
@@ -4391,6 +4586,14 @@
                 }
               },
               "indexes": {
+                "vendor_part_id_key": {
+                  "name": "vendor_part_id_key",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
                 "vendor_part_pkey": {
                   "name": "vendor_part_pkey",
                   "fields": [
@@ -4420,6 +4623,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -4601,6 +4805,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "static_data_json": {
@@ -4657,6 +4862,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "static_data_json": {
@@ -4729,6 +4935,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "web_data_widget_id": {
@@ -4782,6 +4989,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -4818,6 +5026,7 @@
                 "api_prefix_path": {
                   "name": "api_prefix_path",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "default_web_site_map_id": {
@@ -4859,11 +5068,13 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "path_prefix": {
                   "name": "path_prefix",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "udn_data_json": {
@@ -4921,6 +5132,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "static_data_json": {
@@ -4987,6 +5199,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "show_side_nav": {
@@ -5030,6 +5243,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "udn_data_json": {
@@ -5081,11 +5295,13 @@
                 "icon": {
                   "name": "icon",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "parent_id": {
@@ -5164,12 +5380,14 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "title": {
                   "name": "title",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "udn_data_json": {
@@ -5246,6 +5464,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "priority": {
@@ -5304,6 +5523,7 @@
                 "web_widget_instance_output": {
                   "name": "web_widget_instance_output",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -5355,6 +5575,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "user_id": {
@@ -5430,11 +5651,13 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "path": {
                   "name": "path",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "udn_data_json": {
@@ -5506,6 +5729,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "udn_data_json": {
@@ -5546,6 +5770,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "static_data_json": {
@@ -5606,6 +5831,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "requirement_data_json": {
@@ -5679,6 +5905,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "web_widget_id": {
@@ -5727,6 +5954,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "static_data_json": {
@@ -5790,6 +6018,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "web_widget_id": {
@@ -5838,6 +6067,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
@@ -5868,6 +6098,7 @@
                 "css_class": {
                   "name": "css_class",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "id": {
@@ -5880,6 +6111,7 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 },
                 "tag_data_json": {
@@ -5933,6 +6165,7 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "default": "NULL::character varying",
                   "provision_state": 3
                 }
               },
