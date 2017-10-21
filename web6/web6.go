@@ -557,10 +557,10 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 				// Force the UDN string into a string
 				//TODO(g): Not the best way to do this, fix later, doing now for dev speed/simplicity
-				widget_udn_string := fmt.Sprintf("%v", widget_value)
+				widget_udn_string := []string{fmt.Sprintf("%v", widget_value)}
 
 				// Process the UDN with our new method.  Only uses Source, as we are getting, but not setting in this phase
-				widget_udn_result := ProcessUDN(db, udn_schema, widget_udn_string, "", udn_data)
+				widget_udn_result := ProcessUDN(db, udn_schema, widget_udn_string, udn_data)
 
 				widget_map[widget_key] = fmt.Sprintf("%v", GetResult(widget_udn_result, type_string))
 
@@ -629,10 +629,10 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 		if _, ok := page_map[key]; ok {
 			// Pass, already has this value
 		} else {
-			value_str := fmt.Sprintf("%v", value)
+			value_str := []string{fmt.Sprintf("%v", value)}
 
 			// Process the UDN with our new method.  Only uses Source, as we are getting, but not setting in this phase
-			widget_udn_result := ProcessUDN(db, udn_schema, value_str, "", udn_data)
+			widget_udn_result := ProcessUDN(db, udn_schema, value_str, udn_data)
 
 			if widget_udn_result != nil {
 				page_map[key] = fmt.Sprintf("%v", GetResult(widget_udn_result, type_string))
