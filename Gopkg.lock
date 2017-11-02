@@ -17,13 +17,13 @@
   branch = "master"
   name = "github.com/ghowland/ddd"
   packages = ["ddd"]
-  revision = "7505fed11e4d2f3183e50026b9663822fb608f9a"
+  revision = "2eafe38a30c2f610f83d8e8f47f512f48c46547b"
 
 [[projects]]
   branch = "master"
   name = "github.com/ghowland/yudien"
   packages = ["yudien","yudiencore","yudiendata","yudienutil"]
-  revision = "4829ff15a85b1325d795bdabb7550dd1e58c4dd1"
+  revision = "5d66283d1e4b603e00c3e5e5ba2f3d1dd7b3e5e7"
 
 [[projects]]
   branch = "master"
