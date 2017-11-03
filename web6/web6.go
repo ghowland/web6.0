@@ -108,7 +108,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
-
 	// DB
 	db, err := sql.Open("postgres", PgConnect)
 	if err != nil {
@@ -359,9 +358,12 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	// Get our starting UDN data
 	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_api, uri, web_protocol_action, request_body, param_map, header_map, cookie_array)
 
-	fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
+	// Output params if logging is allowed
+	if udn_data["web_site_page"].(map[string]interface{})["allow_logging"].(bool) {
+		fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
 
-	fmt.Printf("Params: %v\n\n", param_map)
+		fmt.Printf("Params: %v\n\n", param_map)
+	}
 
 	// Get the base widget
 	sql := fmt.Sprintf("SELECT * FROM web_widget")
@@ -373,6 +375,9 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	// Get UDN schema per request
 	//TODO(g): Dont do this every request
 	udn_schema := PrepareSchemaUDN(db_web)
+
+	// Make sure messages are output to screen and logged when it is allowed to do so
+	udn_schema["allow_logging"] = udn_data["web_site_page"].(map[string]interface{})["allow_logging"].(bool)
 
 	// If we are being told to debug, do so
 	if param_map["__debug"] != nil {
@@ -403,7 +408,10 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 
 	// Write out our output as HTML
 	html_path := UdnDebugWriteHtml(udn_schema)
-	fmt.Printf("UDN Debug HTML Log: %s\n", html_path)
+
+	if udn_schema["allow_logging"].(bool) {
+		fmt.Printf("UDN Debug HTML Log: %s\n", html_path)
+	}
 
 	// Write out the final page
 	w.Write([]byte(buffer.String()))
