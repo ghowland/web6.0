@@ -108,7 +108,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
-
 	// DB
 	db, err := sql.Open("postgres", PgConnect)
 	if err != nil {
@@ -329,17 +328,38 @@ func SetCookies(cookie_map map[string]interface{}, w http.ResponseWriter, r *htt
 func GetHTTPParams(r *http.Request) map[string][]string{
 
 	// Check the web protocol action - for POST/PUT requests, params are found in the body
-	var param_map map[string][]string
+	param_map := make(map[string][]string)
 
 	web_protocol_action := r.Method
+	http_header := r.Header.Get("Content-Type")
 
 	if web_protocol_action == "POST" || web_protocol_action == "PUT" {
-		err := r.ParseForm()
+		// Parse the body different depending on the type of the body (ex: JSON, form data, etc.)
+		if http_header == "application/json" {
+			// Read the body of the request (json)
+			if body_bytes, err := ioutil.ReadAll(r.Body); err == nil {
 
-		if err == nil {
-			param_map = r.PostForm
+				var data map[string]interface{}
+
+				// Convert the bytestream of the body to JSON
+				if err = json.Unmarshal(body_bytes, &data); err == nil {
+
+					// param_map is map[string][]string -> need to convert var data from map[string]interface{} to map[string][]string
+					for key, value := range data {
+						if value_string, err := json.Marshal(value); err == nil {
+							param_map[key] = []string{string(value_string)}
+						}
+					}
+				}
+			}
+		} else if http_header == "application/x-www-form-urlencoded"{
+			err := r.ParseForm()
+
+			if err == nil {
+				param_map = r.PostForm
+			}
 		}
-	} else {
+	} else {  // GET and other requests
 		param_map = r.URL.Query()
 	}
 
@@ -359,9 +379,12 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	// Get our starting UDN data
 	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_api, uri, web_protocol_action, request_body, param_map, header_map, cookie_array)
 
-	fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
+	// Output params if logging is allowed
+	if udn_data["web_site_page"].(map[string]interface{})["allow_logging"].(bool) {
+		fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
 
-	fmt.Printf("Params: %v\n\n", param_map)
+		fmt.Printf("Params: %v\n\n", param_map)
+	}
 
 	// Get the base widget
 	sql := fmt.Sprintf("SELECT * FROM web_widget")
@@ -373,6 +396,9 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	// Get UDN schema per request
 	//TODO(g): Dont do this every request
 	udn_schema := PrepareSchemaUDN(db_web)
+
+	// Make sure messages are output to screen and logged when it is allowed to do so
+	udn_schema["allow_logging"] = udn_data["web_site_page"].(map[string]interface{})["allow_logging"].(bool)
 
 	// If we are being told to debug, do so
 	if param_map["__debug"] != nil {
@@ -403,7 +429,10 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 
 	// Write out our output as HTML
 	html_path := UdnDebugWriteHtml(udn_schema)
-	fmt.Printf("UDN Debug HTML Log: %s\n", html_path)
+
+	if udn_schema["allow_logging"].(bool) {
+		fmt.Printf("UDN Debug HTML Log: %s\n", html_path)
+	}
 
 	// Write out the final page
 	w.Write([]byte(buffer.String()))
