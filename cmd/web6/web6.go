@@ -5,7 +5,6 @@ import (
 	"github.com/jcasts/gosrv"
 )
 
-
 func main() {
 	////DEBUG: Testing
 	//TestUdn()
@@ -24,4 +23,3 @@ func main() {
 		panic(err)
 	}
 }
-

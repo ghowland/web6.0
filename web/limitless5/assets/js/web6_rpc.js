@@ -13,8 +13,8 @@ function RPC(url, input_data, on_complete_function) {
 
     // AJAX Code To Submit Form.
     $.ajax({
-        //type: "POST",
-        type: "GET",
+        type: "POST",
+        //type: "GET",
         url: url,
         data: input_data,
         cache: false,
