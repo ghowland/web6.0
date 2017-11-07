@@ -351,7 +351,7 @@ func GetHTTPParams(r *http.Request) map[string][]string {
 					}
 				}
 			}
-		} else if http_header == "application/x-www-form-urlencoded"{
+		} else {
 			err := r.ParseForm()
 
 			if err == nil {
