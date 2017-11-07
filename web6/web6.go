@@ -15,32 +15,31 @@ TODO:
 */
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	. "github.com/ghowland/yudien/yudien"
+	. "github.com/ghowland/yudien/yudiendata"
+	. "github.com/ghowland/yudien/yudienutil"
 	_ "github.com/lib/pq"
+	"github.com/segmentio/ksuid"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"strings"
 	"text/template"
-	"bytes"
-	"io"
-	"github.com/segmentio/ksuid"
-	. "github.com/ghowland/yudien/yudienutil"
-	. "github.com/ghowland/yudien/yudiendata"
-	. "github.com/ghowland/yudien/yudien"
 )
 
-
 const (
-	type_int				= iota
-	type_float				= iota
-	type_string				= iota
-	type_string_force		= iota	// This forces it to a string, even if it will be ugly, will print the type of the non-string data too.  Testing this to see if splitting these into 2 yields better results.
-	type_array				= iota	// []interface{} - takes: lists, arrays, maps (key/value tuple array, strings (single element array), ints (single), floats (single)
-	type_map				= iota	// map[string]interface{}
+	type_int          = iota
+	type_float        = iota
+	type_string       = iota
+	type_string_force = iota // This forces it to a string, even if it will be ugly, will print the type of the non-string data too.  Testing this to see if splitting these into 2 yields better results.
+	type_array        = iota // []interface{} - takes: lists, arrays, maps (key/value tuple array, strings (single element array), ints (single), floats (single)
+	type_map          = iota // map[string]interface{}
 )
 
 // Core Web Page Handler.  All other routing occurs inside this function.
@@ -277,7 +276,7 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 				}
 			}
 
-			fmt.Printf( "Session Data: %v\n\n", target_map)
+			fmt.Printf("Session Data: %v\n\n", target_map)
 
 			udn_data["session"] = target_map
 
@@ -325,7 +324,7 @@ func SetCookies(cookie_map map[string]interface{}, w http.ResponseWriter, r *htt
 }
 
 // Get the params of the HTTP request
-func GetHTTPParams(r *http.Request) map[string][]string{
+func GetHTTPParams(r *http.Request) map[string][]string {
 
 	// Check the web protocol action - for POST/PUT requests, params are found in the body
 	param_map := make(map[string][]string)
@@ -408,7 +407,6 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 		udn_schema["udn_debug"] = true
 	}
 
-
 	// Process the UDN, which updates the pool at udn_data
 	if web_site_api["udn_data_json"] != nil {
 		ProcessSchemaUDNSet(db_web, udn_schema, web_site_api["udn_data_json"].(string), udn_data)
@@ -418,7 +416,6 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 
 	// Set Cookies
 	SetCookies(udn_data["set_cookie"].(map[string]interface{}), w, r)
-
 
 	// Write whatever is in the API result map, as a JSON result
 	var buffer bytes.Buffer
@@ -492,7 +489,6 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	// We need to use this as a variable, so make it accessible to reduce casting
 	page_map := udn_data["page"].(map[string]interface{})
 
-
 	//TODO(g):HARDCODED: Im just forcing /login for now to make bootstrapping faster, it can come from the data source, think about it
 	if uri != "/login" {
 		if udn_data["user"].(map[string]interface{})["_id"] == nil {
@@ -521,7 +517,6 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	if param_map["__debug"] != nil {
 		udn_schema["udn_debug"] = true
 	}
-
 
 	// Loop over the page widgets, and template them
 	for _, site_page_widget := range web_site_page_widgets {
@@ -570,15 +565,12 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 			udn_data["web_widget"] = page_widget
 
-
-
 			// Processing UDN: which updates the data pool at udn_data
 			if site_page_widget["udn_data_json"] != nil {
 				ProcessSchemaUDNSet(db_web, udn_schema, site_page_widget["udn_data_json"].(string), udn_data)
 			} else {
 				fmt.Printf("UDN Execution: %s: None\n\n", site_page_widget["name"])
 			}
-
 
 			// Process the Widget's Rendering UDN statements (singles)
 			for widget_key, widget_value := range widget_map {
@@ -691,7 +683,6 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 		log.Fatal(err)
 	}
 
-
 	// Set Cookies
 	SetCookies(udn_data["set_cookie"].(map[string]interface{}), w, r)
 
@@ -714,5 +705,3 @@ func dynamicPage_404(uri string, w http.ResponseWriter, r *http.Request) {
 
 	w.Write([]byte(base_html))
 }
-
-
