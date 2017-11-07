@@ -358,7 +358,7 @@ func GetHTTPParams(r *http.Request) map[string][]string {
 				param_map = r.PostForm
 			}
 		}
-	} else {  // GET and other requests
+	} else { // GET and other requests
 		param_map = r.URL.Query()
 	}
 
