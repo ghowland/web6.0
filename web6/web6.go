@@ -195,7 +195,7 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 }
 
 // Set up UDN data for an HTTP request
-func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_page map[string]interface{}, uri string, web_protocol_action string, body io.Reader, param_map map[string][]string, header_map map[string][]string, cookie_array []*http.Cookie) map[string]interface{} {
+func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_page map[string]interface{}, uri string, web_protocol_action string, body io.Reader, param_map map[string]interface{}, header_map map[string][]string, cookie_array []*http.Cookie) map[string]interface{} {
 
 	// Data pool for UDN
 	udn_data := make(map[string]interface{})
@@ -224,7 +224,7 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 	for key, value := range param_map {
 		//fmt.Printf("\n----KEY: %s  VALUE:  %s\n\n", key, value[0])
 		//TODO(g): Decide what to do with the extra headers in the array later, we may not want to allow this ever, but thats not necessarily true.  Think about it, its certainly not the typical case, and isnt required
-		udn_data["param"].(map[string]interface{})[key] = value[0]
+		udn_data["param"].(map[string]interface{})[key] = value
 	}
 
 	// Get the JSON Body, if it exists, from an API-style call in
@@ -324,10 +324,10 @@ func SetCookies(cookie_map map[string]interface{}, w http.ResponseWriter, r *htt
 }
 
 // Get the params of the HTTP request
-func GetHTTPParams(r *http.Request) map[string][]string {
+func GetHTTPParams(r *http.Request) map[string]interface{} {
 
 	// Check the web protocol action - for POST/PUT requests, params are found in the body
-	param_map := make(map[string][]string)
+	var param_map map[string]interface{}
 
 	web_protocol_action := r.Method
 	http_header := r.Header.Get("Content-Type")
@@ -337,29 +337,29 @@ func GetHTTPParams(r *http.Request) map[string][]string {
 		if http_header == "application/json" {
 			// Read the body of the request (json)
 			if body_bytes, err := ioutil.ReadAll(r.Body); err == nil {
+				err = json.Unmarshal(body_bytes, &param_map)
 
-				var data map[string]interface{}
-
-				// Convert the bytestream of the body to JSON
-				if err = json.Unmarshal(body_bytes, &data); err == nil {
-
-					// param_map is map[string][]string -> need to convert var data from map[string]interface{} to map[string][]string
-					for key, value := range data {
-						if value_string, err := json.Marshal(value); err == nil {
-							param_map[key] = []string{string(value_string)}
-						}
-					}
+				if err != nil {
+					param_map = nil
 				}
 			}
 		} else {
 			err := r.ParseForm()
 
 			if err == nil {
-				param_map = r.PostForm
+				param_map_strings := r.PostForm
+
+				for key, value := range param_map_strings {
+					param_map[key] = value
+				}
 			}
 		}
-	} else { // GET and other requests
-		param_map = r.URL.Query()
+	} else {  // GET and other requests
+		param_map_strings := r.URL.Query()
+
+		for key, value := range param_map_strings {
+			param_map[key] = value
+		}
 	}
 
 	return param_map
