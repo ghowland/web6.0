@@ -327,11 +327,12 @@ func SetCookies(cookie_map map[string]interface{}, w http.ResponseWriter, r *htt
 func GetHTTPParams(r *http.Request) map[string]interface{} {
 
 	// Check the web protocol action - for POST/PUT requests, params are found in the body
-	var param_map map[string]interface{}
+	param_map := make(map[string]interface{})
 
 	web_protocol_action := r.Method
 	http_header := r.Header.Get("Content-Type")
 
+	// For POST & PUT requests, we need to return the body of the request
 	if web_protocol_action == "POST" || web_protocol_action == "PUT" {
 		// Parse the body different depending on the type of the body (ex: JSON, form data, etc.)
 		if http_header == "application/json" {
@@ -343,22 +344,24 @@ func GetHTTPParams(r *http.Request) map[string]interface{} {
 					param_map = nil
 				}
 			}
-		} else {
+		} else { // POST request where the body is not JSON and is rather form data
 			err := r.ParseForm()
 
+			// ParseFrom() returns map[string][]string - need to convert it to map[string]interface{}
 			if err == nil {
 				param_map_strings := r.PostForm
 
 				for key, value := range param_map_strings {
-					param_map[key] = value
+					param_map[key] = value[0]
 				}
 			}
 		}
 	} else {  // GET and other requests
 		param_map_strings := r.URL.Query()
 
+		// r.URL.Query() returns map[string][]string - need to convert it to map[string]interface{}
 		for key, value := range param_map_strings {
-			param_map[key] = value
+			param_map[key] = value[0]
 		}
 	}
 
