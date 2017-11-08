@@ -380,9 +380,9 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 
 	// Output params if logging is allowed
 	if udn_data["web_site_page"].(map[string]interface{})["allow_logging"].(bool) {
-		fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
+		fmt.Printf("Starting UDN Data: %s\n\n", SnippetData(udn_data, 120))
 
-		fmt.Printf("Params: %v\n\n", param_map)
+		fmt.Printf("Params: %s\n\n", SnippetData(param_map, 120))
 	}
 
 	// Get the base widget
