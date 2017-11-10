@@ -16,3 +16,6 @@ vendor
 
 # bin dir outputs
 bin/
+
+# build output
+*.deb

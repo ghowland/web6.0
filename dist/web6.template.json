@@ -1,0 +1,21 @@
+This is an example configuration file for web6.
+
+Copy this file to /etc/web6/web6.json and replace the values
+with correct ones for your environment AND remove all
+invalid json (this text).
+
+Check /var/log/upstart/web6.log for errors.
+
+{
+  "ldap": {
+    "host" : "ldap.example.com",
+    "port" : 389,
+    "login_dn": "cn=superuser,dc=example,dc=com",
+    "password": "superuserpassword",
+    "user_search": "ou=members,dc=example,dc=com",
+    "group_search": "ou=groups,dc=example,dc=com"
+  },
+  "opsdb": {
+    "connect_opts": "user=fakegeoff dbname=opsdb host=internal.postgres.example.com"
+  }
+}
