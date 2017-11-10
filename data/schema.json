@@ -4116,6 +4116,91 @@
               },
               "provision_state": 3
             },
+            "udn_working_editor": {
+              "name": "udn_working_editor",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "info": {
+                  "name": "info",
+                  "field_type": "_text",
+                  "provision_state": 3
+                },
+                "input_data_json": {
+                  "name": "input_data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "memory_data_json": {
+                  "name": "memory_data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "parent_id": {
+                  "name": "parent_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "static_bucket_prefix": {
+                  "name": "static_bucket_prefix",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "static_data_json": {
+                  "name": "static_data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "static_schema_field_id": {
+                  "name": "static_schema_field_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "udn_data_json": {
+                  "name": "udn_data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "udn_schema_field_id": {
+                  "name": "udn_schema_field_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "user_id": {
+                  "name": "user_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "version_working": {
+                  "name": "version_working",
+                  "field_type": "_json",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "udn_working_editor_pkey": {
+                  "name": "udn_working_editor_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
             "user": {
               "name": "user",
               "fields": {
