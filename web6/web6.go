@@ -19,11 +19,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	. "github.com/ghowland/yudien/yudien"
-	. "github.com/ghowland/yudien/yudiendata"
-	. "github.com/ghowland/yudien/yudienutil"
-	_ "github.com/lib/pq"
-	"github.com/segmentio/ksuid"
 	"io"
 	"io/ioutil"
 	"log"
@@ -31,6 +26,12 @@ import (
 	"os"
 	"strings"
 	"text/template"
+
+	. "github.com/ghowland/yudien/yudien"
+	. "github.com/ghowland/yudien/yudiendata"
+	. "github.com/ghowland/yudien/yudienutil"
+	_ "github.com/lib/pq"
+	"github.com/segmentio/ksuid"
 )
 
 const (
@@ -108,14 +109,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 	// DB
-	db, err := sql.Open("postgres", PgConnect)
+	db, err := sql.Open("postgres", Config.Opsdb.ConnectOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
 	// DB Web
-	db_web, err := sql.Open("postgres", PgConnect)
+	db_web, err := sql.Open("postgres", Config.Opsdb.ConnectOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -356,7 +357,7 @@ func GetHTTPParams(r *http.Request) map[string]interface{} {
 				}
 			}
 		}
-	} else {  // GET and other requests
+	} else { // GET and other requests
 		param_map_strings := r.URL.Query()
 
 		// r.URL.Query() returns map[string][]string - need to convert it to map[string]interface{}

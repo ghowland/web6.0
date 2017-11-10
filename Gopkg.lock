@@ -23,7 +23,7 @@
   branch = "master"
   name = "github.com/ghowland/yudien"
   packages = ["yudien","yudiencore","yudiendata","yudienutil"]
-  revision = "5d66283d1e4b603e00c3e5e5ba2f3d1dd7b3e5e7"
+  revision = "536aae5d366d71f589211010e7698d61e4114c5a"
 
 [[projects]]
   branch = "master"
