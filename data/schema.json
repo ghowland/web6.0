@@ -4121,7 +4121,7 @@
               "fields": {
                 "_id": {
                   "name": "_id",
-                  "field_type": "_int",
+                  "field_type": "_serial",
                   "not_null": true,
                   "provision_state": 3
                 },
