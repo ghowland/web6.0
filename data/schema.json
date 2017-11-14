@@ -4179,7 +4179,6 @@
                 "user_id": {
                   "name": "user_id",
                   "field_type": "_int",
-                  "not_null": true,
                   "provision_state": 3
                 },
                 "version_working": {
