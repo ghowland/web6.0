@@ -1,12 +1,17 @@
 <label class="control-label"><i class="{{index .Map "icon"}}"></i> {{index .Map "label"}}</label>
 <textarea id="ace_hidden_{{index .Map "uuid"}}_{{index .Map "name"}}" style="display: none">{{index .Map "value"}}</textarea>
 <div id="ace_editor_{{index .Map "uuid"}}_{{index .Map "name"}}" style="height: 200px;"></div>
+<input type="hidden" name="{{index .Map "name"}}" id="hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}">
 <script>
     var ace_editor = ace.edit("ace_editor_{{index .Map "uuid"}}_{{index .Map "name"}}");
     ace_editor.setTheme("ace/theme/monokai");
     ace_editor.getSession().setMode("ace/mode/{{index .Map "format"}}");
     ace_editor.setShowPrintMargin(false);
-//    alert($("#ace_hidden_{{index .Map "uuid"}}_{{index .Map "name"}}").text())
+    //    alert($("#ace_hidden_{{index .Map "uuid"}}_{{index .Map "name"}}").text())
     ace_editor.getSession().setValue($("#ace_hidden_{{index .Map "uuid"}}_{{index .Map "name"}}").text())
+    ace_editor.on('change', function () {
+        value = ace_editor.getValue();
+        $("#hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}").val(value);
+    });
 </script>
 <span class="help-block">{{index .Map "info"}}</span>

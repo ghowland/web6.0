@@ -14,7 +14,9 @@
                 $('#dialog-{{index .Map "uuid"}}').find('input, select, textarea').each(
                     function(index) {
                         var input = $(this);
-                        data[input.attr('name')] = input.val();
+                        if (input.attr('name') != undefined) {
+                            data[input.attr('name')] = input.val();
+                        }
                     }
                 );
 
