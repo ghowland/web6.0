@@ -16,6 +16,6 @@ Check /var/log/upstart/web6.log for errors.
     "group_search": "ou=groups,dc=example,dc=com"
   },
   "opsdb": {
-    "connect_opts": "user=fakegeoff dbname=opsdb host=internal.postgres.example.com"
+    "connect_opts": "user=fakegeoff dbname=opsdb password='XXXXXXX' host=internal.postgres.example.com"
   }
 }
