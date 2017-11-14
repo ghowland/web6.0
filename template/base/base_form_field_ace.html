@@ -9,9 +9,9 @@
     ace_editor.setShowPrintMargin(false);
     //    alert($("#ace_hidden_{{index .Map "uuid"}}_{{index .Map "name"}}").text())
     ace_editor.getSession().setValue($("#ace_hidden_{{index .Map "uuid"}}_{{index .Map "name"}}").text())
+    $("#hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}").val(ace_editor.getValue());
     ace_editor.on('change', function () {
-        value = ace_editor.getValue();
-        $("#hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}").val(value);
+        $("#hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}").val(ace_editor.getValue());
     });
 </script>
 <span class="help-block">{{index .Map "info"}}</span>
