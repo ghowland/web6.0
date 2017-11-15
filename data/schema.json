@@ -4151,6 +4151,11 @@
                   "field_type": "_int",
                   "provision_state": 3
                 },
+                "result_data_json": {
+                  "name": "result_data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
                 "static_bucket_prefix": {
                   "name": "static_bucket_prefix",
                   "field_type": "_string",
