@@ -29,7 +29,8 @@ func LoadConfig() {
 		config = fmt.Sprintf("%s/secure/web6.json", homedir)
 		_, err := os.Stat(config)
 		if err != nil {
-			panic("Could not find web6.json in /etc/web or ~/secure")
+			msg := fmt.Sprintf("Cound not find web6.json in /etc/web6 or %s", config)
+			panic(msg)
 		}
 	}
 
