@@ -62,7 +62,7 @@
         $('#dialog-{{index .Map "uuid"}}').dialog({
             autoOpen: true,
             modal: true,
-            width: 500,
+            width: {{index .Map "size"}},
             draggable: false,
             resizable: false,
             create: function(event, ui) {
