@@ -7,10 +7,11 @@
     ace_editor.setTheme("ace/theme/monokai");
     ace_editor.getSession().setMode("ace/mode/{{index .Map "format"}}");
     ace_editor.setShowPrintMargin(false);
-    //    alert($("#ace_hidden_{{index .Map "uuid"}}_{{index .Map "name"}}").text())
+//    alert($("#ace_hidden_{{index .Map "uuid"}}_{{index .Map "name"}}").text())
     ace_editor.getSession().setValue($("#ace_hidden_{{index .Map "uuid"}}_{{index .Map "name"}}").text())
     $("#hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}").val(ace_editor.getValue());
     ace_editor.on('change', function () {
+        var ace_editor = ace.edit("ace_editor_{{index .Map "uuid"}}_{{index .Map "name"}}");
         $("#hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}").val(ace_editor.getValue());
     });
 </script>
