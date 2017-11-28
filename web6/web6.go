@@ -28,6 +28,7 @@ import (
 	"text/template"
 
 	. "github.com/ghowland/yudien/yudien"
+	. "github.com/ghowland/yudien/yudiencore"
 	. "github.com/ghowland/yudien/yudiendata"
 	. "github.com/ghowland/yudien/yudienutil"
 	_ "github.com/lib/pq"
@@ -131,7 +132,10 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 	sql := fmt.Sprintf("SELECT * FROM web_site WHERE _id = %d", web_site_id)
 	web_site_result := Query(db_web, sql)
 	if web_site_result == nil {
-		panic("Failed to load website")
+		UdnError(nil, "Failed to load website: %d\n", web_site_id)
+		// Rendor 404
+		dynamicPage_404(uri, w, r)
+		return
 	}
 
 	fmt.Printf("Type: %T\n\n", web_site_result)
@@ -637,7 +641,9 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 			RenderWidgetInstance(db_web, udn_schema, udn_data, site_page_widget, udn_update_map)
 
 		} else {
-			panic("No web_widget_id, web_widget_instance_id, web_data_widget_instance_id.  Site Page Widgets need at least one of these.")
+			UdnError(nil, "No web_widget_id, web_widget_instance_id, web_data_widget_instance_id.  Site Page Widgets need at least one of these.")
+			dynamicPage_404(uri, w, r)
+			return
 		}
 
 	}

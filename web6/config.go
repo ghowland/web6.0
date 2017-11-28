@@ -29,8 +29,7 @@ func LoadConfig() {
 		config = fmt.Sprintf("%s/secure/web6.json", homedir)
 		_, err := os.Stat(config)
 		if err != nil {
-			msg := fmt.Sprintf("Cound not find web6.json in /etc/web6 or %s", config)
-			panic(msg)
+			panic(fmt.Sprintf("Cound not find web6.json in /etc/web6 or %s", config))
 		}
 	}
 
@@ -38,10 +37,10 @@ func LoadConfig() {
 
 	config_str, err := ioutil.ReadFile(config)
 	if err != nil {
-		log.Panic(err)
+		log.Panic(fmt.Sprintf("Cannot read config file: %s: %s\n", config, err.Error()))
 	}
 	err = json.Unmarshal([]byte(config_str), Config)
 	if err != nil {
-		log.Panic(err)
+		log.Panic(fmt.Sprintf("Cannot parse JSON config file: %s: %s\n", config, err.Error()))
 	}
 }
