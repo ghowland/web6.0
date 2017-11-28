@@ -17,13 +17,13 @@ func main() {
 
 	s, err := gosrv.NewFromFlag()
 	if err != nil {
-		panic(err)
+		panic("Cannot create web server: " + err.Error() + "\n")
 	}
 
 	s.HandleFunc("/", web6.Handler)
 
 	err = s.ListenAndServe()
 	if err != nil {
-		panic(err)
+		panic("Cannot listen as web server: " + err.Error() + "\n")
 	}
 }
