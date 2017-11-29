@@ -109,6 +109,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("Connecting to: %s\n", Config.Opsdb.ConnectOptions)
+
 	// DB
 	db, err := sql.Open("postgres", Config.Opsdb.ConnectOptions)
 	if err != nil {
@@ -468,10 +470,12 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	sql = fmt.Sprintf("SELECT * FROM web_widget WHERE _id = %d", base_page_widget["web_widget_id"])
 	base_widgets := Query(db_web, sql)
 
+	base_page_html := base_widgets[0]["html"].(string)
+	/*
 	base_page_html, err := ioutil.ReadFile(base_widgets[0]["path"].(string))
 	if err != nil {
 		log.Panic(err)
-	}
+	}*/
 
 	// Get UDN starting data values
 	web_protocol_action := r.Method
@@ -548,7 +552,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 		widget_static := make(map[string]interface{})
 		udn_data["widget_static"] = widget_static
 		if site_page_widget["static_data_json"] != nil {
-			err = json.Unmarshal([]byte(site_page_widget["static_data_json"].(string)), &widget_static)
+			err := json.Unmarshal([]byte(site_page_widget["static_data_json"].(string)), &widget_static)
 			if err != nil {
 				log.Panic(err)
 			}
@@ -566,7 +570,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 			// wigdet_map has all the UDN operations we will be using to embed child-widgets into this widget
 			//TODO(g): We need to use the page_map data here too, because we need to template in the sub-widgets.  Think about this after testing it as-is...
-			err = json.Unmarshal([]byte(site_page_widget["data_json"].(string)), &widget_map)
+			err := json.Unmarshal([]byte(site_page_widget["data_json"].(string)), &widget_map)
 			if err != nil {
 				log.Panic(err)
 			}
@@ -598,10 +602,12 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 			//fmt.Printf("Title: %s\n", widget_map.Map["title"])
 
+			item_html := page_widget["html"].(string)
+			/*
 			item_html, err := ioutil.ReadFile(page_widget["path"].(string))
 			if err != nil {
 				log.Panic(err)
-			}
+			}*/
 
 			//TODO(g): Replace reading from the "path" above with the "html" stored in the DB, so it can be edited and displayed live
 			//item_html := page_widget.Map["html"].(string)
@@ -650,7 +656,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 	// Get base page widget items.  These were also processed above, as the base_page_widget was included with the page...
 	base_page_widget_map := NewTextTemplateMap()
-	err = json.Unmarshal([]byte(base_page_widget["data_json"].(string)), &base_page_widget_map.Map)
+	err := json.Unmarshal([]byte(base_page_widget["data_json"].(string)), &base_page_widget_map.Map)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -708,10 +714,25 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 func dynamicPage_404(uri string, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
+	// DB Web
+	db_web, err := sql.Open("postgres", Config.Opsdb.ConnectOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db_web.Close()
+
+	// Get the base widget
+	sql := fmt.Sprintf("SELECT * FROM web_widget WHERE name = 'error_404'")
+	base_widgets := Query(db_web, sql)
+
+	base_html := base_widgets[0]["html"].(string)
+
+	/*
 	base_html, err := ioutil.ReadFile("web/limitless5/error_404.html")
 	if err != nil {
 		log.Panic(err)
 	}
+	*/
 
 	w.Write([]byte(base_html))
 }
