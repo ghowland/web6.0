@@ -16,7 +16,7 @@ run:
 .PHONY: clean
 clean:
 	-rm -f bin/web6
-	-rm -f web6_$(VERSION)_$(BUILD_ARCH).deb
+	-rm -f web6_*.deb
 
 .PHONY: check_go_version
 check_go_version:
@@ -39,10 +39,13 @@ package: build
 		--version $(VERSION) \
 		--license MIT \
 		--maintainer shaw@vranix.com \
+		--deb-user web6 \
 		--deb-group web6 \
 		--before-install dist/before-install.sh \
+		--after-install dist/after-install.sh \
 		--after-remove dist/after-remove.sh \
 		bin/web6=/usr/bin/web6 \
+		web/=/home/web6/web/ \
 		dist/web6.template.json=/etc/web6/web6.template.json \
 		data/schema.json=/etc/web6/schema.json \
 		dist/web6-upstart.conf=/etc/init/web6.conf
