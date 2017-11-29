@@ -2,4 +2,4 @@
 
 # Script included in web6 package run after package is removed.
 
-deluser --quiet web6
+deluser --quiet web6 || true
