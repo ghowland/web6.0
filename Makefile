@@ -44,6 +44,7 @@ package: build
 		--after-remove dist/after-remove.sh \
 		bin/web6=/usr/bin/web6 \
 		dist/web6.template.json=/etc/web6/web6.template.json \
+		data/schema.json=/etc/web6/schema.json \
 		dist/web6-upstart.conf=/etc/init/web6.conf
 
 .PHONY: entr-warn
