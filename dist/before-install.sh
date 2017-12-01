@@ -3,4 +3,4 @@
 # Script installed in the web6 package that is run prior to
 # unpacking the package.
 
-adduser --disabled-login --no-create-home --gecos "" web6
+adduser --quiet --no-create-home --disabled-login --gecos "" web6 || true
