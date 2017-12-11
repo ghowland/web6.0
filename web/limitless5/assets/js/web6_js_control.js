@@ -33,8 +33,17 @@ function JsControl_InitEventHandlers(namespace) {
             if (item['value_dom'] == undefined) {
                 data_store['vars'][item['name']] = $(event.srcElement).val()
 
+                if (item['publish'] != undefined) {
+                    __web6_js_control_data_store_global[item['publish']] = data_store['vars'][item['name']]
+                }
+
                 $('#'+ data_store['dom_id']).on('change', function (event) {
                     __web6_js_control_data_store[namespace]['vars'][item['name']] = $(event.srcElement).val()
+
+                    if (item['publish'] != undefined) {
+                        __web6_js_control_data_store_global[item['publish']] = __web6_js_control_data_store[namespace]['vars'][item['name']]
+                    }
+
                     JsControl_UpdateStringsAndData(namespace)
                 })
             } else {
@@ -42,6 +51,11 @@ function JsControl_InitEventHandlers(namespace) {
 
                 $('#'+ data_store['dom_id']).on('change', function (event) {
                     __web6_js_control_data_store[namespace]['vars'][item['name']] = $('#' + item['value_dom']).val()
+
+                    if (item['publish'] != undefined) {
+                        __web6_js_control_data_store_global[item['publish']] = __web6_js_control_data_store[namespace]['vars'][item['name']]
+                    }
+
                     JsControl_UpdateStringsAndData(namespace)
                 })
             }
@@ -75,8 +89,17 @@ function JsControl_UpdateStringsAndData(namespace) {
         if (item['type'] === 'string') {
             format_string = item['format']
 
+            // Vars
             for (var_item in data_store['vars']) {
                 var_item_value = data_store['vars'][var_item]
+                var_item_key = '{{{' + var_item + '}}}'
+
+                format_string = format_string.replace(var_item_key, var_item_value)
+            }
+
+            // Globals
+            for (var_item in __web6_js_control_data_store_global) {
+                var_item_value = __web6_js_control_data_store_global[var_item]
                 var_item_key = '{{{' + var_item + '}}}'
 
                 format_string = format_string.replace(var_item_key, var_item_value)
@@ -98,6 +121,9 @@ function JsControl_Get(namespace, key) {
     }
     else if (data_store['var'][key] !== undefined) {
         return data_store['var'][key]
+    }
+    else if (__web6_js_control_data_store_global[key] !== undefined) {
+        return __web6_js_control_data_store_global[key]
     }
 
     return undefined
