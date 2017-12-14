@@ -378,6 +378,22 @@ func GetHTTPParams(r *http.Request) map[string]interface{} {
 func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_api map[string]interface{}, uri string, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
+	// Check if there are any headers to be set for http.ResponseWriter specified by the api function (ex: grafana cors headers)
+	if web_site_api["header_data_json"] != nil {
+
+		header_data_bytes := []byte(web_site_api["header_data_json"].(string))
+
+		var header_data_map interface{}
+
+		err := json.Unmarshal(header_data_bytes, &header_data_map)
+
+		if err == nil { // if there is an error, do nothing
+			for key, value := range header_data_map.(map[string]interface{}) {
+				w.Header().Set(key, value.(string))
+			}
+		}
+	}
+
 	// Get UDN starting data values
 	web_protocol_action := r.Method
 	request_body := r.Body
@@ -472,10 +488,10 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 	base_page_html := base_widgets[0]["html"].(string)
 	/*
-	base_page_html, err := ioutil.ReadFile(base_widgets[0]["path"].(string))
-	if err != nil {
-		log.Panic(err)
-	}*/
+		base_page_html, err := ioutil.ReadFile(base_widgets[0]["path"].(string))
+		if err != nil {
+			log.Panic(err)
+		}*/
 
 	// Get UDN starting data values
 	web_protocol_action := r.Method
@@ -604,10 +620,10 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 			item_html := page_widget["html"].(string)
 			/*
-			item_html, err := ioutil.ReadFile(page_widget["path"].(string))
-			if err != nil {
-				log.Panic(err)
-			}*/
+				item_html, err := ioutil.ReadFile(page_widget["path"].(string))
+				if err != nil {
+					log.Panic(err)
+				}*/
 
 			//TODO(g): Replace reading from the "path" above with the "html" stored in the DB, so it can be edited and displayed live
 			//item_html := page_widget.Map["html"].(string)
@@ -728,10 +744,10 @@ func dynamicPage_404(uri string, w http.ResponseWriter, r *http.Request) {
 	base_html := base_widgets[0]["html"].(string)
 
 	/*
-	base_html, err := ioutil.ReadFile("web/limitless5/error_404.html")
-	if err != nil {
-		log.Panic(err)
-	}
+		base_html, err := ioutil.ReadFile("web/limitless5/error_404.html")
+		if err != nil {
+			log.Panic(err)
+		}
 	*/
 
 	w.Write([]byte(base_html))
