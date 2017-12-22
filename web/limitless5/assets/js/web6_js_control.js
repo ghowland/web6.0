@@ -11,12 +11,13 @@ var __web6_js_control_data_store = new Object()
 var __web6_js_control_data_store_global = new Object()
 
 function JsControl_Register(namespace, dom_id, control_data_list) {
-    __web6_js_control_data_store[namespace] = new Ojbect()
+    __web6_js_control_data_store[namespace] = new Object()
     __web6_js_control_data_store[namespace]['control_data_list'] = control_data_list
     __web6_js_control_data_store[namespace]['namespace'] = namespace
     __web6_js_control_data_store[namespace]['dom_id'] = dom_id
 
     __web6_js_control_data_store[namespace]['string'] = new Object()
+    __web6_js_control_data_store[namespace]['string_format'] = new Object()
     __web6_js_control_data_store[namespace]['data'] = new Object()
     __web6_js_control_data_store[namespace]['var'] = new Object()
 
@@ -27,33 +28,35 @@ function JsControl_InitEventHandlers(namespace) {
     data_store = __web6_js_control_data_store[namespace]
 
     // Set up event handles for collecting vars data from the control_data_list, and get initial values
-    for (var item in data_store['control_data_list']) {
+    for (var item_count in data_store['control_data_list']) {
+        item = data_store['control_data_list'][item_count]
+
         // Var items -- On change they update the vars data store for this namespace, and then update the Strings and Data
         if (item['type'] === 'var') {
             if (item['value_dom'] == undefined) {
-                data_store['vars'][item['name']] = $(event.srcElement).val()
+                data_store['var'][item['name']] = $("#"+__web6_js_control_data_store[namespace]['dom_id']).val()
 
                 if (item['publish'] != undefined) {
-                    __web6_js_control_data_store_global[item['publish']] = data_store['vars'][item['name']]
+                    __web6_js_control_data_store_global[item['publish']] = data_store['var'][item['name']]
                 }
 
-                $('#'+ data_store['dom_id']).on('change', function (event) {
-                    __web6_js_control_data_store[namespace]['vars'][item['name']] = $(event.srcElement).val()
+                $('#'+ data_store['dom_id']).ready().on('change', function (event) {
+                    __web6_js_control_data_store[namespace]['var'][item['name']] = $("#"+__web6_js_control_data_store[namespace]['dom_id']).val()
 
                     if (item['publish'] != undefined) {
-                        __web6_js_control_data_store_global[item['publish']] = __web6_js_control_data_store[namespace]['vars'][item['name']]
+                        __web6_js_control_data_store_global[item['publish']] = __web6_js_control_data_store[namespace]['var'][item['name']]
                     }
 
                     JsControl_UpdateStringsAndData(namespace)
                 })
             } else {
-                data_store['vars'][item['name']] = $('#' + item['value_dom']).val()
+                data_store['var'][item['name']] = $('#' + item['value_dom']).val()
 
-                $('#'+ data_store['dom_id']).on('change', function (event) {
-                    __web6_js_control_data_store[namespace]['vars'][item['name']] = $('#' + item['value_dom']).val()
+                $('#'+ data_store['dom_id']).ready().on('change', function (event) {
+                    __web6_js_control_data_store[namespace]['var'][item['name']] = $('#' + item['value_dom']).val()
 
                     if (item['publish'] != undefined) {
-                        __web6_js_control_data_store_global[item['publish']] = __web6_js_control_data_store[namespace]['vars'][item['name']]
+                        __web6_js_control_data_store_global[item['publish']] = __web6_js_control_data_store[namespace]['var'][item['name']]
                     }
 
                     JsControl_UpdateStringsAndData(namespace)
@@ -62,13 +65,13 @@ function JsControl_InitEventHandlers(namespace) {
         }
         // RPC items -- For their specified event type, they execute the RPC
         else if (item['type'] === 'rpc') {
-            $('#'+ data_store['dom_id']).on(item['event'], function (event) {
+            $('#'+ data_store['dom_id']).ready().on(item['event'], function (event) {
                 RPC(JsControl_Get(namespace, item['name']), item['data'])
             })
         }
         // Eval items -- For their specified event type, they execute the arbitrary code
         else if (item['type'] === 'eval') {
-            $('#'+ data_store['dom_id']).on(item['event'], function (event) {
+            $('#'+ data_store['dom_id']).ready().on(item['event'], function (event) {
                 eval(item['eval'])
             })
         }
@@ -85,29 +88,35 @@ function JsControl_UpdateStringsAndData(namespace) {
     //...
 
     // Populate the data from the control_data_list
-    for (var item in data_store['control_data_list']) {
+    for (var item_count in data_store['control_data_list']) {
+        item = data_store['control_data_list'][item_count]
+
         if (item['type'] === 'string') {
             format_string = item['format']
 
             // Vars
-            for (var_item in data_store['vars']) {
-                var_item_value = data_store['vars'][var_item]
-                var_item_key = '{{{' + var_item + '}}}'
+            for (var_item_access_key in data_store['var']) {
+                var_item_value = data_store['var'][var_item_access_key]
+                var_item_key = '[[[' + var_item_access_key + ']]]'
 
+                alert('Var Replace: ' + var_item_key + '  With: ' + var_item_value)
                 format_string = format_string.replace(var_item_key, var_item_value)
             }
 
             // Globals
-            for (var_item in __web6_js_control_data_store_global) {
-                var_item_value = __web6_js_control_data_store_global[var_item]
-                var_item_key = '{{{' + var_item + '}}}'
+            for (var_item_access_key in __web6_js_control_data_store_global) {
+                var_item_value = __web6_js_control_data_store_global[var_item_access_key]
+                var_item_key = '[[[' + var_item_access_key + ']]]'
 
+                alert('Global Replace: ' + var_item_key + '  With: ' + var_item_value)
                 format_string = format_string.replace(var_item_key, var_item_value)
             }
 
-            data_store['string'][item['name']] = format_string
+            data_store['string_format'][item['name']] = format_string
         }
     }
+
+    alert(__web6_js_control_data_store[namespace]['string_format'].toSource())
 }
 
 function JsControl_Get(namespace, key) {
