@@ -20,6 +20,7 @@ function JsControl_Register(namespace, dom_id, control_data_list) {
         __web6_js_control_data_store[namespace]['string'] = new Object()
         __web6_js_control_data_store[namespace]['data'] = new Object()
         __web6_js_control_data_store[namespace]['var'] = new Object()
+        __web6_js_control_data_store[namespace]['dom_element'] = new Object()
     }
 
     // Add all the control data items to the list
@@ -29,6 +30,11 @@ function JsControl_Register(namespace, dom_id, control_data_list) {
         // Add the dom_id here, because we want this to be item specific, but we dont want to have to put it into the item spec, because we dont know the UUID in the spec as that is live data
         if (item['value_dom'] == undefined) {
             item['value_dom'] = dom_id
+        }
+
+        if (__web6_js_control_data_store[namespace]['dom_element'][item['value_dom']] == undefined) {
+            __web6_js_control_data_store[namespace]['dom_element'][item['value_dom']] = new Object()
+            __web6_js_control_data_store[namespace]['dom_element'][item['value_dom']]['on_change_set'] = false
         }
 
         __web6_js_control_data_store[namespace]['control_data_list'].push(item)
@@ -45,29 +51,48 @@ function JsControl_InitEventHandlers(namespace) {
         item = data_store['control_data_list'][item_count]
 
         // Var items -- On change they update the vars data store for this namespace, and then update the Strings and Data
-        if (item['type'] === 'var') {
+        if (item['type'] == 'var') {
             data_store['var'][item['name']] = $('#' + item['value_dom']).val()
 
-            $('#'+ item['dom_id']).ready().on('change', function (event) {
-                __web6_js_control_data_store[namespace]['var'][item['name']] = $('#' + item['value_dom']).val()
+            if (data_store['dom_element'][item['value_dom']]['on_change_set'] == false) {
+                // Only set up 1 on_change per DOM element, per namespace
+                data_store['dom_element'][item['value_dom']]['on_change_set'] = true
 
-                if (item['publish'] != undefined) {
-                    __web6_js_control_data_store_global[item['publish']] = __web6_js_control_data_store[namespace]['var'][item['name']]
-                }
+                alert('Init Var Item: ' + JSON.stringify(item.toSource()) + '   Current Value: ' + $('#' + item['value_dom']).val())
 
-                JsControl_UpdateStringsAndData(namespace)
-            })
+                $('#'+ item['value_dom']).ready().on('change', function (event) {
+                    var local_store = __web6_js_control_data_store[namespace]
+                    local_store['var'][item['name']] = $('#' + item['value_dom']).val()
+
+                    alert('Update Var Item: ' + item['value_dom'] + '  Value: ' + local_store['var'][item['name']] + '  Item Data: '+ JSON.stringify(item.toSource()))
+
+                    if (item['publish'] != undefined) {
+                        __web6_js_control_data_store_global[item['publish']] = local_store['var'][item['name']]
+                    }
+
+                    JsControl_UpdateStringsAndData(namespace)
+
+                    // If this value_dom has evals, execute them now, after we updated this.  Fixes the event ordering issues
+                    for (var eval_count in local_store['control_data_list']) {
+                        eval_item = local_store['control_data_list'][eval_count]
+                        if (eval_item['type'] == 'eval' && eval_item['value_dom'] == item['value_dom']) {
+                            alert('Eval: ' + eval_item['eval'])
+                            eval(eval_item['eval'])
+                        }
+                    }
+
+                    //TODO(g): Do the RPC here, just like evals, so it's all sequential and no event races.  Remove it from below, we dont need that elseif.
+                    //
+                    //...
+                    //
+                })
+            }
         }
         // RPC items -- For their specified event type, they execute the RPC
-        else if (item['type'] === 'rpc') {
-            $('#'+ item['dom_id']).ready().on(item['event'], function (event) {
+        else if (item['type'] == 'rpc') {
+            alert('Init RPC: ' + JSON.stringify(item.toSource()))
+            $('#'+ item['value_dom']).ready().on(item['event'], function (event) {
                 RPC(JsControl_Get(namespace, item['name']), item['data'])
-            })
-        }
-        // Eval items -- For their specified event type, they execute the arbitrary code
-        else if (item['type'] === 'eval') {
-            $('#'+ item['dom_id']).ready().on(item['event'], function (event) {
-                eval(item['eval'])
             })
         }
     }
@@ -79,7 +104,7 @@ function JsControl_InitEventHandlers(namespace) {
 function JsControl_UpdateStringsAndData(namespace) {
     data_store = __web6_js_control_data_store[namespace]
 
-    alert('Data Store: ' + namespace + '  Data: ' + JSON.stringify(data_store.toSource()))
+    // alert('Data Store: ' + namespace + '  Data: ' + JSON.stringify(data_store.toSource()))
 
     //TODO(g): Do data later.  I dont have a use-case for it yet, but it will definitely be implemented as it's useful
     //...
@@ -97,7 +122,7 @@ function JsControl_UpdateStringsAndData(namespace) {
                 var_item_value = data_store['var'][var_item_access_key]
                 var_item_key = '[[[' + var_item_access_key + ']]]'
 
-                alert('Var Replace: ' + var_item_key + '  With: ' + var_item_value)
+                // alert('Var Replace: ' + var_item_key + '  With: ' + var_item_value)
                 format_string = format_string.replace(var_item_key, var_item_value)
             }
 
@@ -106,7 +131,7 @@ function JsControl_UpdateStringsAndData(namespace) {
                 var_item_value = __web6_js_control_data_store_global[var_item_access_key]
                 var_item_key = '[[[' + var_item_access_key + ']]]'
 
-                alert('Global Replace: ' + var_item_key + '  With: ' + var_item_value)
+                // alert('Global Replace: ' + var_item_key + '  With: ' + var_item_value)
                 format_string = format_string.replace(var_item_key, var_item_value)
             }
 
@@ -136,3 +161,8 @@ function JsControl_Get(namespace, key) {
 
     return undefined
 }
+
+function JsControl_SetDom(element_id, value) {
+    $('#'+element_id).val(value);
+}
+
