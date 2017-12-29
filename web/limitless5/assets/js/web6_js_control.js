@@ -9,6 +9,7 @@ License: MIT
 
 var __web6_js_control_data_store = new Object()
 var __web6_js_control_data_store_global = new Object()
+var __web6_js_control_dom_item_lookup = new Object()
 
 
 function JsControl_Register(namespace, dom_id, control_data_list) {
@@ -58,13 +59,18 @@ function JsControl_InitEventHandlers(namespace) {
                 // Only set up 1 on_change per DOM element, per namespace
                 data_store['dom_element'][item['value_dom']]['on_change_set'] = true
 
-                alert('Init Var Item: ' + JSON.stringify(item.toSource()) + '   Current Value: ' + $('#' + item['value_dom']).val())
+                __web6_js_control_dom_item_lookup[item['value_dom']] = item
+
+                // alert('Init Dom: ' + item['value_dom'] +  ' Var Item: ' + JSON.stringify(item.toSource()) + '   Current Value: ' + $('#' + item['value_dom']).val())
 
                 $('#'+ item['value_dom']).ready().on('change', function (event) {
+                    var item_name = $(this).attr('id')
+                    var item = __web6_js_control_dom_item_lookup[item_name]
+
                     var local_store = __web6_js_control_data_store[namespace]
                     local_store['var'][item['name']] = $('#' + item['value_dom']).val()
 
-                    alert('Update Var Item: ' + item['value_dom'] + '  Value: ' + local_store['var'][item['name']] + '  Item Data: '+ JSON.stringify(item.toSource()))
+                    // alert('Update Var Item: ' + item['value_dom'] + '  Value: ' + local_store['var'][item['name']] + '  Item Data: '+ JSON.stringify(item.toSource()))
 
                     if (item['publish'] != undefined) {
                         __web6_js_control_data_store_global[item['publish']] = local_store['var'][item['name']]
@@ -76,7 +82,7 @@ function JsControl_InitEventHandlers(namespace) {
                     for (var eval_count in local_store['control_data_list']) {
                         eval_item = local_store['control_data_list'][eval_count]
                         if (eval_item['type'] == 'eval' && eval_item['value_dom'] == item['value_dom']) {
-                            alert('Eval: ' + eval_item['eval'])
+                            // alert('Eval: ' + eval_item['eval'])
                             eval(eval_item['eval'])
                         }
                     }
@@ -140,7 +146,7 @@ function JsControl_UpdateStringsAndData(namespace) {
         }
     }
 
-    alert('Strings Formatted: ' + JSON.stringify(__web6_js_control_data_store[namespace]['string'].toSource()))
+    // alert('Strings Formatted: ' + JSON.stringify(__web6_js_control_data_store[namespace]['string'].toSource()))
 }
 
 function JsControl_Get(namespace, key) {
@@ -166,3 +172,16 @@ function JsControl_SetDom(element_id, value) {
     $('#'+element_id).val(value);
 }
 
+function LoadIframe(element_id, url) {
+    var $iframe = $('#' + element_id);
+
+    if ( $iframe.length ) {
+        // alert('Setting IFrame DOM: ' + element_id + '  URL: ' + url + '  Current: ' + $iframe.attr('src') + '  Type: ' + $iframe[0].tagName)
+        $iframe.attr('src',url).attr('src');    // Change Source, should trigger reload
+        // $iframe.attr('src', $iframe.attr('src')).attr('src');    // Reload
+
+        // alert('Getting IFrame DOM: ' + element_id + '  URL: ' + $iframe.attr('src'))
+        return false;
+    }
+    return true;
+}
