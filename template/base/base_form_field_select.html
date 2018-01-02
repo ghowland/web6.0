@@ -1,5 +1,5 @@
 <label class="control-label">{{index .Map "label"}}</label>
-<select name="{{index .Map "name"}}" class="selectbox-{{index .Map "name"}}" {{if index .Map "onchange"}}onchange="{{index .Map "onchange"}}"{{end}}>
+<select  id="{{index .Map "uuid"}}_{{index .Map "name"}}_id" name="{{index .Map "name"}}" class="selectbox-{{index .Map "name"}}" {{if index .Map "onchange"}}onchange="{{index .Map "onchange"}}"{{end}}>
 {{index .Map "value"}}
 </select>
 <script>
