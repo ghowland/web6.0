@@ -2,18 +2,14 @@ package main
 
 import (
 	"github.com/ghowland/web6.0/web6"
-	"github.com/ghowland/yudien/yudien"
+	//go RunJobWorkers()
+
 
 	"github.com/jcasts/gosrv"
 )
 
 func main() {
-	////DEBUG: Testing
-	//TestUdn()
-
-	//go RunJobWorkers()
-	web6.LoadConfig()
-	yudien.Configure(&web6.Config.Ldap, &web6.Config.Opsdb)
+	web6.Start()
 
 	s, err := gosrv.NewFromFlag()
 	if err != nil {

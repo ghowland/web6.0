@@ -9,6 +9,8 @@ import (
 	"os/user"
 
 	"github.com/ghowland/yudien/yudien"
+	"github.com/ghowland/yudien/yudiendata"
+	"github.com/ghowland/yudien/yudienutil"
 )
 
 const configFile = "/etc/web6/web6.json"
@@ -19,6 +21,23 @@ type Web6Config struct {
 }
 
 var Config *Web6Config = &Web6Config{}
+
+func Start() {
+	LoadConfig()
+
+	yudien.Configure(&Config.Ldap, &Config.Opsdb)
+
+	yudiendata.ImportSchemaJson("data/schema.json")
+	yudiendata.GenerateSchemaJson("data/schema_out.json")
+
+	// Test data in same format (ordering/sorting)
+	text := yudieutil.ReadPathData("data/schema.json")
+	data_str, _ := yudieutil.JsonLoadMap(text)
+	data  := yudieutil.JsonDump(data_str)
+	yudieutil.WritePathData("data/schema_in.json", data)
+
+	//go RunJobWorkers()
+}
 
 func LoadConfig() {
 	config := configFile
