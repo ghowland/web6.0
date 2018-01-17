@@ -125,15 +125,35 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 	}
 	defer db_web.Close()
 
-	web_site_id := 1
+	web_site_id := int64(1) // Default is 1
 
-	//TODO(g): Get the web_site_domain from host header
-	//web_site_domain_id := 1
+	// Get the web_site_domain from host header
+	host := r.Host
+
+	// Get the domain - splice off the suffix (port_number) or prefix (http://) if present
+	host_parts := strings.Split(host, "http://") // split off http:// prefix if it exists
+	host = host_parts[len(host_parts)-1]
+	host_parts = strings.Split(host, ":") // split off port number if it exists
+	host = host_parts[0]
+
+	// Match the domain name to an entry in web_site_domain
+	sql := fmt.Sprintf("SELECT * FROM web_site_domain WHERE name = '%s'", host)
+	web_site_host_result := Query(db_web, sql)
+
+	if web_site_host_result == nil || len(web_site_host_result) == 0 {
+		UdnError(nil, "Failed to load website domain: %d\n", host)
+		// Rendor 404
+		dynamicPage_404(uri, w, r)
+		return
+	} else {
+		// set the web_site_id from the web_site_domain table
+		web_site_id = web_site_host_result[0]["web_site_id"].(int64)
+	}
 
 	// Get the path to match from the DB
-	sql := fmt.Sprintf("SELECT * FROM web_site WHERE _id = %d", web_site_id)
+	sql = fmt.Sprintf("SELECT * FROM web_site WHERE _id = %d", web_site_id)
 	web_site_result := Query(db_web, sql)
-	if web_site_result == nil {
+	if web_site_result == nil || len(web_site_result) == 0 {
 		UdnError(nil, "Failed to load website: %d\n", web_site_id)
 		// Rendor 404
 		dynamicPage_404(uri, w, r)
