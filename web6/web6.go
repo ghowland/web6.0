@@ -503,6 +503,7 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	}
 
 	// Write out the final page
+	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(buffer.String()))
 
 }
@@ -768,6 +769,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	fmt.Printf("UDN Debug HTML Log: %s\n", html_path)
 
 	// Write out the final page
+	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(base_page.String))
 
 }
@@ -795,5 +797,6 @@ func dynamicPage_404(uri string, w http.ResponseWriter, r *http.Request) {
 		}
 	*/
 
+	w.WriteHeader(http.StatusNotFound)
 	w.Write([]byte(base_html))
 }
