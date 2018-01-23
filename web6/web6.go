@@ -191,8 +191,10 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 		sql = fmt.Sprintf("SELECT _id FROM web_protocol_action WHERE name = '%s'", web_protocol_action)
 		web_protocol_action_id := Query(db_web, sql)[0]["_id"]
 
-		// Get the path to match from the DB - check for specific web protocol
+		// Track the path name to provide use in possible regex in the path name
 		name := SanitizeSQL(short_path)
+
+		// Get the path to match from the DB - check for specific web protocol
 		sql = fmt.Sprintf("SELECT * FROM web_site_api WHERE web_site_id = %d AND name = '%s' AND (web_protocol_action_id = '%d' OR web_protocol_action_id IS NULL)", web_site_id, name, web_protocol_action_id)
 		fmt.Printf("\n\nQuery: %s\n\n", sql)
 		web_site_api_result = Query(db_web, sql)
@@ -200,6 +202,7 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 		if len(web_site_api_result) > 0 {
 			found_api = true
 			web_site_api_entry = web_site_api_result[0]
+			web_site_api_entry["path"] = name
 		} else {
 			// Cannot find any exact matches in web_site_api table - check if we have any "*" matches in the web_site_api_table
 			//Note(z): ("*" becomes ".*" for regex in api names)
@@ -219,10 +222,11 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 					continue
 				}
 
-				if r.MatchString(name) {
+				if r.MatchString(name) && r.FindString(name) == name {
 					found_api = true
 					web_site_api_entry = element
-					break // Match only the first result found
+					web_site_api_entry["path"] = name
+					//break // Match only the first result found
 				}
 			}
 		}
