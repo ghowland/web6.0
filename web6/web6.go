@@ -267,6 +267,7 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 	udn_data["set_cookie"] = make(map[string]interface{})       // Set Cookies.  Any data set in here goes into a cookie.  Will use standard expiration and domain for now.
 	udn_data["set_header"] = make(map[string]interface{})       // Set HTTP Headers.
 	udn_data["set_http_options"] = make(map[string]interface{}) // Any other things we want to control from UDN, we put in here to be processed.  Can be anything, not based on a specific standard.
+	udn_data["http_response_code"] = 200                        // Default
 
 	//TODO(g): Move this so we arent doing it every page load
 
@@ -503,7 +504,7 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	}
 
 	// Write out the final page
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(udn_data["http_response_code"].(int))
 	w.Write([]byte(buffer.String()))
 
 }
@@ -769,7 +770,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	fmt.Printf("UDN Debug HTML Log: %s\n", html_path)
 
 	// Write out the final page
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(udn_data["http_response_code"].(int))
 	w.Write([]byte(base_page.String))
 
 }
