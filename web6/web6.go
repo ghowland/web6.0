@@ -237,8 +237,8 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("\n\nFound API: %v\n\n", web_site_api_entry)
 		dynamicPage_API(db_web, db, web_site, web_site_api_entry, uri, w, r)
 	} else if len(web_site_page_result) > 0 {
-		fmt.Printf("\n\nFound Dynamic Page: %v\n\n", web_site_api_entry)
-		dynamePage_RenderWidgets(db_web, db, web_site, web_site_api_entry, uri, w, r)
+		fmt.Printf("\n\nFound Dynamic Page: %v\n\n", web_site_page_result[0])
+		dynamePage_RenderWidgets(db_web, db, web_site, web_site_page_result[0], uri, w, r)
 	} else {
 		fmt.Printf("\n\nPage not found: 404: %v\n\n", web_site_page_result)
 
