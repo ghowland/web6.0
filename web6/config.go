@@ -17,7 +17,7 @@ const configFile = "/etc/web6/web6.json"
 
 type Web6Config struct {
 	Ldap  yudien.LdapConfig  `json:"ldap"`
-	Opsdb yudien.OpsdbConfig `json:"opsdb"`
+	Opsdb yudiendata.OpsdbConfig `json:"opsdb"`
 }
 
 var Config *Web6Config = &Web6Config{}
