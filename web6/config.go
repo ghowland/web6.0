@@ -17,7 +17,7 @@ const configFile = "/etc/web6/web6.json"
 
 type Web6Config struct {
 	Ldap  yudien.LdapConfig  `json:"ldap"`
-	Opsdb yudien.OpsdbConfig `json:"opsdb"`
+	Opsdb yudiendata.OpsdbConfig `json:"opsdb"`
 }
 
 var Config *Web6Config = &Web6Config{}
@@ -27,14 +27,19 @@ func Start() {
 
 	yudien.Configure(&Config.Ldap, &Config.Opsdb)
 
-	yudiendata.ImportSchemaJson("data/schema.json")
-	yudiendata.GenerateSchemaJson("data/schema_out.json")
+	if false {
+		yudiendata.ImportSchemaJson("data/schema.json")
+		yudiendata.GenerateSchemaJson("data/schema_out.json")
 
-	// Test data in same format (ordering/sorting)
-	text := yudieutil.ReadPathData("data/schema.json")
-	data_str, _ := yudieutil.JsonLoadMap(text)
-	data  := yudieutil.JsonDump(data_str)
-	yudieutil.WritePathData("data/schema_in.json", data)
+		// Test data in same format (ordering/sorting)
+		text := yudieutil.ReadPathData("data/schema.json")
+		data_str, _ := yudieutil.JsonLoadMap(text)
+		data  := yudieutil.JsonDump(data_str)
+		yudieutil.WritePathData("data/schema_in.json", data)
+
+		//yudiendata.DatamanEnsureDatabases(yudiendata.Opsdb.ConnectOptions, yudiendata.Opsdb.Database, "data/schema.json", "data/schema_out.json")
+
+	}
 
 	//go RunJobWorkers()
 }
