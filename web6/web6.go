@@ -24,6 +24,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 	"text/template"
 
@@ -125,15 +126,35 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 	}
 	defer db_web.Close()
 
-	web_site_id := 1
+	web_site_id := int64(1) // Default is 1
 
-	//TODO(g): Get the web_site_domain from host header
-	//web_site_domain_id := 1
+	// Get the web_site_domain from host header
+	host := r.Host
+
+	// Get the domain - splice off the suffix (port_number) or prefix (http://) if present
+	host_parts := strings.Split(host, "http://") // split off http:// prefix if it exists
+	host = host_parts[len(host_parts)-1]
+	host_parts = strings.Split(host, ":") // split off port number if it exists
+	host = host_parts[0]
+
+	// Match the domain name to an entry in web_site_domain
+	sql := fmt.Sprintf("SELECT * FROM web_site_domain WHERE name = '%s'", host)
+	web_site_host_result := Query(db_web, sql)
+
+	if web_site_host_result == nil || len(web_site_host_result) == 0 {
+		UdnError(nil, "Failed to load website domain: %d\n", host)
+		// Rendor 404
+		dynamicPage_404(uri, w, r)
+		return
+	} else {
+		// set the web_site_id from the web_site_domain table
+		web_site_id = web_site_host_result[0]["web_site_id"].(int64)
+	}
 
 	// Get the path to match from the DB
-	sql := fmt.Sprintf("SELECT * FROM web_site WHERE _id = %d", web_site_id)
+	sql = fmt.Sprintf("SELECT * FROM web_site WHERE _id = %d", web_site_id)
 	web_site_result := Query(db_web, sql)
-	if web_site_result == nil {
+	if web_site_result == nil || len(web_site_result) == 0 {
 		UdnError(nil, "Failed to load website: %d\n", web_site_id)
 		// Rendor 404
 		dynamicPage_404(uri, w, r)
@@ -156,6 +177,8 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 	// Check if this is a match for an API call
 	found_api := false
 	web_site_api_result := make([]map[string]interface{}, 0)
+	web_site_api_entry := make(map[string]interface{})
+
 	if web_site["api_prefix_path"] == nil || strings.HasPrefix(uri, web_site["api_prefix_path"].(string)) {
 		short_path := uri
 		if web_site["api_prefix_path"] != nil {
@@ -168,29 +191,51 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 		sql = fmt.Sprintf("SELECT _id FROM web_protocol_action WHERE name = '%s'", web_protocol_action)
 		web_protocol_action_id := Query(db_web, sql)[0]["_id"]
 
+		// Track the path name to provide use in possible regex in the path name
+		name := SanitizeSQL(short_path)
+
 		// Get the path to match from the DB - check for specific web protocol
-		sql = fmt.Sprintf("SELECT * FROM web_site_api WHERE web_site_id = %d AND name = '%s' AND web_protocol_action_id = '%d'", web_site_id, SanitizeSQL(short_path), web_protocol_action_id)
+		sql = fmt.Sprintf("SELECT * FROM web_site_api WHERE web_site_id = %d AND name = '%s' AND (web_protocol_action_id = '%d' OR web_protocol_action_id IS NULL)", web_site_id, name, web_protocol_action_id)
 		fmt.Printf("\n\nQuery: %s\n\n", sql)
 		web_site_api_result = Query(db_web, sql)
 
 		if len(web_site_api_result) > 0 {
 			found_api = true
+			web_site_api_entry = web_site_api_result[0]
+			web_site_api_entry["path"] = name
 		} else {
-			// Check if there is a general web_site_api entry without specified web protocol
-			sql = fmt.Sprintf("SELECT * FROM web_site_api WHERE web_site_id = %d AND name = '%s' AND web_protocol_action_id IS NULL", web_site_id, SanitizeSQL(short_path))
-			fmt.Printf("\n\nQuery: %s\n\n", sql)
+			// Cannot find any exact matches in web_site_api table - check if we have any "*" matches in the web_site_api_table
+			//Note(z): ("*" becomes ".*" for regex in api names)
+			//TODO(z): implement full Regex?
+			// ex: /api/*/graph could have any string that substitutes the * like .*
+			grep_pattern := "%*%"
+			sql = fmt.Sprintf("SELECT * FROM web_site_api WHERE web_site_id = %d AND name LIKE '%s' AND (web_protocol_action_id = '%d' OR web_protocol_action_id IS NULL)", web_site_id, grep_pattern, web_protocol_action_id)
+
+			// Go through each of the search results and check if there are any matching regex expressions in the web_site_api table
 			web_site_api_result = Query(db_web, sql)
 
-			if len(web_site_api_result) > 0 {
-				found_api = true
+			for _, element := range web_site_api_result {
+				current_exp := strings.Replace(element["name"].(string), "*", ".*", -1)
+				r, err := regexp.Compile(current_exp)
+
+				if err != nil {
+					continue
+				}
+
+				if r.MatchString(name) && r.FindString(name) == name {
+					found_api = true
+					web_site_api_entry = element
+					web_site_api_entry["path"] = name
+					//break // Match only the first result found
+				}
 			}
 		}
 	}
 
 	// If we found a matching page
 	if found_api {
-		fmt.Printf("\n\nFound API: %v\n\n", web_site_api_result[0])
-		dynamicPage_API(db_web, db, web_site, web_site_api_result[0], uri, w, r)
+		fmt.Printf("\n\nFound API: %v\n\n", web_site_api_entry)
+		dynamicPage_API(db_web, db, web_site, web_site_api_entry, uri, w, r)
 	} else if len(web_site_page_result) > 0 {
 		fmt.Printf("\n\nFound Dynamic Page: %v\n\n", web_site_page_result[0])
 		dynamePage_RenderWidgets(db_web, db, web_site, web_site_page_result[0], uri, w, r)
@@ -222,6 +267,7 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 	udn_data["set_cookie"] = make(map[string]interface{})       // Set Cookies.  Any data set in here goes into a cookie.  Will use standard expiration and domain for now.
 	udn_data["set_header"] = make(map[string]interface{})       // Set HTTP Headers.
 	udn_data["set_http_options"] = make(map[string]interface{}) // Any other things we want to control from UDN, we put in here to be processed.  Can be anything, not based on a specific standard.
+	udn_data["http_response_code"] = 200                        // Default
 
 	//TODO(g): Move this so we arent doing it every page load
 
@@ -378,6 +424,22 @@ func GetHTTPParams(r *http.Request) map[string]interface{} {
 func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_api map[string]interface{}, uri string, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
+	// Check if there are any headers to be set for http.ResponseWriter specified by the api function (ex: grafana cors headers)
+	if web_site_api["header_data_json"] != nil {
+
+		header_data_bytes := []byte(web_site_api["header_data_json"].(string))
+
+		var header_data_map interface{}
+
+		err := json.Unmarshal(header_data_bytes, &header_data_map)
+
+		if err == nil { // if there is an error, do nothing
+			for key, value := range header_data_map.(map[string]interface{}) {
+				w.Header().Set(key, value.(string))
+			}
+		}
+	}
+
 	// Get UDN starting data values
 	web_protocol_action := r.Method
 	request_body := r.Body
@@ -442,6 +504,7 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	}
 
 	// Write out the final page
+	w.WriteHeader(udn_data["http_response_code"].(int))
 	w.Write([]byte(buffer.String()))
 
 }
@@ -472,10 +535,10 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 	base_page_html := base_widgets[0]["html"].(string)
 	/*
-	base_page_html, err := ioutil.ReadFile(base_widgets[0]["path"].(string))
-	if err != nil {
-		log.Panic(err)
-	}*/
+		base_page_html, err := ioutil.ReadFile(base_widgets[0]["path"].(string))
+		if err != nil {
+			log.Panic(err)
+		}*/
 
 	// Get UDN starting data values
 	web_protocol_action := r.Method
@@ -604,10 +667,10 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 			item_html := page_widget["html"].(string)
 			/*
-			item_html, err := ioutil.ReadFile(page_widget["path"].(string))
-			if err != nil {
-				log.Panic(err)
-			}*/
+				item_html, err := ioutil.ReadFile(page_widget["path"].(string))
+				if err != nil {
+					log.Panic(err)
+				}*/
 
 			//TODO(g): Replace reading from the "path" above with the "html" stored in the DB, so it can be edited and displayed live
 			//item_html := page_widget.Map["html"].(string)
@@ -707,6 +770,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	fmt.Printf("UDN Debug HTML Log: %s\n", html_path)
 
 	// Write out the final page
+	w.WriteHeader(udn_data["http_response_code"].(int))
 	w.Write([]byte(base_page.String))
 
 }
@@ -728,11 +792,12 @@ func dynamicPage_404(uri string, w http.ResponseWriter, r *http.Request) {
 	base_html := base_widgets[0]["html"].(string)
 
 	/*
-	base_html, err := ioutil.ReadFile("web/limitless5/error_404.html")
-	if err != nil {
-		log.Panic(err)
-	}
+		base_html, err := ioutil.ReadFile("web/limitless5/error_404.html")
+		if err != nil {
+			log.Panic(err)
+		}
 	*/
 
+	w.WriteHeader(http.StatusNotFound)
 	w.Write([]byte(base_html))
 }
