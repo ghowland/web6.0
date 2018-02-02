@@ -3157,6 +3157,24 @@
                   "not_null": true,
                   "provision_state": 3
                 },
+                "parent": {
+                  "name": "parent",
+                  "field_type": "_int",
+                  "relation": {
+                    "collection": "schema",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                },
+                "parent_schema_table_field": {
+                  "name": "parent_schema_table_field",
+                  "field_type": "_int",
+                  "relation": {
+                    "collection": "schema_table_field",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                },
                 "schema_type_map_id": {
                   "name": "schema_type_map_id",
                   "field_type": "_int",
@@ -3261,6 +3279,11 @@
                   "field_type": "_json",
                   "provision_state": 3
                 },
+                "info": {
+                  "name": "info",
+                  "field_type": "_text",
+                  "provision_state": 3
+                },
                 "name": {
                   "name": "name",
                   "field_type": "_string",
@@ -3318,6 +3341,8 @@
                 "allow_null": {
                   "name": "allow_null",
                   "field_type": "_bool",
+                  "not_null": true,
+                  "default": true,
                   "provision_state": 3
                 },
                 "argument_type_id": {
@@ -3353,9 +3378,16 @@
                   "field_type": "_string",
                   "provision_state": 3
                 },
+                "info": {
+                  "name": "info",
+                  "field_type": "_text",
+                  "provision_state": 3
+                },
                 "is_primary_key": {
                   "name": "is_primary_key",
                   "field_type": "_bool",
+                  "not_null": true,
+                  "default": false,
                   "provision_state": 3
                 },
                 "label_default": {
@@ -3386,11 +3418,13 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "not_null": true,
                   "provision_state": 3
                 },
                 "schema_table_id": {
                   "name": "schema_table_id",
                   "field_type": "_int",
+                  "not_null": true,
                   "relation": {
                     "collection": "schema_table",
                     "field": "_id"
@@ -3422,6 +3456,14 @@
                   "fields": [
                     "schema_table_id",
                     "name"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
+                "schema_table_field_id_key": {
+                  "name": "schema_table_field_id_key",
+                  "fields": [
+                    "_id"
                   ],
                   "unique": true,
                   "provision_state": 3
@@ -5998,6 +6040,11 @@
                   "default": true,
                   "provision_state": 3
                 },
+                "header_data_json": {
+                  "name": "header_data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
                 "info": {
                   "name": "info",
                   "field_type": "_text",
@@ -6040,6 +6087,14 @@
                 }
               },
               "indexes": {
+                "web_site_api_id_key": {
+                  "name": "web_site_api_id_key",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
                 "web_site_api_pkey": {
                   "name": "web_site_api_pkey",
                   "fields": [
@@ -6057,6 +6112,112 @@
                     "web_protocol_action_id"
                   ],
                   "unique": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "web_site_api_report": {
+              "name": "web_site_api_report",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "info": {
+                  "name": "info",
+                  "field_type": "_text",
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "static_data_json": {
+                  "name": "static_data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "udn_data_json": {
+                  "name": "udn_data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "web_site_api_id": {
+                  "name": "web_site_api_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "relation": {
+                    "collection": "web_site_api",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                },
+                "web_site_api_report_type_id": {
+                  "name": "web_site_api_report_type_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "relation": {
+                    "collection": "web_site_api_report_type",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "web_site_api_report_pkey": {
+                  "name": "web_site_api_report_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "web_site_api_report_type": {
+              "name": "web_site_api_report_type",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "info": {
+                  "name": "info",
+                  "field_type": "_text",
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "web_site_api_report_type_id_key": {
+                  "name": "web_site_api_report_type_id_key",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
+                "web_site_api_report_type_pkey": {
+                  "name": "web_site_api_report_type_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
                   "provision_state": 3
                 }
               },
