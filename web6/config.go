@@ -27,7 +27,7 @@ func Start() {
 
 	yudien.Configure(&Config.Ldap, &Config.Opsdb)
 
-	if false {
+	if true {
 		yudiendata.ImportSchemaJson("data/schema.json")
 		yudiendata.GenerateSchemaJson("data/schema_out.json")
 
