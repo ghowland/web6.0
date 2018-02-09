@@ -23,7 +23,7 @@
   branch = "master"
   name = "github.com/ghowland/yudien"
   packages = ["yudien","yudiencore","yudiendata","yudienutil"]
-  revision = "d5d3ab8f4c574c4608a2354d02f11a015a0f894f"
+  revision = "39958aa8bfce0e2f2584a33094c5c21c5763914f"
 
 [[projects]]
   branch = "master"
@@ -54,6 +54,18 @@
   name = "github.com/lib/pq"
   packages = [".","oid"]
   revision = "017e4c14d80628353eaee677a1aeffe47a10c0dc"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/mitchellh/copystructure"
+  packages = ["."]
+  revision = "d23ffcb85de31694d6ccaa23ccb4a03e55c1303f"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/mitchellh/reflectwalk"
+  packages = ["."]
+  revision = "63d60e9d0dbc60cf9164e6510889b0db6683d98c"
 
 [[projects]]
   branch = "master"
@@ -118,6 +130,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "5d7571d04d7d7cc6061e59a72a2ec02fe2ca373e73528373d8751623459ef4f6"
+  inputs-digest = "57b6917ec5137edad7ca840dc5e30f0a619a67b60e2952194bf3214d2aa6805f"
   solver-name = "gps-cdcl"
   solver-version = 1
