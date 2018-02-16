@@ -27,7 +27,7 @@ func Start() {
 
 	yudien.Configure(&Config.Ldap, &Config.Opsdb)
 
-	if true {
+	if false {
 		yudiendata.ImportSchemaJson("data/schema.json")
 		yudiendata.GenerateSchemaJson("data/schema_out.json")
 
@@ -37,9 +37,13 @@ func Start() {
 		data  := yudieutil.JsonDump(data_str)
 		yudieutil.WritePathData("data/schema_in.json", data)
 
-		//yudiendata.DatamanEnsureDatabases(yudiendata.Opsdb.ConnectOptions, yudiendata.Opsdb.Database, "data/schema.json", "data/schema_out.json")
+		fmt.Printf("\n\nEnsure DB\n\n")
+
+		yudiendata.DatamanEnsureDatabases(yudiendata.Opsdb.ConnectOptions, yudiendata.Opsdb.Database, "data/schema.json", "data/schema_out.json")
 
 	}
+
+	fmt.Printf("Finished starting...\n")
 
 	//go RunJobWorkers()
 }

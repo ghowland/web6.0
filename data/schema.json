@@ -3175,6 +3175,11 @@
                   },
                   "provision_state": 3
                 },
+                "provision_status": {
+                  "name": "provision_status",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
                 "schema_type_map_id": {
                   "name": "schema_type_map_id",
                   "field_type": "_int",
@@ -3287,6 +3292,11 @@
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "provision_state": 3
+                },
+                "provision_status": {
+                  "name": "provision_status",
+                  "field_type": "_int",
                   "provision_state": 3
                 },
                 "schema_id": {
@@ -3419,6 +3429,11 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "provision_state": 3
+                },
+                "provision_status": {
+                  "name": "provision_status",
+                  "field_type": "_int",
                   "provision_state": 3
                 },
                 "schema_table_id": {
