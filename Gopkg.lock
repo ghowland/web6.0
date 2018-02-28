@@ -22,13 +22,29 @@
 [[projects]]
   branch = "master"
   name = "github.com/ghowland/yudien"
-  packages = ["yudien","yudiencore","yudiendata","yudienutil"]
-  revision = "39284eef49a5944a52252c97bce7852d444d606c"
+  packages = [
+    "yudien",
+    "yudiencore",
+    "yudiendata",
+    "yudienutil"
+  ]
+  revision = "9451d84a443618f73ff28a475c17b44849f4dbcf"
 
 [[projects]]
   branch = "master"
   name = "github.com/jacksontj/dataman"
-  packages = ["src/datamantype","src/httputil","src/query","src/router_node/functiondefault","src/router_node/sharding","src/storage_node","src/storage_node/datasource","src/storage_node/datasource/pgstore","src/storage_node/metadata","src/storage_node/metadata/filter"]
+  packages = [
+    "src/datamantype",
+    "src/httputil",
+    "src/query",
+    "src/router_node/functiondefault",
+    "src/router_node/sharding",
+    "src/storage_node",
+    "src/storage_node/datasource",
+    "src/storage_node/datasource/pgstore",
+    "src/storage_node/metadata",
+    "src/storage_node/metadata/filter"
+  ]
   revision = "25e72fe46f2a38bd5ae368da14b7bbd9994d722d"
 
 [[projects]]
@@ -52,8 +68,23 @@
 [[projects]]
   branch = "master"
   name = "github.com/lib/pq"
-  packages = [".","oid"]
+  packages = [
+    ".",
+    "oid"
+  ]
   revision = "017e4c14d80628353eaee677a1aeffe47a10c0dc"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/mitchellh/copystructure"
+  packages = ["."]
+  revision = "d23ffcb85de31694d6ccaa23ccb4a03e55c1303f"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/mitchellh/reflectwalk"
+  packages = ["."]
+  revision = "63d60e9d0dbc60cf9164e6510889b0db6683d98c"
 
 [[projects]]
   branch = "master"
@@ -64,7 +95,10 @@
 [[projects]]
   branch = "master"
   name = "github.com/rcrowley/go-metrics"
-  packages = [".","exp"]
+  packages = [
+    ".",
+    "exp"
+  ]
   revision = "1f30fe9094a513ce4c700b9a54458bbb0c96996c"
 
 [[projects]]
@@ -94,7 +128,10 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
-  packages = ["unix","windows"]
+  packages = [
+    "unix",
+    "windows"
+  ]
   revision = "686000749eaec0b8855b8eef5336cf63899fe51d"
 
 [[projects]]
@@ -118,6 +155,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "5d7571d04d7d7cc6061e59a72a2ec02fe2ca373e73528373d8751623459ef4f6"
+  inputs-digest = "57b6917ec5137edad7ca840dc5e30f0a619a67b60e2952194bf3214d2aa6805f"
   solver-name = "gps-cdcl"
   solver-version = 1
