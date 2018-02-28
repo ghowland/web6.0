@@ -22,3 +22,7 @@ bin/
 
 # virtualgo is local
 *.virtualgo
+
+#InteliJ
+.idea/
+*.iml
