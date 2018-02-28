@@ -19,3 +19,7 @@ bin/
 
 # build output
 *.deb
+
+#InteliJ
+.idea/
+*.iml
