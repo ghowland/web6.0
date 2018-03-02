@@ -170,7 +170,6 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 
 	// Get the path to match from the DB
 	sql = fmt.Sprintf("SELECT * FROM web_site_page WHERE web_site_id = %d AND name = '%s'", web_site_id, SanitizeSQL(uri))
-	fmt.Printf("\n\nQuery: %s\n\n", sql)
 	web_site_page_result := Query(db_web, sql)
 	fmt.Printf("\n\nWeb Page Results: %v\n\n", web_site_page_result)
 
@@ -196,7 +195,6 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 
 		// Get the path to match from the DB - check for specific web protocol
 		sql = fmt.Sprintf("SELECT * FROM web_site_api WHERE web_site_id = %d AND name = '%s' AND (web_protocol_action_id = '%d' OR web_protocol_action_id IS NULL)", web_site_id, name, web_protocol_action_id)
-		fmt.Printf("\n\nQuery: %s\n\n", sql)
 		web_site_api_result = Query(db_web, sql)
 
 		if len(web_site_api_result) > 0 {
