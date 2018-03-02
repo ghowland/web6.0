@@ -28,7 +28,7 @@
     "yudiendata",
     "yudienutil"
   ]
-  revision = "9451d84a443618f73ff28a475c17b44849f4dbcf"
+  revision = "11e840dab7efd18b84b76a0a469e0a8e3b920d79"
 
 [[projects]]
   branch = "master"
