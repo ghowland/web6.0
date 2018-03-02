@@ -1,0 +1,57 @@
+<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker/daterangepicker.js"></script>
+
+<div id="DataTables_Table_0_filter" class="dataTables_filter">
+    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+    <input type="text" id="report_range" value="10/24/1984" />
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        // Check if the start/end dates are specified in url params - if so, set that as the default start/end dates
+        var url = new URL(location.href)
+        var url_start_date = url.searchParams.get("start_date")
+        var url_end_date = url.searchParams.get("end_date")
+
+        // Default is current month - change or template when there is use case
+        var default_start = moment().startOf('month');
+        var default_end = moment().endOf('month');
+
+        if (url_start_date != null) {
+            default_start = new Date(url_start_date)
+        }
+        if (url_end_date != null) {
+            default_end = new Date(url_end_date)
+        }
+
+        function CallBack(start, end, label) {
+            // Refresh the page with the start and end date parameters added
+            //TODO(z): Add dynamic parameters when there is use case (ex: you want to refresh a page but with parameters other than the start/end date)
+
+            var start_timestamp = moment.unix(start/1000) // ms to s
+            var end_timestamp = moment.unix(end/1000)
+
+            var start_date = start_timestamp.format('YYYY-MM-DD hh:mm:ss')
+            var end_date = end_timestamp.format('YYYY-MM-DD hh:mm:ss')
+
+            var current_page_location = location.protocol + '//' + location.host + location.pathname
+            var current_page_url = current_page_location + encodeURI('?start_date=' + start_date + '&end_date=' + end_date);
+
+            window.location.replace(current_page_url);
+        }
+
+        $('#report_range').daterangepicker({
+            linkedCalendars: false,
+            startDate: default_start,
+            endDate: default_end,
+            ranges: {
+                'This Week': [moment().startOf('week'), moment().endOf('week')],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'This Year': [moment().startOf('year'), moment().endOf('year')],
+                'Last Year': [moment().subtract(1, 'year').startOf('year'), moment()],
+                'Last 3 Years': [moment().subtract(2, 'year').startOf('year'), moment()],
+                'Last 10 Years': [moment().subtract(10, 'year').startOf('year'), moment()]
+            }
+        }, CallBack);
+    });
+</script>
