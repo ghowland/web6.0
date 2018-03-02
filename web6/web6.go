@@ -517,11 +517,13 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	sql = fmt.Sprintf("SELECT * FROM web_site_page_widget WHERE _id = %d", web_site_page["base_page_web_site_page_widget_id"])
 	base_page_widgets := Query(db_web, sql)
 
-	// If we couldnt find the page, quit (404)
+	// If we couldnt find the base_page_widget, we cannot render the any page for the website - return internal server error
 	if len(base_page_widgets) < 1 {
-		fmt.Printf("No base page widgets found, going 404\n")
+		//TODO(z): Create web page generation for internal server error with dynamic info about the error
+		fmt.Printf("No base page widgets found, returning internal server error 500\n")
 
-		dynamicPage_404(uri, w, r)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("500 Internal Server Error. Base page cannot be found."))
 		return
 	}
 
