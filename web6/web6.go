@@ -815,7 +815,8 @@ func dynamicPage_500(error_msg string, w http.ResponseWriter, r *http.Request) {
 func recoverError_500(w http.ResponseWriter, r *http.Request) {
 	// Recover from internal panics until we could guarantee no panics
 	if recover := recover(); recover != nil {
-		error_message := fmt.Sprintf("Internal panic: %v", recover)
-		dynamicPage_500(error_message, w, r)
+		//TODO(z): Add config option to include recover stack msg if needed
+		//error_message := fmt.Sprintf("Internal panic: %v", recover)
+		dynamicPage_500("", w, r)
 	}
 }
