@@ -47,8 +47,10 @@ const (
 
 // Core Web Page Handler.  All other routing occurs inside this function.
 func Handler(w http.ResponseWriter, r *http.Request) {
-
-	//url := fmt.Sprintf("%s", r.URL)
+	// Defer-recover for panics by returning a 500 internal server error (until we can guarantee no panics)
+	// This way there is no connection reset for the user
+	// Note that this will not recover from go routines when we implement concurrency in the future
+	defer recoverError_500(w, r)
 
 	url := r.URL.RequestURI()
 
@@ -519,11 +521,9 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 	// If we couldnt find the base_page_widget, we cannot render the any page for the website - return internal server error
 	if len(base_page_widgets) < 1 {
-		//TODO(z): Create web page generation for internal server error with dynamic info about the error
 		fmt.Printf("No base page widgets found, returning internal server error 500\n")
 
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("500 Internal Server Error. Base page cannot be found."))
+		dynamicPage_500("Base page cannot be found.", w, r)
 		return
 	}
 
@@ -800,4 +800,22 @@ func dynamicPage_404(uri string, w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusNotFound)
 	w.Write([]byte(base_html))
+}
+
+func dynamicPage_500(error_msg string, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
+
+	//TODO(z): Create a formatted 500 Internal Server Error html page like dynamicPage_404 and return that instead of text
+	error_response := fmt.Sprintf("500 Internal Error. %v", error_msg)
+
+	w.WriteHeader(http.StatusInternalServerError)
+	w.Write([]byte(error_response))
+}
+
+func recoverError_500(w http.ResponseWriter, r *http.Request) {
+	// Recover from internal panics until we could guarantee no panics
+	if recover := recover(); recover != nil {
+		error_message := fmt.Sprintf("Internal panic: %v", recover)
+		dynamicPage_500(error_message, w, r)
+	}
 }
