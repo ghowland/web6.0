@@ -45,6 +45,15 @@ const (
 	type_map          = iota // map[string]interface{}
 )
 
+const ( // order matters for log levels
+	log_off   = iota
+	log_error = iota
+	log_warn  = iota
+	log_info  = iota
+	log_debug = iota
+	log_trace = iota
+)
+
 // Core Web Page Handler.  All other routing occurs inside this function.
 func Handler(w http.ResponseWriter, r *http.Request) {
 	// Defer-recover for panics by returning a 500 internal server error (until we can guarantee no panics)
@@ -112,7 +121,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("Connecting to: %s\n", Config.Opsdb.ConnectOptions)
+	UdnLogLevel(nil, log_info, "Connecting to: %s\n", Config.Opsdb.ConnectOptions)
 
 	// DB
 	db, err := sql.Open("postgres", Config.Opsdb.ConnectOptions)
@@ -163,17 +172,17 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Printf("Type: %T\n\n", web_site_result)
+	UdnLogLevel(nil, log_debug, "Type: %T\n\n", web_site_result)
 
 	web_site_row := web_site_result[0]
 	web_site := web_site_row
 
-	fmt.Printf("\n\nGetting Web Site Page from URI: %s\n\n", uri)
+	UdnLogLevel(nil, log_info, "\n\nGetting Web Site Page from URI: %s\n\n", uri)
 
 	// Get the path to match from the DB
 	sql = fmt.Sprintf("SELECT * FROM web_site_page WHERE web_site_id = %d AND name = '%s'", web_site_id, SanitizeSQL(uri))
 	web_site_page_result := Query(db_web, sql)
-	fmt.Printf("\n\nWeb Page Results: %v\n\n", web_site_page_result)
+	UdnLogLevel(nil, log_info, "\n\nWeb Page Results: %v\n\n", web_site_page_result)
 
 	// Check if this is a match for an API call
 	found_api := false
@@ -234,13 +243,13 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 
 	// If we found a matching page
 	if found_api {
-		fmt.Printf("\n\nFound API: %v\n\n", web_site_api_entry)
+		UdnLogLevel(nil, log_info, "\n\nFound API: %v\n\n", web_site_api_entry)
 		dynamicPage_API(db_web, db, web_site, web_site_api_entry, uri, w, r)
 	} else if len(web_site_page_result) > 0 {
-		fmt.Printf("\n\nFound Dynamic Page: %v\n\n", web_site_page_result[0])
+		UdnLogLevel(nil, log_info, "\n\nFound Dynamic Page: %v\n\n", web_site_page_result[0])
 		dynamePage_RenderWidgets(db_web, db, web_site, web_site_page_result[0], uri, w, r)
 	} else {
-		fmt.Printf("\n\nPage not found: 404: %v\n\n", web_site_page_result)
+		UdnLogLevel(nil, log_info, "\n\nPage not found: 404: %v\n\n", web_site_page_result)
 
 		dynamicPage_404(uri, w, r)
 	}
@@ -318,7 +327,7 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 			session := session_rows[0]
 			user_id := session["user_id"]
 
-			fmt.Printf("Found User ID: %d  Session: %v\n\n", user_id, session)
+			UdnLogLevel(nil, log_info, "Found User ID: %d  Session: %v\n\n", user_id, session)
 
 			// Load session from json_data
 			target_map := make(map[string]interface{})
@@ -329,7 +338,7 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 				}
 			}
 
-			fmt.Printf("Session Data: %v\n\n", target_map)
+			UdnLogLevel(nil, log_debug, "Session Data: %v\n\n", target_map)
 
 			udn_data["session"] = target_map
 
@@ -349,7 +358,7 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 					}
 				}
 			}
-			fmt.Printf("User Data: %v\n\n", target_map_user)
+			UdnLogLevel(nil, log_info, "User Data: %v\n\n", target_map_user)
 
 			udn_data["user_data"] = target_map_user
 		}
@@ -372,7 +381,7 @@ func SetCookies(cookie_map map[string]interface{}, w http.ResponseWriter, r *htt
 		new_cookie.Path = "/"
 		http.SetCookie(w, &new_cookie)
 
-		fmt.Printf("** Setting COOKIE: %s = %s\n", key, value)
+		UdnLogLevel(nil, log_info, "** Setting COOKIE: %s = %s\n", key, value)
 	}
 }
 
@@ -452,9 +461,9 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 
 	// Output params if logging is allowed
 	if udn_data["web_site_page"].(map[string]interface{})["allow_logging"].(bool) {
-		fmt.Printf("Starting UDN Data: %s\n\n", SnippetData(udn_data, 120))
+		UdnLogLevel(nil, log_debug, "Starting UDN Data: %s\n\n", SnippetData(udn_data, 120))
 
-		fmt.Printf("Params: %s\n\n", SnippetData(param_map, 600))
+		UdnLogLevel(nil, log_debug, "Params: %s\n\n", SnippetData(param_map, 600))
 	}
 
 	// Get the base widget
@@ -483,7 +492,7 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	if web_site_api["udn_data_json"] != nil {
 		ProcessSchemaUDNSet(db_web, udn_schema, web_site_api["udn_data_json"].(string), udn_data)
 	} else {
-		fmt.Printf("UDN Execution: API: %s: None\n\n", web_site_api["name"])
+		UdnLogLevel(nil, log_debug, "UDN Execution: API: %s: None\n\n", web_site_api["name"])
 	}
 
 	// Set Cookies
@@ -494,13 +503,13 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	body, _ := json.Marshal(udn_data["set_api_result"])
 	buffer.Write(body)
 
-	fmt.Printf("Writing API body: %s\n\n", body)
+	UdnLogLevel(nil, log_info, "Writing API body: %s\n\n", body)
 
 	// Write out our output as HTML
 	html_path := UdnDebugWriteHtml(udn_schema)
 
 	if udn_schema["allow_logging"].(bool) {
-		fmt.Printf("UDN Debug HTML Log: %s\n", html_path)
+		UdnLogLevel(nil, log_info, "UDN Debug HTML Log: %s\n", html_path)
 	}
 
 	// Write out the final page
@@ -521,7 +530,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 	// If we couldnt find the base_page_widget, we cannot render the any page for the website - return internal server error
 	if len(base_page_widgets) < 1 {
-		fmt.Printf("No base page widgets found, returning internal server error 500\n")
+		UdnLogLevel(nil, log_error, "No base page widgets found, returning internal server error 500\n")
 
 		dynamicPage_500("Base page cannot be found.", w, r)
 		return
@@ -550,7 +559,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	// Get our starting UDN data
 	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_page, uri, web_protocol_action, request_body, param_map, header_map, cookie_array)
 
-	fmt.Printf("Starting UDN Data: %v\n\n", udn_data)
+	UdnLogLevel(nil, log_debug, "Starting UDN Data: %v\n\n", udn_data)
 
 	// Get the base widget
 	sql = fmt.Sprintf("SELECT * FROM web_widget")
@@ -629,7 +638,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 			page_widgets := Query(db_web, sql)
 			page_widget = page_widgets[0]
 
-			fmt.Printf("Page Widget: %s: %s\n", site_page_widget["name"], page_widget["name"])
+			UdnLogLevel(nil, log_debug, "Page Widget: %s: %s\n", site_page_widget["name"], page_widget["name"])
 
 			// wigdet_map has all the UDN operations we will be using to embed child-widgets into this widget
 			//TODO(g): We need to use the page_map data here too, because we need to template in the sub-widgets.  Think about this after testing it as-is...
@@ -644,7 +653,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 			if site_page_widget["udn_data_json"] != nil {
 				ProcessSchemaUDNSet(db_web, udn_schema, site_page_widget["udn_data_json"].(string), udn_data)
 			} else {
-				fmt.Printf("UDN Execution: %s: None\n\n", site_page_widget["name"])
+				UdnLogLevel(nil, log_info, "UDN Execution: %s: None\n\n", site_page_widget["name"])
 			}
 
 			// Process the Widget's Rendering UDN statements (singles)
@@ -746,7 +755,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 		}
 	}
 
-	fmt.Println("Rendering base page")
+	UdnLogLevel(nil, log_info, "Rendering base page\n")
 
 	// Put them into the base page
 	base_page_template := template.Must(template.New("text").Parse(string(base_page_html)))
@@ -767,7 +776,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 	// Write out our output as HTML
 	html_path := UdnDebugWriteHtml(udn_schema)
-	fmt.Printf("UDN Debug HTML Log: %s\n", html_path)
+	UdnLogLevel(nil, log_info, "UDN Debug HTML Log: %s\n", html_path)
 
 	// Write out the final page
 	w.WriteHeader(udn_data["http_response_code"].(int))
