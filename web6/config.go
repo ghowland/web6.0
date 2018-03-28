@@ -17,7 +17,9 @@ const configFile = "/etc/web6/web6.json"
 
 type Web6Config struct {
 	Ldap  yudien.LdapConfig  `json:"ldap"`
-	Opsdb yudiendata.OpsdbConfig `json:"opsdb"`
+	Opsdb yudiendata.OpsdbConfig `json:"default"`
+	Databases yudiendata.OpsdbConfig `json:"databases"`
+	LdapOverride yudiendata.OpsdbConfig `json:"ldap_override"`
 }
 
 var Config *Web6Config = &Web6Config{}
@@ -39,7 +41,7 @@ func Start() {
 
 		fmt.Printf("\n\nEnsure DB\n\n")
 
-		yudiendata.DatamanEnsureDatabases(yudiendata.Opsdb.ConnectOptions, yudiendata.Opsdb.Database, "data/schema.json", "data/schema_out.json")
+		yudiendata.DatamanEnsureDatabases(yudiendata.Opsdb.ConnectOptions, yudiendata.Opsdb.Database, yudiendata.Opsdb.Schema, "data/schema_out.json")
 
 	}
 
@@ -54,6 +56,7 @@ func LoadConfig() {
 	if err != nil {
 		usr, _ := user.Current()
 		homedir := usr.HomeDir
+		// This is the developer version.  The configFile is the production version
 		config = fmt.Sprintf("%s/secure/web6.json", homedir)
 		_, err := os.Stat(config)
 		if err != nil {
