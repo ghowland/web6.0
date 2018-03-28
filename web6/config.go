@@ -18,7 +18,7 @@ const configFile = "/etc/web6/web6.json"
 
 type Web6Config struct {
 	//Ldap  yudien.LdapConfig  `json:"ldap"`
-	Opsdb yudiendata.DatabaseConfig `json:"default_database"`
+	DefaultDatabase yudiendata.DatabaseConfig `json:"default_database"`
 	Databases map[string]yudiendata.DatabaseConfig `json:"databases"`
 	LdapOverride yudiendata.DatabaseConfig `json:"ldap_override"`
 	Authentication yudien.AuthenticationConfig `json:"authentication"`
@@ -30,8 +30,7 @@ var Config *Web6Config = &Web6Config{}
 func Start() {
 	LoadConfig()
 
-	//yudien.Configure(&Config.Ldap, &Config.Opsdb, Config.Databases, &Config.Logging, &Config.Authentication)
-	yudien.Configure(&Config.Opsdb, Config.Databases, &Config.Logging, &Config.Authentication)
+	yudien.Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
 
 	if false {
 		yudiendata.ImportSchemaJson("data/schema.json")

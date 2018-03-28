@@ -121,17 +121,17 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
-	UdnLogLevel(nil, log_info, "Connecting to: %s\n", Config.Opsdb.ConnectOptions)
+	UdnLogLevel(nil, log_info, "Connecting to: %s\n", Config.DefaultDatabase.ConnectOptions)
 
 	// DB
-	db, err := sql.Open("postgres", Config.Opsdb.ConnectOptions)
+	db, err := sql.Open("postgres", Config.DefaultDatabase.ConnectOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
 	// DB Web
-	db_web, err := sql.Open("postgres", Config.Opsdb.ConnectOptions)
+	db_web, err := sql.Open("postgres", Config.DefaultDatabase.ConnectOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -788,7 +788,7 @@ func dynamicPage_404(uri string, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
 	// DB Web
-	db_web, err := sql.Open("postgres", Config.Opsdb.ConnectOptions)
+	db_web, err := sql.Open("postgres", Config.DefaultDatabase.ConnectOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
