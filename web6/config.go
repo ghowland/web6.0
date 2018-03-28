@@ -13,13 +13,15 @@ import (
 	"github.com/ghowland/yudien/yudienutil"
 )
 
+// This is the location of the Production configuration file.  The development file is in ~/secure/web6.json
 const configFile = "/etc/web6/web6.json"
 
 type Web6Config struct {
 	Ldap  yudien.LdapConfig  `json:"ldap"`
 	Opsdb yudiendata.DatabaseConfig `json:"default"`
-	Databases yudiendata.DatabaseConfig `json:"databases"`
+	Databases map[string]yudiendata.DatabaseConfig `json:"databases"`
 	LdapOverride yudiendata.DatabaseConfig `json:"ldap_override"`
+	Logging yudien.LoggingConfig `json:"logging"`
 }
 
 var Config *Web6Config = &Web6Config{}
@@ -27,7 +29,7 @@ var Config *Web6Config = &Web6Config{}
 func Start() {
 	LoadConfig()
 
-	yudien.Configure(&Config.Ldap, &Config.Opsdb)
+	yudien.Configure(&Config.Ldap, &Config.Opsdb, Config.Databases, &Config.Logging)
 
 	if false {
 		yudiendata.ImportSchemaJson("data/schema.json")
