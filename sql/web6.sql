@@ -5080,7 +5080,7 @@ INSERT INTO "public"."udn_working_editor" VALUES ('32', null, 'testname', null, 
   [
     [
 	"__login.(__get.param.username).(__get.param.password)",
-	"__set.set_cookie.opsdb_session"
+	"__set.set_cookie.op_session"
     ]
   ]
 ]
