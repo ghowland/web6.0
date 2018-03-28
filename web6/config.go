@@ -17,9 +17,9 @@ const configFile = "/etc/web6/web6.json"
 
 type Web6Config struct {
 	Ldap  yudien.LdapConfig  `json:"ldap"`
-	Opsdb yudiendata.OpsdbConfig `json:"default"`
-	Databases yudiendata.OpsdbConfig `json:"databases"`
-	LdapOverride yudiendata.OpsdbConfig `json:"ldap_override"`
+	Opsdb yudiendata.DatabaseConfig `json:"default"`
+	Databases yudiendata.DatabaseConfig `json:"databases"`
+	LdapOverride yudiendata.DatabaseConfig `json:"ldap_override"`
 }
 
 var Config *Web6Config = &Web6Config{}
@@ -41,7 +41,7 @@ func Start() {
 
 		fmt.Printf("\n\nEnsure DB\n\n")
 
-		yudiendata.DatamanEnsureDatabases(yudiendata.Opsdb.ConnectOptions, yudiendata.Opsdb.Database, yudiendata.Opsdb.Schema, "data/schema_out.json")
+		yudiendata.DatamanEnsureDatabases(yudiendata.DefaultDatabase.ConnectOptions, yudiendata.DefaultDatabase.Database, yudiendata.DefaultDatabase.Schema, "data/schema_out.json")
 
 	}
 
