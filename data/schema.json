@@ -31,6 +31,11 @@
                   "name": "name",
                   "field_type": "_string",
                   "provision_state": 3
+                },
+                "schema_type_name": {
+                  "name": "schema_type_name",
+                  "field_type": "_string",
+                  "provision_state": 3
                 }
               },
               "indexes": {
@@ -861,6 +866,15 @@
                   "unique": true,
                   "provision_state": 3
                 },
+                "enviroment_pkey": {
+                  "name": "enviroment_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                },
                 "service_enviroment_dns_part_key": {
                   "name": "service_enviroment_dns_part_key",
                   "fields": [
@@ -876,9 +890,683 @@
                   ],
                   "unique": true,
                   "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "imported_aws_domain": {
+              "name": "imported_aws_domain",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
                 },
-                "service_enviroment_pkey": {
-                  "name": "service_enviroment_pkey",
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "default": false,
+                  "provision_state": 3
+                },
+                "canonical_dns_name": {
+                  "name": "canonical_dns_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "dns_name": {
+                  "name": "dns_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "hostname": {
+                  "name": "hostname",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "operating_system_instance_id": {
+                  "name": "operating_system_instance_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "parent_domain": {
+                  "name": "parent_domain",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "parent_domain_name_id": {
+                  "name": "parent_domain_name_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "imported_aws_domain_pk": {
+                  "name": "imported_aws_domain_pk",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "imported_aws_instance": {
+              "name": "imported_aws_instance",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "default": false,
+                  "provision_state": 3
+                },
+                "architecture": {
+                  "name": "architecture",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "created": {
+                  "name": "created",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                },
+                "domain_name_id": {
+                  "name": "domain_name_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "ebs_optimized": {
+                  "name": "ebs_optimized",
+                  "field_type": "_bool",
+                  "provision_state": 3
+                },
+                "ena_support": {
+                  "name": "ena_support",
+                  "field_type": "_bool",
+                  "default": false,
+                  "provision_state": 3
+                },
+                "hypervisor": {
+                  "name": "hypervisor",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "image_name": {
+                  "name": "image_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "instance_name": {
+                  "name": "instance_name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "instance_type": {
+                  "name": "instance_type",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "ip_v4_network_id": {
+                  "name": "ip_v4_network_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "launch_time": {
+                  "name": "launch_time",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                },
+                "location_id": {
+                  "name": "location_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "location_rack_id": {
+                  "name": "location_rack_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "operating_system_id": {
+                  "name": "operating_system_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "private_dns_name": {
+                  "name": "private_dns_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "private_ip_address": {
+                  "name": "private_ip_address",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "public_dns_name": {
+                  "name": "public_dns_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "public_ip_address": {
+                  "name": "public_ip_address",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "root_device_type": {
+                  "name": "root_device_type",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "state": {
+                  "name": "state",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "subnet": {
+                  "name": "subnet",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "virtualization_type": {
+                  "name": "virtualization_type",
+                  "field_type": "_string",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "imported_aws_instance_pk": {
+                  "name": "imported_aws_instance_pk",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "imported_aws_ip_v4_address": {
+              "name": "imported_aws_ip_v4_address",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "default": false,
+                  "provision_state": 3
+                },
+                "address": {
+                  "name": "address",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "dns_name": {
+                  "name": "dns_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "instance_name": {
+                  "name": "instance_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "ip_v4_network_id": {
+                  "name": "ip_v4_network_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "mac_address": {
+                  "name": "mac_address",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "vpc_name": {
+                  "name": "vpc_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "imported_aws_ip_v4_address_pk": {
+                  "name": "imported_aws_ip_v4_address_pk",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "imported_aws_vpc": {
+              "name": "imported_aws_vpc",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "default": false,
+                  "provision_state": 3
+                },
+                "cidr": {
+                  "name": "cidr",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "created": {
+                  "name": "created",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                },
+                "ip_v4_address_id": {
+                  "name": "ip_v4_address_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "ip_v4_network_id": {
+                  "name": "ip_v4_network_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "location_id": {
+                  "name": "location_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "network": {
+                  "name": "network",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "vpc_name": {
+                  "name": "vpc_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "imported_aws_vpc_pk": {
+                  "name": "imported_aws_vpc_pk",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "imported_pagerduty_schedule": {
+              "name": "imported_pagerduty_schedule",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "not_null": true,
+                  "default": false,
+                  "provision_state": 3
+                },
+                "created": {
+                  "name": "created",
+                  "field_type": "_datetime",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "escalation_policies_list": {
+                  "name": "escalation_policies_list",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "info": {
+                  "name": "info",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "pagerduty_name": {
+                  "name": "pagerduty_name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "schedule_layers_list": {
+                  "name": "schedule_layers_list",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "updated": {
+                  "name": "updated",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                },
+                "users_list": {
+                  "name": "users_list",
+                  "field_type": "_json",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "imported_pagerduty_schedule_pagerduty_name_key": {
+                  "name": "imported_pagerduty_schedule_pagerduty_name_key",
+                  "fields": [
+                    "pagerduty_name"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
+                "imported_pagerduty_schedule_pkey": {
+                  "name": "imported_pagerduty_schedule_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "imported_pagerduty_schedule_item": {
+              "name": "imported_pagerduty_schedule_item",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "not_null": true,
+                  "default": false,
+                  "provision_state": 3
+                },
+                "imported_pagerduty_schedule_id": {
+                  "name": "imported_pagerduty_schedule_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "relation": {
+                    "collection": "imported_pagerduty_schedule",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                },
+                "imported_pagerduty_user_id": {
+                  "name": "imported_pagerduty_user_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "relation": {
+                    "collection": "imported_pagerduty_user",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                },
+                "pagerduty_name": {
+                  "name": "pagerduty_name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "rotation_end": {
+                  "name": "rotation_end",
+                  "field_type": "_datetime",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "rotation_start": {
+                  "name": "rotation_start",
+                  "field_type": "_datetime",
+                  "not_null": true,
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "imported_pagerduty_schedule_item_pagerduty_name_key": {
+                  "name": "imported_pagerduty_schedule_item_pagerduty_name_key",
+                  "fields": [
+                    "pagerduty_name"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
+                "imported_pagerduty_schedule_item_pkey": {
+                  "name": "imported_pagerduty_schedule_item_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "imported_pagerduty_team": {
+              "name": "imported_pagerduty_team",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "not_null": true,
+                  "default": false,
+                  "provision_state": 3
+                },
+                "created": {
+                  "name": "created",
+                  "field_type": "_datetime",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "info": {
+                  "name": "info",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "pagerduty_name": {
+                  "name": "pagerduty_name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "updated": {
+                  "name": "updated",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "imported_pagerduty_team_pagerduty_name_key": {
+                  "name": "imported_pagerduty_team_pagerduty_name_key",
+                  "fields": [
+                    "pagerduty_name"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
+                "imported_pagerduty_team_pkey": {
+                  "name": "imported_pagerduty_team_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "imported_pagerduty_team_user": {
+              "name": "imported_pagerduty_team_user",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "not_null": true,
+                  "default": false,
+                  "provision_state": 3
+                },
+                "imported_pagerduty_team_id": {
+                  "name": "imported_pagerduty_team_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "relation": {
+                    "collection": "imported_pagerduty_team",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                },
+                "imported_pagerduty_user_id": {
+                  "name": "imported_pagerduty_user_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "relation": {
+                    "collection": "imported_pagerduty_user",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "imported_pagerduty_team_user_pkey": {
+                  "name": "imported_pagerduty_team_user_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                },
+                "imported_pagerduty_team_user_team_id_user_id_key": {
+                  "name": "imported_pagerduty_team_user_team_id_user_id_key",
+                  "fields": [
+                    "imported_pagerduty_team_id",
+                    "imported_pagerduty_user_id"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "imported_pagerduty_user": {
+              "name": "imported_pagerduty_user",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "not_null": true,
+                  "default": false,
+                  "provision_state": 3
+                },
+                "contact_methods_list": {
+                  "name": "contact_methods_list",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "created": {
+                  "name": "created",
+                  "field_type": "_datetime",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "email": {
+                  "name": "email",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "info": {
+                  "name": "info",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "notification_rules_list": {
+                  "name": "notification_rules_list",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "pagerduty_name": {
+                  "name": "pagerduty_name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "updated": {
+                  "name": "updated",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "imported_pagerduty_user_pagerduty_name_key": {
+                  "name": "imported_pagerduty_user_pagerduty_name_key",
+                  "fields": [
+                    "pagerduty_name"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
+                "imported_pagerduty_user_pkey": {
+                  "name": "imported_pagerduty_user_pkey",
                   "fields": [
                     "_id"
                   ],
@@ -2863,8 +3551,8 @@
                 }
               },
               "indexes": {
-                "status_site_pkey": {
-                  "name": "status_site_pkey",
+                "outage_site_status_pkey": {
+                  "name": "outage_site_status_pkey",
                   "fields": [
                     "_id"
                   ],
@@ -2932,6 +3620,512 @@
               "indexes": {
                 "product_type_pkey": {
                   "name": "product_type_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "raw_imported_aws_domain": {
+              "name": "raw_imported_aws_domain",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "not_null": true,
+                  "default": false,
+                  "provision_state": 3
+                },
+                "data_json": {
+                  "name": "data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "dns_name": {
+                  "name": "dns_name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "raw_imported_aws_domain_pk": {
+                  "name": "raw_imported_aws_domain_pk",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "raw_imported_aws_elb": {
+              "name": "raw_imported_aws_elb",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "data_json": {
+                  "name": "data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "load_balancer_name": {
+                  "name": "load_balancer_name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "raw_imported_aws_elb_pk": {
+                  "name": "raw_imported_aws_elb_pk",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "raw_imported_aws_instance": {
+              "name": "raw_imported_aws_instance",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "default": false,
+                  "provision_state": 3
+                },
+                "created": {
+                  "name": "created",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                },
+                "data_json": {
+                  "name": "data_json",
+                  "field_type": "_json",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "instance_name": {
+                  "name": "instance_name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "raw_imported_aws_instance_pk": {
+                  "name": "raw_imported_aws_instance_pk",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "raw_imported_aws_ip_v4_address": {
+              "name": "raw_imported_aws_ip_v4_address",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "default": false,
+                  "provision_state": 3
+                },
+                "address": {
+                  "name": "address",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "data_json": {
+                  "name": "data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "raw_imported_aws_ip_v4_address_pk": {
+                  "name": "raw_imported_aws_ip_v4_address_pk",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "raw_imported_aws_vpc": {
+              "name": "raw_imported_aws_vpc",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "not_null": true,
+                  "default": false,
+                  "provision_state": 3
+                },
+                "created": {
+                  "name": "created",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                },
+                "data_json": {
+                  "name": "data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "vpc_name": {
+                  "name": "vpc_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "raw_imported_aws_vpc_pk": {
+                  "name": "raw_imported_aws_vpc_pk",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                },
+                "raw_imported_aws_vpc_un": {
+                  "name": "raw_imported_aws_vpc_un",
+                  "fields": [
+                    "vpc_name"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "raw_imported_aws_zone": {
+              "name": "raw_imported_aws_zone",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "default": false,
+                  "provision_state": 3
+                },
+                "data_json": {
+                  "name": "data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "zone_name": {
+                  "name": "zone_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "raw_imported_aws_zone_pk": {
+                  "name": "raw_imported_aws_zone_pk",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "raw_imported_datacenter_nmap": {
+              "name": "raw_imported_datacenter_nmap",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "address": {
+                  "name": "address",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "data_json": {
+                  "name": "data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "datacenter": {
+                  "name": "datacenter",
+                  "field_type": "_string",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "raw_imported_datacenter_nmap_pk": {
+                  "name": "raw_imported_datacenter_nmap_pk",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "raw_imported_pagerduty_schedule": {
+              "name": "raw_imported_pagerduty_schedule",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "not_null": true,
+                  "default": false,
+                  "provision_state": 3
+                },
+                "created": {
+                  "name": "created",
+                  "field_type": "_datetime",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "data_json": {
+                  "name": "data_json",
+                  "field_type": "_json",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "pagerduty_name": {
+                  "name": "pagerduty_name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "processed": {
+                  "name": "processed",
+                  "field_type": "_int",
+                  "default": 0,
+                  "provision_state": 3
+                },
+                "updated": {
+                  "name": "updated",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "raw_imported_pagerduty_schedule_pagerduty_name_key": {
+                  "name": "raw_imported_pagerduty_schedule_pagerduty_name_key",
+                  "fields": [
+                    "pagerduty_name"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
+                "raw_imported_pagerduty_schedule_pkey": {
+                  "name": "raw_imported_pagerduty_schedule_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "raw_imported_pagerduty_team": {
+              "name": "raw_imported_pagerduty_team",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "not_null": true,
+                  "default": false,
+                  "provision_state": 3
+                },
+                "created": {
+                  "name": "created",
+                  "field_type": "_datetime",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "data_json": {
+                  "name": "data_json",
+                  "field_type": "_json",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "pagerduty_name": {
+                  "name": "pagerduty_name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "processed": {
+                  "name": "processed",
+                  "field_type": "_int",
+                  "default": 0,
+                  "provision_state": 3
+                },
+                "updated": {
+                  "name": "updated",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "raw_imported_pagerduty_team_pagerduty_name_key": {
+                  "name": "raw_imported_pagerduty_team_pagerduty_name_key",
+                  "fields": [
+                    "pagerduty_name"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
+                "raw_imported_pagerduty_team_pkey": {
+                  "name": "raw_imported_pagerduty_team_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "raw_imported_pagerduty_user": {
+              "name": "raw_imported_pagerduty_user",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "_is_deleted": {
+                  "name": "_is_deleted",
+                  "field_type": "_bool",
+                  "not_null": true,
+                  "default": false,
+                  "provision_state": 3
+                },
+                "created": {
+                  "name": "created",
+                  "field_type": "_datetime",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "data_json": {
+                  "name": "data_json",
+                  "field_type": "_json",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "pagerduty_name": {
+                  "name": "pagerduty_name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "processed": {
+                  "name": "processed",
+                  "field_type": "_int",
+                  "default": 0,
+                  "provision_state": 3
+                },
+                "updated": {
+                  "name": "updated",
+                  "field_type": "_datetime",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "raw_imported_pagerduty_user_pagerduty_name_key": {
+                  "name": "raw_imported_pagerduty_user_pagerduty_name_key",
+                  "fields": [
+                    "pagerduty_name"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
+                "raw_imported_pagerduty_user_pkey": {
+                  "name": "raw_imported_pagerduty_user_pkey",
                   "fields": [
                     "_id"
                   ],
@@ -3388,6 +4582,15 @@
                   "field_type": "_string",
                   "provision_state": 3
                 },
+                "foreign_key_schema_table_field_id": {
+                  "name": "foreign_key_schema_table_field_id",
+                  "field_type": "_int",
+                  "relation": {
+                    "collection": "schema_table_field",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                },
                 "info": {
                   "name": "info",
                   "field_type": "_text",
@@ -3457,15 +4660,6 @@
                 }
               },
               "indexes": {
-                "schema_field_pkey": {
-                  "name": "schema_field_pkey",
-                  "fields": [
-                    "_id"
-                  ],
-                  "unique": true,
-                  "primary": true,
-                  "provision_state": 3
-                },
                 "schema_field_schema_table_id_name_key": {
                   "name": "schema_field_schema_table_id_name_key",
                   "fields": [
@@ -3481,6 +4675,15 @@
                     "_id"
                   ],
                   "unique": true,
+                  "provision_state": 3
+                },
+                "schema_table_field_pkey": {
+                  "name": "schema_table_field_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
                   "provision_state": 3
                 }
               },
@@ -4210,8 +5413,8 @@
                 }
               },
               "indexes": {
-                "system_item_pkey": {
-                  "name": "system_item_pkey",
+                "system_rule_pkey": {
+                  "name": "system_rule_pkey",
                   "fields": [
                     "_id"
                   ],
@@ -4270,8 +5473,8 @@
                 }
               },
               "indexes": {
-                "system_rule_item_pkey": {
-                  "name": "system_rule_item_pkey",
+                "system_rule_instance_pkey": {
+                  "name": "system_rule_instance_pkey",
                   "fields": [
                     "_id"
                   ],
@@ -4321,8 +5524,8 @@
                 }
               },
               "indexes": {
-                "system_rule_pkey": {
-                  "name": "system_rule_pkey",
+                "system_rule_old_pkey": {
+                  "name": "system_rule_old_pkey",
                   "fields": [
                     "_id"
                   ],
@@ -4371,8 +5574,8 @@
                 }
               },
               "indexes": {
-                "system_udn_pkey": {
-                  "name": "system_udn_pkey",
+                "system_udn_old_pkey": {
+                  "name": "system_udn_old_pkey",
                   "fields": [
                     "_id"
                   ],
@@ -4402,6 +5605,35 @@
               "indexes": {
                 "temp_pkey": {
                   "name": "temp_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "test_new_table": {
+              "name": "test_new_table",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "test_new_table_pkey": {
+                  "name": "test_new_table_pkey",
                   "fields": [
                     "_id"
                   ],
@@ -5494,9 +6726,19 @@
                   "field_type": "_string",
                   "provision_state": 3
                 },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
                 "performance_iops": {
                   "name": "performance_iops",
                   "field_type": "_int",
+                  "provision_state": 3
+                },
+                "product_number": {
+                  "name": "product_number",
+                  "field_type": "_string",
                   "provision_state": 3
                 },
                 "revision": {
@@ -5738,6 +6980,11 @@
                   "name": "name",
                   "field_type": "_string",
                   "not_null": true,
+                  "provision_state": 3
+                },
+                "schema_table_id": {
+                  "name": "schema_table_id",
+                  "field_type": "_int",
                   "provision_state": 3
                 },
                 "static_data_json": {
@@ -6360,6 +7607,11 @@
                   "name": "priority",
                   "field_type": "_int",
                   "default": 0,
+                  "provision_state": 3
+                },
+                "static_data_json": {
+                  "name": "static_data_json",
+                  "field_type": "_json",
                   "provision_state": 3
                 },
                 "udn_data_json": {
