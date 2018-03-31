@@ -79,7 +79,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 		file_info, err := file.Stat()
 		if err != nil {
-			log.Fatal(err)
+			log.Panic(err)
 		}
 
 		// If this isnt a directory
@@ -91,7 +91,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			data := make([]byte, size)
 			_, err := file.Read(data)
 			if err != nil {
-				log.Fatal(err)
+				log.Panic(err)
 			}
 
 			if strings.HasSuffix(relative_path, ".css") {
@@ -153,7 +153,7 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 	web_site_host_result := Query(db_web, sql)
 
 	if web_site_host_result == nil || len(web_site_host_result) == 0 {
-		UdnError(nil, "Failed to load website domain: %d\n", host)
+		UdnLogLevel(nil, log_error, "Failed to load website domain: %d\n", host)
 		// Rendor 404
 		dynamicPage_404(uri, w, r)
 		return
@@ -166,7 +166,7 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 	sql = fmt.Sprintf("SELECT * FROM web_site WHERE _id = %d", web_site_id)
 	web_site_result := Query(db_web, sql)
 	if web_site_result == nil || len(web_site_result) == 0 {
-		UdnError(nil, "Failed to load website: %d\n", web_site_id)
+		UdnLogLevel(nil, log_error, "Failed to load website: %d\n", web_site_id)
 		// Rendor 404
 		dynamicPage_404(uri, w, r)
 		return
@@ -358,7 +358,7 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 					}
 				}
 			}
-			UdnLogLevel(nil, log_info, "User Data: %v\n\n", target_map_user)
+			UdnLogLevel(nil, log_debug, "User Data: %v\n\n", target_map_user)
 
 			udn_data["user_data"] = target_map_user
 		}
@@ -653,7 +653,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 			if site_page_widget["udn_data_json"] != nil {
 				ProcessSchemaUDNSet(db_web, udn_schema, site_page_widget["udn_data_json"].(string), udn_data)
 			} else {
-				UdnLogLevel(nil, log_info, "UDN Execution: %s: None\n\n", site_page_widget["name"])
+				UdnLogLevel(nil, log_debug, "UDN Execution: %s: None\n\n", site_page_widget["name"])
 			}
 
 			// Process the Widget's Rendering UDN statements (singles)
@@ -696,7 +696,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 			item := StringFile{}
 			err = item_template.Execute(&item, widget_map_template)
 			if err != nil {
-				log.Fatal(err)
+				log.Panic(err)
 			}
 
 			// Append to our total forum_list_string
@@ -719,7 +719,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 			RenderWidgetInstance(db_web, udn_schema, udn_data, site_page_widget, udn_update_map)
 
 		} else {
-			UdnError(nil, "No web_widget_id, web_widget_instance_id, web_data_widget_instance_id.  Site Page Widgets need at least one of these.")
+			UdnLogLevel(nil, log_error, "No web_widget_id, web_widget_instance_id, web_data_widget_instance_id.  Site Page Widgets need at least one of these.")
 			dynamicPage_404(uri, w, r)
 			return
 		}
@@ -776,7 +776,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 	// Write out our output as HTML
 	html_path := UdnDebugWriteHtml(udn_schema)
-	UdnLogLevel(nil, log_info, "UDN Debug HTML Log: %s\n", html_path)
+	UdnLogLevel(nil, log_debug, "UDN Debug HTML Log: %s\n", html_path)
 
 	// Write out the final page
 	w.WriteHeader(udn_data["http_response_code"].(int))
