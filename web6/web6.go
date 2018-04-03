@@ -121,7 +121,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
-	UdnLogLevel(nil, log_info, "Connecting to: %s\n", Config.DefaultDatabase.ConnectOptions)
+	//UdnLogLevel(nil, log_info, "Connecting to: %s\n", Config.DefaultDatabase.ConnectOptions)
 
 	// DB
 	db, err := sql.Open("postgres", Config.DefaultDatabase.ConnectOptions)
