@@ -17,7 +17,8 @@ func main() {
 	s, err := gosrv.NewFromFlag()
 	if err != nil {
 		panic("Cannot create web server: " + err.Error() + "\n")
-	}*/
+	}
+	*/
 
 	s.HandleFunc("/", web6.Handler)
 
