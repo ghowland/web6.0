@@ -11,6 +11,7 @@ import (
 	"github.com/ghowland/yudien/yudien"
 	"github.com/ghowland/yudien/yudiendata"
 	"github.com/ghowland/yudien/yudienutil"
+	"flag"
 )
 
 // This is the location of the Production configuration file.  The development file is in ~/secure/web6.json
@@ -28,7 +29,14 @@ type Web6Config struct {
 var Config *Web6Config = &Web6Config{}
 
 func Start() {
-	LoadConfig()
+	// Vars for CLI arguments and flags
+	config_path := ""
+
+	// Process CLI arguments and flags
+	flag.StringVar(&config_path,"config", configFile,"Configuration file path (web6.json)")
+	flag.Parse()
+
+	LoadConfig(config_path)
 
 	yudien.Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
 
@@ -53,9 +61,8 @@ func Start() {
 	//go RunJobWorkers()
 }
 
-func LoadConfig() {
-	config := configFile
-	_, err := os.Stat(configFile)
+func LoadConfig(config string) {
+	_, err := os.Stat(config)
 	if err != nil {
 		usr, _ := user.Current()
 		homedir := usr.HomeDir
