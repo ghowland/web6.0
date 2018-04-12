@@ -59,7 +59,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// Defer-recover for panics by returning a 500 internal server error (until we can guarantee no panics)
 	// This way there is no connection reset for the user
 	// Note that this will not recover from go routines when we implement concurrency in the future
-	defer recoverError_500(w, r)
+	//defer recoverError_500(w, r)
 
 	url := r.URL.RequestURI()
 
