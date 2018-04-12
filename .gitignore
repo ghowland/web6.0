@@ -26,3 +26,6 @@ bin/
 #InteliJ
 .idea/
 *.iml
+
+#sql
+sql/web6.sql
