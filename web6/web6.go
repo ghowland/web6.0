@@ -25,6 +25,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"runtime/debug"
 	"strings"
 	"text/template"
 
@@ -59,7 +60,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// Defer-recover for panics by returning a 500 internal server error (until we can guarantee no panics)
 	// This way there is no connection reset for the user
 	// Note that this will not recover from go routines when we implement concurrency in the future
-	//defer recoverError_500(w, r)
+	defer recoverError_500(w, r)
 
 	url := r.URL.RequestURI()
 
@@ -825,7 +826,11 @@ func recoverError_500(w http.ResponseWriter, r *http.Request) {
 	// Recover from internal panics until we could guarantee no panics
 	if recover := recover(); recover != nil {
 		//TODO(z): Add config option to include recover stack msg if needed
-		//error_message := fmt.Sprintf("Internal panic: %v", recover)
+		error_message := fmt.Sprintf("Internal panic: %v", recover)
+
+		UdnLogLevel(nil, log_error, "Error: %s", error_message)
+		UdnLogLevel(nil, log_trace, "Error stack: %s", string(debug.Stack()))
+
 		dynamicPage_500("", w, r)
 	}
 }
