@@ -31,12 +31,14 @@ var Config *Web6Config = &Web6Config{}
 
 func Start() {
 	// Vars for CLI arguments and flags
-	config_path := ""
+	config_path := configFile
 	log := ""
+	pid := "" // For avoiding error in prod as pid flag is passed so we need an empty catcher
 
 	// Process CLI arguments and flags
 	flag.StringVar(&config_path, "config", configFile, "Configuration file path (web6.json)")
 	flag.StringVar(&log, "log", "", "Level for logging purposes")
+	flag.StringVar(&pid, "pid", "", "For avoiding error with prod - leave empty")
 	flag.Parse()
 
 	LoadConfig(config_path)
