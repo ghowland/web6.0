@@ -66,6 +66,19 @@
             draggable: true,
             resizable: true,
             create: function(event, ui) {
+            },
+            open: function(event, ui) {
+                // Dynamically adjust the height of the dialog box after it has rendered
+                
+                var header_height = 50; // fixed height of dialog header
+                var box_height = $('#dialog-{{index .Map "uuid"}}').outerHeight() + header_height;
+                var window_height = $(window).height();
+
+
+                $('#dialog-{{index .Map "uuid"}}').dialog({
+                    height: Math.min(box_height, window_height * 0.9)
+                });
+
             }
         });
 
