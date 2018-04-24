@@ -1,7 +1,7 @@
 {
   "databases": {
-    "opsdb_009": {
-      "name": "opsdb_009",
+    "opsdb_012": {
+      "name": "opsdb_012",
       "shard_instances": {
         "public": {
           "name": "public",
@@ -789,9 +789,13 @@
                   },
                   "provision_state": 3
                 },
-                "parent_domain_name_id": {
-                  "name": "parent_domain_name_id",
+                "parent_id": {
+                  "name": "parent_id",
                   "field_type": "_int",
+                  "relation": {
+                    "collection": "domain_name",
+                    "field": "_id"
+                  },
                   "provision_state": 3
                 }
               },
@@ -808,7 +812,7 @@
                   "name": "domain_name_name_parent_domain_name_id_key",
                   "fields": [
                     "name",
-                    "parent_domain_name_id"
+                    "parent_id"
                   ],
                   "unique": true,
                   "provision_state": 3
@@ -2511,6 +2515,10 @@
                 "parent_id": {
                   "name": "parent_id",
                   "field_type": "_int",
+                  "relation": {
+                    "collection": "location",
+                    "field": "_id"
+                  },
                   "provision_state": 3
                 }
               },
@@ -6470,6 +6478,124 @@
               },
               "provision_state": 3
             },
+            "test": {
+              "name": "test",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "ending_result": {
+                  "name": "ending_result",
+                  "field_type": "_text",
+                  "provision_state": 3
+                },
+                "ending_result_json": {
+                  "name": "ending_result_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "ending_test_memory_data_json": {
+                  "name": "ending_test_memory_data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "info": {
+                  "name": "info",
+                  "field_type": "_text",
+                  "provision_state": 3
+                },
+                "is_active": {
+                  "name": "is_active",
+                  "field_type": "_bool",
+                  "default": true,
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "starting_test_memory_data_json": {
+                  "name": "starting_test_memory_data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "test_group_id": {
+                  "name": "test_group_id",
+                  "field_type": "_int",
+                  "relation": {
+                    "collection": "test_group",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                },
+                "udn_data_json": {
+                  "name": "udn_data_json",
+                  "field_type": "_json",
+                  "not_null": true,
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "test_pkey": {
+                  "name": "test_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
+            "test_group": {
+              "name": "test_group",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "info": {
+                  "name": "info",
+                  "field_type": "_text",
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "parent_id": {
+                  "name": "parent_id",
+                  "field_type": "_int",
+                  "relation": {
+                    "collection": "test_group",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "test_group_pkey": {
+                  "name": "test_group_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
             "test_new_table": {
               "name": "test_new_table",
               "fields": {
@@ -8414,9 +8540,29 @@
                   "not_null": true,
                   "provision_state": 3
                 },
+                "icon": {
+                  "name": "icon",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "provision_state": 3
+                },
+                "parent_id": {
+                  "name": "parent_id",
+                  "field_type": "_int",
+                  "relation": {
+                    "collection": "web_site_map",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                },
+                "priority": {
+                  "name": "priority",
+                  "field_type": "_int",
+                  "not_null": true,
                   "provision_state": 3
                 },
                 "udn_data_json": {
@@ -8499,11 +8645,19 @@
                 "web_site_map_id": {
                   "name": "web_site_map_id",
                   "field_type": "_int",
+                  "relation": {
+                    "collection": "web_site_map",
+                    "field": "_id"
+                  },
                   "provision_state": 3
                 },
                 "web_site_page_id": {
                   "name": "web_site_page_id",
                   "field_type": "_int",
+                  "relation": {
+                    "collection": "web_site_page",
+                    "field": "_id"
+                  },
                   "provision_state": 3
                 }
               },

@@ -9,6 +9,9 @@
     ace_editor.setShowPrintMargin(false);
     ace_editor.getSession().setValue($("#{{index .Map "uuid"}}_{{index .Map "name"}}_id").text())
     $("#hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}").val(ace_editor.getValue());
+
+    {{if index .Map "max_lines"}}  ace_editor.setOption("maxLines", {{index .Map "max_lines"}}) {{end}}
+
     ace_editor.on('change', function () {
         var ace_editor = ace.edit("ace_editor_{{index .Map "uuid"}}_{{index .Map "name"}}");
         $("#hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}").val(ace_editor.getValue());

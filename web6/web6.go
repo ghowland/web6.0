@@ -627,6 +627,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 		if site_page_widget["static_data_json"] != nil {
 			err := json.Unmarshal([]byte(site_page_widget["static_data_json"].(string)), &widget_static)
 			if err != nil {
+				UdnLogLevel(nil, log_trace, "Static JSON Data: %s\n", site_page_widget["static_data_json"].(string))
 				log.Panic(err)
 			}
 		}
