@@ -1,0 +1,13 @@
+<label class="control-label">{{index .Map "label"}}</label>
+<select  id="{{index .Map "uuid"}}_{{index .Map "name"}}_id" name="{{index .Map "name"}}" class="selectbox-{{index .Map "name"}}" {{if index .Map "onchange"}}onchange="{{index .Map "onchange"}}"{{end}}>
+{{range $index, $element := index .Map "options"}}
+    <option value="{{$element.value}}" {{if $element.selected}}selected="selected"{{end}}>{{$element.name}}</option>
+{{end}}
+</select>
+<script>
+    $(".selectbox-{{index .Map "name"}}").selectBoxIt({
+        autoWidth: false,
+        downArrowIcon: "{{index .Map "icon"}}"
+    });
+</script>
+<span class="help-block">{{index .Map "info"}}</span>
