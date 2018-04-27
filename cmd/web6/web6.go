@@ -9,10 +9,17 @@ import (
 )
 
 func main() {
-	web6.Start()
+	pidFile := "" // Pid file passed from flag (for prod)
+
+	web6.Start(&pidFile)
 
 	//TODO(g): Process all the gosrv flags ourselves if necessary (in web6.Start()) and set the values before starting up (make sure pid is properly assigned)
 	s := gosrv.New()
+
+	// Update Server settings from flags if necessary
+	if pidFile != "" && pidFile != gosrv.DefaultPidFile {
+		s.PidFile = pidFile
+	}
 
 	// We dont use NewFromFlag() because it doesnt allow adding custom flags.  We have to manage the gosrv config Struct ourselves in config.go
 	/*

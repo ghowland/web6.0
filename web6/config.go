@@ -29,16 +29,15 @@ type Web6Config struct {
 
 var Config *Web6Config = &Web6Config{}
 
-func Start() {
+func Start(pidFile *string) {
 	// Vars for CLI arguments and flags
 	config_path := ""
 	log := ""
-	pid := "" // Pid file passed from flag
 
 	// Process CLI arguments and flags
 	flag.StringVar(&config_path, "config", configFile, "Configuration file path (web6.json)")
 	flag.StringVar(&log, "log", "", "Level for logging purposes")
-	flag.StringVar(&pid, "pid", "", "pid from command line")
+	flag.StringVar(pidFile, "pid", "", "pid from command line")
 	flag.Parse()
 
 	LoadConfig(config_path)
