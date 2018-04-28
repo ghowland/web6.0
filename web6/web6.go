@@ -644,9 +644,11 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 			// wigdet_map has all the UDN operations we will be using to embed child-widgets into this widget
 			//TODO(g): We need to use the page_map data here too, because we need to template in the sub-widgets.  Think about this after testing it as-is...
-			err := json.Unmarshal([]byte(site_page_widget["data_json"].(string)), &widget_map)
-			if err != nil {
-				log.Panic(err)
+			if site_page_widget["data_json"] != nil {
+				err := json.Unmarshal([]byte(site_page_widget["data_json"].(string)), &widget_map)
+				if err != nil {
+					log.Panic(err)
+				}
 			}
 
 			udn_data["web_widget"] = page_widget
@@ -696,7 +698,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 			//fmt.Printf("  Templating with data: %v\n\n", SnippetData(widget_map, 600))
 
 			item := StringFile{}
-			err = item_template.Execute(&item, widget_map_template)
+			err := item_template.Execute(&item, widget_map_template)
 			if err != nil {
 				log.Panic(err)
 			}
