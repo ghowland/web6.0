@@ -25,11 +25,12 @@
             </tr>
             </thead>
             <tbody>
-            {{range $index, $row := index .Map "items"}}
+            {{$columns := index .Map "columns"}}
+            {{range $index_row, $row := index .Map "items"}}
             <tr>
-            {{range $index, $col := $row}}
+            {{range $index_col, $col := $columns}}
                 <td>
-                {{$col.value}}
+                {{index $row $col}}
                 </td>
             {{end}}
             </tr>
