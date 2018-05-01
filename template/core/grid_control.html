@@ -1,0 +1,58 @@
+<script>
+    function GridSelectionInit__{{index .Map "uuid"}}()
+    {
+        var uuid = {{index .Map "uuid"}};
+
+        // Ensure our global data is set up for our UUID info
+        if (__js_data["selection"] != nil) {  __js_data["selection"] = new Object();  }
+        if (__js_data["page_args"] != nil) {  __js_data["page_args"] = new Object();  }
+
+        // Store all our Selection information in the global JS dict
+        __js_data["selection"][uuid] = new Object();
+
+        {{range $key, $value := index .Map "selection"}}
+        __js_data["selection"][uuid]["$key"] = "$value";
+        {{end}}
+
+        // Store all our Page Args information in the global JS dict
+        __js_data["page_args"][uuid] = new Object();
+
+        {{range $key, $value := index .Map "page_args"}}
+        __js_data["page_args"][uuid]["$key"] = "$value";
+        {{end}}
+
+    }
+
+    function GridSelectionSelect_{{index .Map "uuid"}}(requires, selection_key, selection_value)
+    {
+        var uuid = {{index .Map "uuid"}};
+        __js_data["selection"][uuid][selection_key] = selection_value;
+
+        GridSelectionUpdate_{{index .Map "uuid"}}(requires);
+    }
+
+    function GridSelectionUpdate_{{index .Map "uuid"}}(requires, submit_data)
+    {
+        var uuid = {{index .Map "uuid"}};
+
+        // End point for the API
+        var api_endpoint = {{index .Map "api"}};
+
+        // Create a data package of all the above to RPC
+        var data = new Object();
+
+        // Get the selection data
+        data["selection"] = __js_data["selection"][uuid];
+
+        // Get the page arg data
+        data["page_args"] = __js_data["page_args"][uuid];
+
+        // Get any Multi-Record submit data
+        if (submit_data != nil ) {
+            data["submit_data"] = submit_data;
+        }
+
+        // Submit the data
+        RPC('/api/' + api, data);
+    }
+</script>
