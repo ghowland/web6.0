@@ -1,31 +1,36 @@
+{{index .Map "value"}}
+
 <script>
     function GridSelectionInit__{{index .Map "uuid"}}()
     {
-        var uuid = {{index .Map "uuid"}};
+        var uuid = "{{index .Map "uuid"}}";
 
         // Ensure our global data is set up for our UUID info
-        if (__js_data["selection"] != nil) {  __js_data["selection"] = new Object();  }
-        if (__js_data["page_args"] != nil) {  __js_data["page_args"] = new Object();  }
+        if (__js_data["selection"] == null) {  __js_data["selection"] = new Object();  }
+        if (__js_data["page_args"] == null) {  __js_data["page_args"] = new Object();  }
 
         // Store all our Selection information in the global JS dict
         __js_data["selection"][uuid] = new Object();
 
         {{range $key, $value := index .Map "selection"}}
-        __js_data["selection"][uuid]["$key"] = "$value";
+        __js_data["selection"][uuid]["{{$key}}"] = "{{$value}}";
         {{end}}
 
         // Store all our Page Args information in the global JS dict
         __js_data["page_args"][uuid] = new Object();
 
         {{range $key, $value := index .Map "page_args"}}
-        __js_data["page_args"][uuid]["$key"] = "$value";
+        __js_data["page_args"][uuid]["{{$key}}"] = "{{$value}}";
         {{end}}
 
     }
 
+    // Init this Grid Selection system
+    GridSelectionInit__{{index .Map "uuid"}}();
+
     function GridSelectionSelect_{{index .Map "uuid"}}(requires, selection_key, selection_value)
     {
-        var uuid = {{index .Map "uuid"}};
+        var uuid = "{{index .Map "uuid"}}";
         __js_data["selection"][uuid][selection_key] = selection_value;
 
         GridSelectionUpdate_{{index .Map "uuid"}}(requires);
@@ -33,13 +38,19 @@
 
     function GridSelectionUpdate_{{index .Map "uuid"}}(requires, submit_data)
     {
-        var uuid = {{index .Map "uuid"}};
+        var uuid = "{{index .Map "uuid"}}";
 
         // End point for the API
-        var api_endpoint = {{index .Map "api"}};
+        var api_endpoint = "{{index .Map "api"}}";
 
         // Create a data package of all the above to RPC
         var data = new Object();
+
+        // Pass through UUID so the unique elements are aligned with the server results
+        data["uuid"] = uuid
+
+        // Get the requires for re-rendering Grid Elements
+        data["requires"] = requires
 
         // Get the selection data
         data["selection"] = __js_data["selection"][uuid];
@@ -48,11 +59,11 @@
         data["page_args"] = __js_data["page_args"][uuid];
 
         // Get any Multi-Record submit data
-        if (submit_data != nil ) {
+        if (submit_data != null ) {
             data["submit_data"] = submit_data;
         }
 
         // Submit the data
-        RPC('/api/' + api, data);
+        RPC('/api/' + api_endpoint, data);
     }
 </script>
