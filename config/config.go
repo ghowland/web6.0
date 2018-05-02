@@ -1,4 +1,4 @@
-package web6
+package config
 
 import (
 	"encoding/json"
@@ -11,12 +11,19 @@ import (
 	"github.com/ghowland/yudien/yudien"
 	"github.com/ghowland/yudien/yudiencore"
 	"github.com/ghowland/yudien/yudiendata"
-	"github.com/ghowland/yudien/yudienutil"
-	"flag"
+)
+
+const ( // order matters for log levels
+	log_off   = iota
+	log_error = iota
+	log_warn  = iota
+	log_info  = iota
+	log_debug = iota
+	log_trace = iota
 )
 
 // This is the location of the Production configuration file.  The development file is in ~/secure/web6.json
-const configFile = "/etc/web6/web6.json"
+const ConfigFile = "/etc/web6/web6.json"
 
 type Web6Config struct {
 	//Ldap  yudien.LdapConfig  `json:"ldap"`
@@ -28,47 +35,6 @@ type Web6Config struct {
 }
 
 var Config *Web6Config = &Web6Config{}
-
-func Start(pidFile *string) {
-	// Vars for CLI arguments and flags
-	config_path := ""
-	log := ""
-
-	// Process CLI arguments and flags
-	flag.StringVar(&config_path, "config", configFile, "Configuration file path (web6.json)")
-	flag.StringVar(&log, "log", "", "Level for logging purposes")
-	flag.StringVar(pidFile, "pid", "", "pid from command line")
-	flag.Parse()
-
-	LoadConfig(config_path)
-
-	// If logging is specified in the flag, then override the config file
-	if log != "" {
-		Config.Logging.Level = log
-	}
-
-	yudien.Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
-
-	if false {
-		yudiendata.ImportSchemaJson("data/schema.json")
-		yudiendata.GenerateSchemaJson("data/schema_out.json")
-
-		// Test data in same format (ordering/sorting)
-		text := yudienutil.ReadPathData("data/schema.json")
-		data_str, _ := yudienutil.JsonLoadMap(text)
-		data := yudienutil.JsonDump(data_str)
-		yudienutil.WritePathData("data/schema_in.json", data)
-
-		yudiencore.UdnLogLevel(nil, log_info, "\n\nEnsure DB\n\n")
-
-		yudiendata.DatamanEnsureDatabases(yudiendata.DefaultDatabase.ConnectOptions, yudiendata.DefaultDatabase.Database, yudiendata.DefaultDatabase.Schema, "data/schema_out.json")
-
-	}
-
-	yudiencore.UdnLogLevel(nil, log_info, "Finished starting...\n")
-
-	//go RunJobWorkers()
-}
 
 func LoadConfig(config string) {
 	_, err := os.Stat(config)
