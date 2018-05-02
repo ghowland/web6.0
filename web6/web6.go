@@ -29,6 +29,7 @@ import (
 	"strings"
 	"text/template"
 
+	. "github.com/ghowland/web6.0/config"
 	. "github.com/ghowland/yudien/yudien"
 	. "github.com/ghowland/yudien/yudiencore"
 	. "github.com/ghowland/yudien/yudiendata"
