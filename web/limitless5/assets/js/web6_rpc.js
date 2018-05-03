@@ -40,9 +40,9 @@ function ProcessRPCData(data) {
     var reload_page = undefined;
     var load_page = undefined;
 
-    //alert(data);
+    // alert(data);
     data = JSON.parse(data);
-    //alert(data);
+    // alert(data);
 
     // Process the HTML sections, skip __js and __js_data
     for (var key in data)
@@ -52,7 +52,7 @@ function ProcessRPCData(data) {
             //TODO(g): Is it worth checking if the ID exists in the DOM?  I dont think so, but think about it...
             // Start by clearing the existing data and freeing references
             $("#" + key).empty();
-            //alert('Procesing: ' + key + ' :: ' + data[key]);
+            // alert('Procesing: ' + key + ' :: ' + data[key]);
             $("#" + key).html(data[key]);
         }
         // Save our Javascript array until later so we can deal with it then

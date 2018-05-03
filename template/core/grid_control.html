@@ -33,6 +33,8 @@
         var uuid = "{{index .Map "uuid"}}";
         __js_data["selection"][uuid][selection_key] = selection_value;
 
+        // alert('Grid Select: ' + requires + '  Select: ' + selection_key + '  Val: ' + selection_value)
+
         GridSelectionUpdate_{{index .Map "uuid"}}(requires);
     }
 
@@ -49,6 +51,10 @@
         // Pass through UUID so the unique elements are aligned with the server results
         data["uuid"] = uuid
 
+        // Add in more basics we need to re-render this
+        data["web_site_page_id"] = "{{index .Map "web_site_page_id"}}"
+        data["web_site_page_widget_id"] = "{{index .Map "web_site_page_widget_id"}}"
+
         // Get the requires for re-rendering Grid Elements
         data["requires"] = requires
 
@@ -64,6 +70,6 @@
         }
 
         // Submit the data
-        RPC('/api/' + api_endpoint, data);
+        RPC('/api/' + api_endpoint, {data: JSON.stringify(data)});
     }
 </script>
