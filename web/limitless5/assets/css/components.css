@@ -12192,6 +12192,7 @@ pre.line-numbers {
 }
 pre.line-numbers > code {
   position: relative;
+  padding-left: 10px;
 }
 .line-numbers .line-numbers-rows {
   position: absolute;
@@ -12199,7 +12200,7 @@ pre.line-numbers > code {
   top: 0;
   font-size: 100%;
   left: -50px;
-  width: 36px;
+  width: 50px;
   letter-spacing: -1px;
   border-right: 1px solid #999;
   -webkit-user-select: none;
@@ -12216,7 +12217,7 @@ pre.line-numbers > code {
   content: counter(linenumber);
   color: #999999;
   display: block;
-  padding-right: 10px;
+  padding-right: 5px;
   text-align: right;
 }
 pre[class*="language-"] {
