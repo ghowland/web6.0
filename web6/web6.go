@@ -526,8 +526,8 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	sql := fmt.Sprintf("SELECT * FROM web_site_page_widget WHERE web_site_page_id = %d ORDER BY priority ASC", web_site_page["_id"])
 	web_site_page_widgets := Query(db_web, sql)
 
-	// Get the base web site widget
-	sql = fmt.Sprintf("SELECT * FROM web_site_page_widget WHERE _id = %d", web_site_page["base_page_web_site_page_widget_id"])
+	// Get the base web site widget.  Only where priority is non-negative.  Negative priority items are considered to be explicit rendering only, so we will render them when they are invoked.
+	sql = fmt.Sprintf("SELECT * FROM web_site_page_widget WHERE _id = %d AND priority >= 0", web_site_page["base_page_web_site_page_widget_id"])
 	base_page_widgets := Query(db_web, sql)
 
 	// If we couldnt find the base_page_widget, we cannot render the any page for the website - return internal server error
@@ -545,11 +545,6 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	base_widgets := Query(db_web, sql)
 
 	base_page_html := base_widgets[0]["html"].(string)
-	/*
-		base_page_html, err := ioutil.ReadFile(base_widgets[0]["path"].(string))
-		if err != nil {
-			log.Panic(err)
-		}*/
 
 	// Get UDN starting data values
 	web_protocol_action := r.Method

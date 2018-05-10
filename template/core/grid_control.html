@@ -87,6 +87,13 @@
             data = options
         }
 
+        // Pass through UUID so the unique elements are aligned with the server results
+        data["uuid"] = uuid
+
+        // Add in more basics we need to re-render this
+        data["web_site_page_id"] = "{{index .Map "web_site_page_id"}}"
+        data["web_site_page_widget_id"] = "{{index .Map "web_site_page_widget_id"}}"
+
         // Save the selection information
         __js_data["selection"][uuid][selection_key] = selection_value;
 
@@ -95,11 +102,6 @@
 
         // Get the page arg data
         data["page_args"] = __js_data["page_args"][uuid];
-
-        // Get any Multi-Record submit data
-        if (submit_data != null ) {
-            data["submit_data"] = submit_data;
-        }
 
         // Submit the data
         RPC('/api/grid_render_widget', {data: JSON.stringify(data)});

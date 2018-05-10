@@ -271,7 +271,7 @@
 
         "__comment.--- Schema Table Fields :: Add Columns ---",
 
-        "__get.temp.grid_render_data.render.schema_table_fields.data.items.__array_map_key_set.uuid.(__get.render.uuid).__array_map_template.'_edit'.'<i class=\"icon-quill4\" onclick=\"GridRenderWidget_{{index .Map \"uuid\"}}(&QUOTE;edit_dialog&QUOTE;, &QUOTE;{{index .Map \"_record_label\"}}&QUOTE;)\"></i>'.'_button'.'<button type=\"button\" class=\"btn btn-primary\" onclick=\"alert(&QUOTE;{{index .Map \"_record_label\"}}&QUOTE;)\"><i class=\"icon-image3 position-left\"></i> Action</button>'.'_select'.'<input name=\"{{index .Map \"_record_label\"}}\" class=\"styled\" checked=\"checked\" type=\"checkbox\"><script>$(\".styled, .multiselect-container input\").uniform({radioClass: \"choice\"});</script>'",
+        "__get.temp.grid_render_data.render.schema_table_fields.data.items.__array_map_key_set.uuid.(__get.render.uuid).__array_map_template.'_edit'.'<i class=\"icon-quill4\" onclick=\"GridRenderWidget_{{index .Map \"uuid\"}}(&QUOTE;edit_dialog&QUOTE;, &QUOTE;schema_table_field&QUOTE;, &QUOTE;{{index .Map \"_id\"}}&QUOTE;)\"></i>'.'_button'.'<button type=\"button\" class=\"btn btn-primary\" onclick=\"alert(&QUOTE;{{index .Map \"_record_label\"}}&QUOTE;)\"><i class=\"icon-image3 position-left\"></i> Action</button>'.'_select'.'<input name=\"{{index .Map \"_record_label\"}}\" class=\"styled\" checked=\"checked\" type=\"checkbox\"><script>$(\".styled, .multiselect-container input\").uniform({radioClass: \"choice\"});</script>'",
 
 
         "__comment.--- Select/Options Remap ---",
