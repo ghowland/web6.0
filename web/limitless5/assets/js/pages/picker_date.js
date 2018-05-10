@@ -176,7 +176,22 @@ $(function() {
     // Display date format
     $('.daterange-ranges span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' &nbsp; - &nbsp; ' + moment().format('MMMM D, YYYY'));
 
-
+     // Display time picker
+    $('.daterange-time-customized').daterangepicker(
+        {
+            timePicker: true,
+            applyClass: 'bg-slate-600',
+            cancelClass: 'btn-default',
+            locale: {
+                format: "YYYY-MM-DD HH:mm:ss"
+            },
+            opens:'left'
+        },
+        function(start, end) {
+            $('.daterange-time-customized span').html(start.format('YYYY-MM-DD HH:mm:ss') + ' &nbsp; - &nbsp; ' + end.format('YYYY-MM-DD HH:mm:ss'));
+            changeEventHandler();
+        }
+    );
     
     // Pick-a-date picker
     // ------------------------------
