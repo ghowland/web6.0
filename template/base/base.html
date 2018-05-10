@@ -37,7 +37,10 @@
 
     <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="assets/js/core/libraries/jquery_ui/widgets.min.js"></script>
+
+    <script type="text/javascript" src="assets/js/plugins/forms/styling/uniform.min.js"></script>
     <script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/forms/styling/switch.min.js"></script>
 
     <script type="text/javascript" src="assets/js/core/libraries/jquery_ui/core.min.js"></script>
 
@@ -47,7 +50,6 @@
 
     <script type="text/javascript" src="assets/js/core/libraries/jasny_bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="assets/js/plugins/forms/styling/uniform.min.js"></script>
     <!--<script type="text/javascript" src="assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>-->
     <script type="text/javascript" src="assets/js/plugins/forms/tags/tagsinput.min.js"></script>
 
@@ -71,8 +73,6 @@
     <script type="text/javascript" src="assets/js/web6_js_control.js"></script>
 
 
-    <script type="text/javascript" src="assets/js/plugins/editors/ace/ace.js"></script>
-
     <script type="text/javascript" src="assets/js/core/app.js"></script>
 
     <!-- Test code, before breaking out to libs -->
@@ -84,6 +84,13 @@
         function UserLogout() {
             RPC("/api/logout", {}, ReloadPage)
         }
+
+        $(function() {
+            // Styled checkbox initialization
+            $(".styled, .multiselect-container input").uniform({
+                radioClass: 'choice'
+            });
+        });
     </script>
 
     <style>

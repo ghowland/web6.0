@@ -72,4 +72,37 @@
         // Submit the data
         RPC('/api/' + api_endpoint, {data: JSON.stringify(data)});
     }
+
+    function GridRenderWidget_{{index .Map "uuid"}}(widget, selection_key, selection_value, options) {
+        var uuid = "{{index .Map "uuid"}}";
+
+        // End point for the API
+        var api_endpoint = "{{index .Map "api"}}";
+
+        // Create a data package of all the above to RPC
+        var data = new Object();
+
+        // If we have options, then start are data as those, so we can add in anything else we want ("requires":{}, etc)
+        if (options != undefined) {
+            data = options
+        }
+
+        // Save the selection information
+        __js_data["selection"][uuid][selection_key] = selection_value;
+
+        // Get the selection data
+        data["selection"] = __js_data["selection"][uuid];
+
+        // Get the page arg data
+        data["page_args"] = __js_data["page_args"][uuid];
+
+        // Get any Multi-Record submit data
+        if (submit_data != null ) {
+            data["submit_data"] = submit_data;
+        }
+
+        // Submit the data
+        RPC('/api/grid_render_widget', {data: JSON.stringify(data)});
+    }
+
 </script>

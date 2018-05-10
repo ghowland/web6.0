@@ -166,16 +166,22 @@
     "schema_table_fields": {
       "data": {
         "columns": [
+          "_select",
+          "_edit",
           "name",
           "is_primary_key",
           "allow_null",
-          "argument_type_id.name"
+          "argument_type_id.name",
+          "_button"
         ],
         "headers": [
+          "<input class=\"\" type=\"checkbox\">",
+          "Edit",
           "Field Name",
           "Is Primary Key?",
           "Allow NULL?",
-          "Type"
+          "Type",
+          "Action"
         ],
         "info": "List of Schema Table Fields",
         "items": [],
@@ -227,26 +233,61 @@
   "udn": [
     [
       [
+        "__comment.--- Selection and UUID master data setup ---",
         "__get.render.args.0.__set.render.selection",
         "__get.render.uuid.__set.temp.grid_render_data.wrap.0.data.uuid.__set.temp.grid_render_data.wrap.1.data.uuid",
+
+        "__comment.--- Datasource :: Query ---",
+
         "__data_filter.datasource.{}.{sort=[name]}.__set.render.data_datasource",
+
+        "__comment.--- Datasource :: Selection ---",
+
         "__array_map_find.{_id=(__get.render.selection.datasource_select)}.__set.render.record.datasource",
         "__if.(__get.render.record.datasource.__is_nil).__get.render.data_datasource.__get_index.0.__set.render.record.datasource.__get_index._id.__set.render.selection.datasource_select.__end_if",
+
+        "__comment.--- Schema :: Query ---",
+
         "__data_filter.schema.{}.{sort=[name]}.__set.render.data_schema",
+
+        "__comment.--- Schema :: Selection ---",
+
         "__array_map_find.{_id=(__get.render.selection.schema_select)}.__set.render.record.schema",
         "__if.(__get.render.record.schema.__is_nil).__get.render.data_schema.__get_index.0.__set.render.record.schema.__get_index._id.__set.render.selection.schema_select.__end_if",
-        "__data_filter.schema_table.{}.{sort=[name]}.__set.render.data_schema_table.__json_encode",
+
+
+        "__comment.--- Schema Table :: Query ---",
+
+        "__data_filter.schema_table.{}.{sort=[name]}.__set.render.data_schema_table",
+
+        "__comment.--- Schema Table :: Selection ---",
+
         "__get.render.data_schema_table.__array_map_find_update.{_id=(__get.render.selection.schema_table_select)}.{selected=selected}",
         "__if.(__get.render.selection.schema_table_select.__is_nil).__get.render.data_schema_table.__get_index.0._id.__set.render.selection.schema_table_select.__end_if",
+
+
+        "__comment.--- Schema Table Fields :: Query ---",
+
+        "__data_filter.schema_table_field.{schema_table_id=(__get.render.selection.schema_table_select)}.{sort=name}.__set.render.data_schema_table_field.__set.temp.grid_render_data.render.schema_table_fields.data.items",
+
+        "__comment.--- Schema Table Fields :: Add Columns ---",
+
+        "__get.temp.grid_render_data.render.schema_table_fields.data.items.__array_map_template.'_edit'.'<i class=\"icon-quill4\" onclick=\"alert({{index .Map \"_id\"}})\"></i>'.'_button'.'<button type=\"button\" class=\"btn btn-primary\" onclick=\"\"><i class=\"icon-image3 position-left\"></i> Action</button>'.'_select'.'<input class=\"\" type=\"checkbox\">'",
+
+
+        "__comment.--- Select/Options Remap ---",
+
         "__get.render.data_schema.__array_map_remap.{label=name,name=name,value=_id}.__set.temp.grid_render_data.render.schema_select.data.options",
-        "__get.render.data_schema_table.__array_map_remap.{label=name,name=name,value=_id,selected=selected}",
-        "__set.temp.grid_render_data.render.schema_table_select.data.options.__json_encode",
+        "__get.render.data_schema_table.__array_map_remap.{label=name,name=name,value=_id,selected=selected}.__set.temp.grid_render_data.render.schema_table_select.data.options",
         "__get.render.data_schema_table.__array_map_find.{_id=(__get.render.selection.schema_table_select)}.__set.render.record.schema_table",
-        "__data_filter.schema_table_field.{schema_table_id=(__get.render.selection.schema_table_select)}.{sort=name}",
-        "__set.render.data_schema_table_field.__json_encode",
-        "__get.render.data_schema_table_field.__set.temp.grid_render_data.render.schema_table_fields.data.items",
-        "__get.render.record.schema_table.__template.'Fields for Table: {{index .Map \"name\"}}'",
-        "__set.temp.grid_render_data.render.schema_table_fields.data.info",
+
+
+        "__comment.--- Schema Table Fields :: Format ---",
+
+        "__get.render.record.schema_table.__template.'Fields for Table: {{index .Map \"name\"}}'.__set.temp.grid_render_data.render.schema_table_fields.data.info",
+
+        "__comment.--- Wrap Data Insertion ---",
+
         "__get.render.selection.__set.temp.grid_render_data.wrap.1.data.selection",
         "__get.web_site_page._id.__set.temp.grid_render_data.wrap.1.data.web_site_page_id",
         "__get.page_widget._id.__set.temp.grid_render_data.wrap.1.data.web_site_page_widget_id",
