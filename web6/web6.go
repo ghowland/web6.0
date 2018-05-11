@@ -518,6 +518,7 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	w.WriteHeader(udn_data["http_response_code"].(int))
 	w.Write([]byte(buffer.String()))
 
+	//UdnLogLevel(nil, log_trace, "API Result:\n\n%s\n", buffer.String())
 }
 
 func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_page map[string]interface{}, uri string, w http.ResponseWriter, r *http.Request) {
@@ -527,7 +528,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	web_site_page_widgets := Query(db_web, sql)
 
 	// Get the base web site widget.  Only where priority is non-negative.  Negative priority items are considered to be explicit rendering only, so we will render them when they are invoked.
-	sql = fmt.Sprintf("SELECT * FROM web_site_page_widget WHERE _id = %d AND priority >= 0", web_site_page["base_page_web_site_page_widget_id"])
+	sql = fmt.Sprintf("SELECT * FROM web_site_page_widget WHERE _id = %d", web_site_page["base_page_web_site_page_widget_id"])
 	base_page_widgets := Query(db_web, sql)
 
 	// If we couldnt find the base_page_widget, we cannot render the any page for the website - return internal server error
@@ -601,6 +602,12 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 	// Loop over the page widgets, and template them
 	for _, site_page_widget := range web_site_page_widgets {
+		// If we dont have any priority, dont render it on the normal pass.  It must be explicitly asked to be rendered.
+		if site_page_widget["priority"] != nil && site_page_widget["priority"].(int64) < 1 {
+			UdnLogLevel(nil, log_trace, "Skipping Page Widget: %s\n", site_page_widget["name"])
+			continue
+		}
+
 		// Skip it if this is the base page, because we
 		if site_page_widget["_id"] == web_site_page["base_page_web_site_page_widget_id"] {
 			continue

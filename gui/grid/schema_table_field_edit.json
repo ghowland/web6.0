@@ -2,7 +2,7 @@
   "grid": [
     [
       {
-        "render": "datasource_select",
+        "render": "input_name",
         "size": 6,
         "wrap": [
           {
@@ -11,219 +11,23 @@
             "widget": "form_group"
           }
         ]
-      },
-      {
-        "render": "datasource_button",
-        "size": 6,
-        "style": "text-right"
-      }
-    ],
-    [
-      {
-        "render": "schema_select",
-        "size": 6,
-        "wrap": [
-          {
-            "data": {},
-            "input": "value",
-            "widget": "form_group"
-          }
-        ]
-      },
-      {
-        "render": "schema_button",
-        "size": 6,
-        "style": "text-right"
-      }
-    ],
-    [
-      {
-        "render": "schema_table_select",
-        "size": 6,
-        "wrap": [
-          {
-            "data": {},
-            "input": "value",
-            "widget": "form_group"
-          }
-        ]
-      },
-      {
-        "render": "schema_table_button",
-        "size": 6,
-        "style": "text-right"
-      }
-    ],
-    [
-      {
-        "render": "schema_table_fields",
-        "size": 12,
-        "wrap": []
       }
     ]
   ],
-  "name": "schema_editor_all",
+  "name": "edit_schema_field_dialog",
   "render": {
-    "datasource_button": {
-      "data": {
-        "color": "primary",
-        "icon": "icon-stack3",
-        "onclick": "",
-        "value": "Datasource Create"
-      },
-      "requires": [
-        "datasource_select"
-      ],
-      "udn": [
-        [
-          [
-            "__get.render.render_data.__template.(__get.base_widget.button.html)"
-          ]
-        ]
-      ]
-    },
-    "datasource_select": {
+    "input_name": {
       "data": {
         "icon": "icon-pencil3",
-        "label": "Datasource Edit",
-        "name": "datasource_select",
-        "options": [
-          {
-            "name": "localhost",
-            "selected": true,
-            "value": "1"
-          }
-        ]
+        "label": "Name",
+        "name": "input_name",
+        "record": {
+        }
       },
-      "render_data_location": "datasource_select_render_data",
       "udn": [
         [
           [
-            "__get.render.datasource_select_render_data.__template.(__get.base_widget.core_grid_select.html)"
-          ]
-        ]
-      ]
-    },
-    "schema_button": {
-      "data": {
-        "color": "primary",
-        "icon": "icon-stack3",
-        "onclick": "",
-        "value": "Schema Create"
-      },
-      "requires": [
-        "schema_select"
-      ],
-      "udn": [
-        [
-          [
-            "__get.render.render_data.__template.(__get.base_widget.button.html)"
-          ]
-        ]
-      ]
-    },
-    "schema_select": {
-      "data": {
-        "icon": "icon-pencil3",
-        "label": "Schema Edit",
-        "name": "schema_select",
-        "options": [
-          {
-            "name": "localhost",
-            "selected": true,
-            "value": "1"
-          }
-        ]
-      },
-      "render_data_location": "schema_select_render_data",
-      "udn": [
-        [
-          [
-            "__get.render.schema_select_render_data.__template.(__get.base_widget.core_grid_select.html)"
-          ]
-        ]
-      ]
-    },
-    "schema_table_button": {
-      "data": {
-        "color": "warning",
-        "icon": "icon-stack3",
-        "onclick": "",
-        "value": "Schema Table Create"
-      },
-      "requires": [
-        "schema_select",
-        "schema_table_select"
-      ],
-      "udn": [
-        [
-          [
-            "__get.render.render_data.__template.(__get.base_widget.button.html)"
-          ]
-        ]
-      ]
-    },
-    "schema_table_fields": {
-      "data": {
-        "columns": [
-          "_select",
-          "_edit",
-          "name",
-          "is_primary_key",
-          "allow_null",
-          "argument_type_id.name",
-          "_button"
-        ],
-        "headers": [
-          "<input class=\"\" type=\"checkbox\">",
-          "Edit",
-          "Field Name",
-          "Is Primary Key?",
-          "Allow NULL?",
-          "Type",
-          "Action"
-        ],
-        "info": "List of Schema Table Fields",
-        "items": [],
-        "name": "schema_table_fields",
-        "title": "Schema Table Fields"
-      },
-      "requires": [
-        "schema_select",
-        "schema_table_select"
-      ],
-      "udn": [
-        [
-          [
-            "__get.render.render_data.__template.(__get.base_widget.core_table.html)"
-          ]
-        ]
-      ]
-    },
-    "schema_table_select": {
-      "data": {
-        "icon": "icon-pencil3",
-        "label": "Schema Table Edit",
-        "name": "schema_table_select",
-        "options": [
-          {
-            "name": "Web6",
-            "value": 1
-          },
-          {
-            "name": "OpsDB",
-            "selected": true,
-            "value": 2
-          }
-        ]
-      },
-      "requires": [
-        "schema_select"
-      ],
-      "udn": [
-        [
-          [
-            "__get.render.render_data.__template.(__get.base_widget.core_grid_select.html)"
+            "__get.render.render_data.__template.(__get.base_widget.form_field_text.html)"
           ]
         ]
       ]
@@ -233,58 +37,21 @@
   "udn": [
     [
       [
-        "__comment.--- Selection and UUID master data setup ---",
+        "__comment.--- Selection setup ---",
         "__get.render.args.0.__set.render.selection",
-        "__get.render.uuid.__set.temp.grid_render_data.wrap.0.data.uuid.__set.temp.grid_render_data.wrap.1.data.uuid",
-
-        "__comment.--- Datasource :: Query ---",
-
-        "__data_filter.datasource.{}.{sort=[name]}.__set.render.data_datasource",
-
-        "__comment.--- Datasource :: Selection ---",
-
-        "__array_map_find.{_id=(__get.render.selection.datasource_select)}.__set.render.record.datasource",
-        "__if.(__get.render.record.datasource.__is_nil).__get.render.data_datasource.__get_index.0.__set.render.record.datasource.__get_index._id.__set.render.selection.datasource_select.__end_if",
-
-        "__comment.--- Schema :: Query ---",
-
-        "__data_filter.schema.{}.{sort=[name]}.__set.render.data_schema",
-
-        "__comment.--- Schema :: Selection ---",
-
-        "__array_map_find.{_id=(__get.render.selection.schema_select)}.__set.render.record.schema",
-        "__if.(__get.render.record.schema.__is_nil).__get.render.data_schema.__get_index.0.__set.render.record.schema.__get_index._id.__set.render.selection.schema_select.__end_if",
-
 
         "__comment.--- Schema Table :: Query ---",
 
-        "__data_filter.schema_table.{}.{sort=[name]}.__set.render.data_schema_table",
+        "__data_get.schema_table.(__get.render.selection.schema_table_select).__set.render.data_schema_table",
 
-        "__comment.--- Schema Table :: Selection ---",
+        "__comment.--- Schema Table Field :: Query ---",
 
-        "__get.render.data_schema_table.__array_map_find_update.{_id=(__get.render.selection.schema_table_select)}.{selected=selected}",
-        "__if.(__get.render.selection.schema_table_select.__is_nil).__get.render.data_schema_table.__get_index.0._id.__set.render.selection.schema_table_select.__end_if",
-
-
-        "__comment.--- Schema Table Fields :: Query ---",
-
-        "__data_filter.schema_table_field.{schema_table_id=(__get.render.selection.schema_table_select)}.{sort=name}.__set.render.data_schema_table_field.__set.temp.grid_render_data.render.schema_table_fields.data.items",
-
-        "__comment.--- Schema Table Fields :: Add Columns ---",
-
-        "__get.temp.grid_render_data.render.schema_table_fields.data.items.__array_map_template.'_edit'.'<i class=\"icon-quill4\" onclick=\"alert({{index .Map \"_id\"}})\"></i>'.'_button'.'<button type=\"button\" class=\"btn btn-primary\" onclick=\"\"><i class=\"icon-image3 position-left\"></i> Action</button>'.'_select'.'<input class=\"\" type=\"checkbox\">'",
-
-
-        "__comment.--- Select/Options Remap ---",
-
-        "__get.render.data_schema.__array_map_remap.{label=name,name=name,value=_id}.__set.temp.grid_render_data.render.schema_select.data.options",
-        "__get.render.data_schema_table.__array_map_remap.{label=name,name=name,value=_id,selected=selected}.__set.temp.grid_render_data.render.schema_table_select.data.options",
-        "__get.render.data_schema_table.__array_map_find.{_id=(__get.render.selection.schema_table_select)}.__set.render.record.schema_table",
+        "__data_get.schema_table_field.(__get.render.selection.schema_table_field_select).__set.render.input_name.data.record",
 
 
         "__comment.--- Schema Table Fields :: Format ---",
 
-        "__get.render.record.schema_table.__template.'Fields for Table: {{index .Map \"name\"}}'.__set.temp.grid_render_data.render.schema_table_fields.data.info",
+        "__get.render.input_name.data.record.__template.'Table: {{index .Map \"name\"}}'.__set.temp.grid_render_data.wrap.1.data.name",
 
         "__comment.--- Wrap Data Insertion ---",
 
@@ -298,27 +65,25 @@
   "wrap": [
     {
       "data": {
-        "uuid": "1234"
       },
       "input": "value",
       "widget": "core_form"
     },
     {
       "data": {
-        "api": "grid_multi_submit",
-        "page_args": {},
-        "selection": {},
-        "uuid": "1234"
-      },
-      "input": "value",
-      "widget": "core_grid_control"
-    },
-    {
-      "data": {
-        "name": "Schema Edit"
+        "name": "Schema Table Field Edit"
       },
       "input": "value",
       "widget": "base_panel"
+    },
+    {
+      "data": {
+        "name": "schema_edit_dialog",
+        "size": "1300",
+        "submit_rpc_url": "api/grid_multi_submit"
+      },
+      "input": "value",
+      "widget": "dialog"
     }
   ]
 }

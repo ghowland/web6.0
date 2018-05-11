@@ -73,7 +73,7 @@
         RPC('/api/' + api_endpoint, {data: JSON.stringify(data)});
     }
 
-    function GridRenderWidget_{{index .Map "uuid"}}(widget, selection_key, selection_value, options) {
+    function GridRenderWidget_{{index .Map "uuid"}}(widget, dom_target, selection_key, selection_value, options) {
         var uuid = "{{index .Map "uuid"}}";
 
         // End point for the API
@@ -89,6 +89,12 @@
 
         // Pass through UUID so the unique elements are aligned with the server results
         data["uuid"] = uuid
+
+        // Widget to re-render
+        data["widget"] = widget
+
+        // Widget to re-render
+        data["dom_target"] = dom_target
 
         // Add in more basics we need to re-render this
         data["web_site_page_id"] = "{{index .Map "web_site_page_id"}}"
