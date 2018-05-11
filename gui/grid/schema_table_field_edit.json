@@ -3,14 +3,21 @@
     [
       {
         "render": "input_name",
-        "size": 6,
-        "wrap": [
-          {
-            "data": {},
-            "input": "value",
-            "widget": "form_group"
-          }
-        ]
+        "size": 6
+      },
+      {
+        "render": "input_type",
+        "size": 6
+      }
+    ],
+    [
+      {
+        "render": "input_is_primary_key",
+        "size": 6
+      },
+      {
+        "render": "input_allow_null",
+        "size": 6
       }
     ]
   ],
@@ -20,13 +27,57 @@
       "data": {
         "icon": "icon-pencil3",
         "label": "Name",
-        "name": "input_name",
-        "record": {
-        }
+        "name": "input_name"
       },
       "udn": [
         [
           [
+            "__get.temp.data_schema_table_field.name.__set.render.render_data.value",
+            "__get.render.render_data.__template.(__get.base_widget.form_field_text.html)"
+          ]
+        ]
+      ]
+    },
+    "input_type": {
+      "data": {
+        "icon": "icon-pencil3",
+        "label": "Type",
+        "name": "input_type"
+      },
+      "udn": [
+        [
+          [
+            "__get.temp.data_schema_table_field.argument_type_id.__set.render.render_data.value",
+            "__get.render.render_data.__template.(__get.base_widget.form_field_text.html)"
+          ]
+        ]
+      ]
+    },
+    "input_is_primary_key": {
+      "data": {
+        "icon": "icon-pencil3",
+        "label": "Is Primary Key?",
+        "name": "input_is_primary_key"
+      },
+      "udn": [
+        [
+          [
+            "__get.temp.data_schema_table_field.is_primary_key.__set.render.render_data.value",
+            "__get.render.render_data.__template.(__get.base_widget.form_field_text.html)"
+          ]
+        ]
+      ]
+    },
+    "input_allow_null": {
+      "data": {
+        "icon": "icon-pencil3",
+        "label": "Allow NULL?",
+        "name": "input_allow_null"
+      },
+      "udn": [
+        [
+          [
+            "__get.temp.data_schema_table_field.allow_null.__set.render.render_data.value",
             "__get.render.render_data.__template.(__get.base_widget.form_field_text.html)"
           ]
         ]
@@ -42,16 +93,16 @@
 
         "__comment.--- Schema Table :: Query ---",
 
-        "__data_get.schema_table.(__get.render.selection.schema_table_select).__set.render.data_schema_table",
+        "__data_get.schema_table.(__get.render.selection.schema_table_select).__set.temp.data_schema_table",
 
         "__comment.--- Schema Table Field :: Query ---",
 
-        "__data_get.schema_table_field.(__get.render.selection.schema_table_field_select).__set.render.input_name.data.record",
+        "__data_get.schema_table_field.(__get.render.selection.schema_table_field).__set.temp.data_schema_table_field",
 
 
         "__comment.--- Schema Table Fields :: Format ---",
 
-        "__get.render.input_name.data.record.__template.'Table: {{index .Map \"name\"}}'.__set.temp.grid_render_data.wrap.1.data.name",
+        "__get.temp.data_schema_table_field.__template.'Field: {{index .Map \"name\"}}'.__set.temp.grid_render_data.wrap.1.data.name",
 
         "__comment.--- Wrap Data Insertion ---",
 
