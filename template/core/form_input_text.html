@@ -1,5 +1,5 @@
 <label class="control-label">{{index .Map "label"}}</label>
-<input id="{{index .Map "uuid"}}_{{index .Map "name"}}_id" name="{{index .Map "name"}}" type="text" placeholder="{{index .Map "placeholder"}}" class="form-control" value="{{index .Map "value"}}">
+<input id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" name="{{index .Map "_field_label"}}" type="text" placeholder="{{if index .Map "placeholder"}}{{index .Map "placeholder"}}{{end}}" class="form-control" value="{{if index .Map "value"}}{{index .Map "value"}}{{end}}">
 <div class="form-control-feedback" style="margin-right: 0.5em;">
     <i class="{{index .Map "icon"}}"></i>
 </div>

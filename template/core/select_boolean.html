@@ -1,0 +1,17 @@
+<select  id="{{index .Map "uuid"}}_{{index .Map "name"}}_id" name="{{index .Map "name"}}" class="selectbox-{{index .Map "name"}}" {{if index .Map "onchange"}}onchange="{{index .Map "onchange"}}"{{end}}>
+
+{{if index .Map "value"}} checked="checked"
+    <option value="1" selected="selected">True</option>
+    <option value="0">False</option>
+{{else}}
+    <option value="1">True</option>
+    <option value="0" selected="selected">False</option>
+{{end}}
+</select>
+<script>
+    $(".selectbox-{{index .Map "name"}}").selectBoxIt({
+        autoWidth: false,
+        downArrowIcon: "{{index .Map "icon"}}"
+    });
+</script>
+<span class="help-block">{{index .Map "info"}}</span>

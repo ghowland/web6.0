@@ -1,0 +1,20 @@
+<label class="control-label"><i class="{{index .Map "icon"}}"></i> {{index .Map "label"}}</label>
+<textarea id="{{index .Map "uuid"}}_{{index .Map "name"}}_id" style="display: none">{{index .Map "value"}}</textarea>
+<div id="ace_editor_{{index .Map "uuid"}}_{{index .Map "name"}}" style="height: 200px;"></div>
+<input type="hidden" name="{{index .Map "_field_label"}}" id="hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}">
+<script>
+    var ace_editor = ace.edit("ace_editor_{{index .Map "uuid"}}_{{index .Map "name"}}");
+    ace_editor.setTheme("ace/theme/monokai");
+    ace_editor.getSession().setMode("ace/mode/{{index .Map "format"}}");
+    ace_editor.setShowPrintMargin(false);
+    ace_editor.getSession().setValue($("#{{index .Map "uuid"}}_{{index .Map "name"}}_id").text())
+    $("#hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}").val(ace_editor.getValue());
+
+    {{if index .Map "max_lines"}}  ace_editor.setOption("maxLines", {{index .Map "max_lines"}}) {{end}}
+
+    ace_editor.on('change', function () {
+        var ace_editor = ace.edit("ace_editor_{{index .Map "uuid"}}_{{index .Map "name"}}");
+        $("#hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}").val(ace_editor.getValue());
+    });
+</script>
+<span class="help-block">{{index .Map "info"}}</span>

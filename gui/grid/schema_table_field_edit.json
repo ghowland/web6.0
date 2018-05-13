@@ -19,21 +19,86 @@
         "render": "input_allow_null",
         "size": 6
       }
+    ],
+    [
+      {
+        "render": "input_label_default",
+        "size": 6
+      },
+      {
+        "render": "input_default_value",
+        "size": 6
+      }
+    ],
+    [
+      {
+        "render": "input_layout_column_order",
+        "size": 6
+      }
+    ],
+    [
+      {
+        "render": "input_layout_grid_x",
+        "size": 6
+      },
+      {
+        "render": "input_layout_grid_y",
+        "size": 6
+      }
     ]
   ],
-  "name": "edit_schema_field_dialog",
+  "name": "Schema Field Edit",
   "render": {
     "input_name": {
       "data": {
         "icon": "icon-pencil3",
         "label": "Name",
-        "name": "input_name"
+        "name": "input_name",
+        "placeholder": "Field Name"
       },
       "udn": [
         [
           [
+            "__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}.name'",
+            "__set.render.render_data._field_label",
             "__get.temp.data_schema_table_field.name.__set.render.render_data.value",
-            "__get.render.render_data.__template.(__get.base_widget.form_field_text.html)"
+            "__get.render.render_data.__template.(__get.base_widget.core_form_input_text.html)"
+          ]
+        ]
+      ]
+    },
+    "input_label_default": {
+      "data": {
+        "icon": "icon-pencil3",
+        "label": "Default Label",
+        "name": "input_label_default",
+        "placeholder": "Label"
+      },
+      "udn": [
+        [
+          [
+            "__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}.label_default'",
+            "__set.render.render_data._field_label",
+            "__get.temp.data_schema_table_field.label_default.__set.render.render_data.value",
+            "__get.render.render_data.__template.(__get.base_widget.core_form_input_text.html)"
+          ]
+        ]
+      ]
+    },
+    "input_default_value": {
+      "data": {
+        "icon": "icon-pencil3",
+        "label": "Default Value",
+        "name": "input_default_value",
+        "placeholder": "Value"
+      },
+      "udn": [
+        [
+          [
+            "__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}.default_value'",
+            "__set.render.render_data._field_label",
+            "__get.temp.data_schema_table_field.default_value.__set.render.render_data.value",
+            "__get.render.render_data.__template.(__get.base_widget.core_form_input_text.html)"
           ]
         ]
       ]
@@ -42,13 +107,18 @@
       "data": {
         "icon": "icon-pencil3",
         "label": "Type",
-        "name": "input_type"
+        "name": "input_type",
+        "options": [
+        ]
       },
+      "requires": [
+      ],
       "udn": [
         [
           [
-            "__get.temp.data_schema_table_field.argument_type_id.__set.render.render_data.value",
-            "__get.render.render_data.__template.(__get.base_widget.form_field_text.html)"
+            "__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}.type'",
+            "__set.render.render_data._field_label",
+            "__get.render.render_data.__template.(__get.base_widget.core_grid_select.html)"
           ]
         ]
       ]
@@ -62,8 +132,10 @@
       "udn": [
         [
           [
+            "__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}.is_primary_key'",
+            "__set.render.render_data._field_label",
             "__get.temp.data_schema_table_field.is_primary_key.__set.render.render_data.value",
-            "__get.render.render_data.__template.(__get.base_widget.form_field_text.html)"
+            "__get.render.render_data.__template.(__get.base_widget.core_form_input_switch.html)"
           ]
         ]
       ]
@@ -77,8 +149,78 @@
       "udn": [
         [
           [
+            "__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}.allow_null'",
+            "__set.render.render_data._field_label",
             "__get.temp.data_schema_table_field.allow_null.__set.render.render_data.value",
-            "__get.render.render_data.__template.(__get.base_widget.form_field_text.html)"
+            "__get.render.render_data.__template.(__get.base_widget.core_form_input_switch.html)"
+          ]
+        ]
+      ]
+    },
+    "input_layout_column_order": {
+      "data": {
+        "icon": "icon-pencil3",
+        "label": "Layout: Column Order",
+        "name": "input_layout_column_order"
+      },
+      "udn": [
+        [
+          [
+            "__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}.layout_column_order'",
+            "__set.render.render_data._field_label",
+            "__get.temp.data_schema_table_field.layout_column_order.__set.render.render_data.value",
+            "__get.render.render_data.__template.(__get.base_widget.core_form_input_spinner.html)"
+          ]
+        ]
+      ]
+    },
+    "input_layout_grid_x": {
+      "data": {
+        "icon": "icon-pencil3",
+        "label": "Layout: Grid X",
+        "name": "input_layout_grid_x"
+      },
+      "udn": [
+        [
+          [
+            "__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}.layout_grid_x'",
+            "__set.render.render_data._field_label",
+            "__get.temp.data_schema_table_field.layout_grid_x.__set.render.render_data.value",
+            "__get.render.render_data.__template.(__get.base_widget.core_form_input_spinner.html)"
+          ]
+        ]
+      ]
+    },
+    "input_layout_grid_y": {
+      "data": {
+        "icon": "icon-pencil3",
+        "label": "Layout: Grid Y",
+        "name": "input_layout_grid_y"
+      },
+      "udn": [
+        [
+          [
+            "__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}.layout_grid_y'",
+            "__set.render.render_data._field_label",
+            "__get.temp.data_schema_table_field.layout_grid_y.__set.render.render_data.value",
+            "__get.render.render_data.__template.(__get.base_widget.core_form_input_spinner.html)"
+          ]
+        ]
+      ]
+    },
+    "input_data_json": {
+      "data": {
+        "icon": "icon-pencil3",
+        "label": "Data JSON",
+        "name": "input_data_json"
+      },
+      "udn": [
+        [
+          [
+            "__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}.data_json'",
+            "__set.render.render_data._field_label",
+            "__get.temp.data_schema_table_field.data_json.__json_encode.__set.render.render_data.value",
+            "__get.render.render_data.__template.(__get.base_widget.core_form_input_ace.html)"
           ]
         ]
       ]
@@ -98,6 +240,12 @@
         "__comment.--- Schema Table Field :: Query ---",
 
         "__data_get.schema_table_field.(__get.render.selection.schema_table_field).__set.temp.data_schema_table_field",
+
+        "__comment.--- Argument Type :: Query ---",
+
+        "__data_filter.argument_type.{}.__set.temp.data_argument_types",
+        "__array_map_find_update.{_id=(__get.temp.data_schema_table_field.argument_type_id)}.{selected=(__true)}",
+        "__array_map_remap.{label=name,name=name,value=_id,selected=selected}.__set.temp.grid_render_data.render.input_type.data.options",
 
 
         "__comment.--- Schema Table Fields :: Format ---",
@@ -129,12 +277,13 @@
     },
     {
       "data": {
-        "name": "schema_edit_dialog",
+        "name": "schema_table_field_edit_dialog",
+        "title": "Schema Field Edit",
         "size": "1300",
         "submit_rpc_url": "api/grid_multi_submit"
       },
       "input": "value",
-      "widget": "dialog"
+      "widget": "core_dialog"
     }
   ]
 }

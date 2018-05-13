@@ -1,0 +1,5 @@
+<label class="control-label">{{index .Map "label"}}</label>
+<input id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" name="{{index .Map "_field_label"}}" class="styled" type="checkbox" {{if index .Map "value"}} checked="checked"{{else}}{{end}}>
+<script>
+    $(".styled, .multiselect-container input").uniform({radioClass: "choice"});
+</script>

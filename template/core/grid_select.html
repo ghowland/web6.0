@@ -1,17 +1,17 @@
 <div id="{{index .Map "uuid"}}_{{index .Map "name"}}">
 
-<label class="control-label">{{index .Map "label"}}</label>
-<select  id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" name="{{index .Map "name"}}" class="selectbox-{{index .Map "name"}}" onchange="{{if index .Map "onchange"}}{{index .Map "onchange"}}; {{end}}GridSelectionSelect_{{index .Map "uuid"}}('{{index .Map "requires"}}', '{{index .Map "name"}}', $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').val())">
-{{range $index, $element := index .Map "options"}}
-    <option value="{{$element.value}}" {{if $element.selected}}selected="selected"{{end}}>{{$element.name}}</option>
-{{end}}
-</select>
-<script>
-    $(".selectbox-{{index .Map "name"}}").selectBoxIt({
-        autoWidth: false,
-        downArrowIcon: "{{index .Map "icon"}}"
-    });
-</script>
-<span class="help-block">{{index .Map "info"}}</span>
+    <label class="control-label">{{index .Map "label"}}</label>
+    <select  id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" name="{{index .Map "_field_label"}}" class="selectbox-{{index .Map "name"}}" onchange="{{if index .Map "onchange"}}{{index .Map "onchange"}}; {{end}}GridSelectionSelect_{{index .Map "uuid"}}('{{index .Map "requires"}}', '{{index .Map "name"}}', $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').val())">
+    {{range $index, $element := index .Map "options"}}
+        <option value="{{$element.value}}" {{if $element.selected}}selected="selected"{{end}}>{{$element.name}}</option>
+    {{end}}
+    </select>
+    <script>
+        $(".selectbox-{{index .Map "name"}}").selectBoxIt({
+            autoWidth: false,
+            downArrowIcon: "{{index .Map "icon"}}"
+        });
+    </script>
+    <span class="help-block">{{index .Map "info"}}</span>
 
 </div>

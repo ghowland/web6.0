@@ -25,20 +25,7 @@
         $(function() {
             // Enable our buttons to do their thing
             $('#dialog-submit-{{index .Map "uuid"}}').click(function() {
-                /*
-                    var data = {};
 
-                    $('#dialog-{{index .Map "uuid"}}').find('input, select, textarea').each(
-                        function(index) {
-                            var input = $(this);
-                            if (input.attr('name') != undefined) {
-                                data[input.attr('name')] = input.val();
-                            }
-                        }
-                    );
-
-                    RPC('{{index .Map "submit_rpc_url"}}', {'data': JSON.stringify(data)})
-                    */
                 RPC('{{index .Map "submit_rpc_url"}}', {'data': CollectDataSubmit_{{index .Map "uuid"}}()})
 
                 $(this).closest('.ui-dialog-content').dialog('close');

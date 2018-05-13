@@ -1,7 +1,7 @@
 <label class="control-label">{{index .Map "label"}}</label>
 <div class="input-group">
     <!--<span class="input-group-addon"><i class="{{index .Map "icon"}}"></i></span>-->
-    <input id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" type="text" name="{{index .Map "name"}}" value="{{index .Map "value"}}" class="touchspin-12345 form-control" placeholder="{{index .Map "placeholder"}}">
+    <input id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" type="text" name="{{index .Map "_field_label"}}" value="{{index .Map "value"}}" class="touchspin-12345 form-control" placeholder="{{index .Map "placeholder"}}">
 </div>
 <span class="help-block">{{index .Map "info"}}</span>
 <script>
