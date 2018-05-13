@@ -14,7 +14,16 @@
                 function(index) {
                     var input = $(this);
                     if (input.attr('name') != undefined) {
-                        data[input.attr('name')] = input.val();
+                        // If this is a Bootstrap Switch based Checkbox
+                        if (input.attr('type') == 'checkbox' && input.attr('class').indexOf('switch') !== -1) {
+                            if ($(input).bootstrapSwitch('state') == true) {
+                                data[input.attr('name')] = 1;
+                            } else {
+                                data[input.attr('name')] = 0;
+                            }
+                        } else {
+                            data[input.attr('name')] = input.val();
+                        }
                     }
                 }
             );
