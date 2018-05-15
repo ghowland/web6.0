@@ -254,10 +254,11 @@
 
         "__comment.--- Wrap Data Insertion ---",
 
-        "__get.render.selection.__set.temp.grid_render_data.wrap.1.data.selection",
-        "__get.web_site_page._id.__set.temp.grid_render_data.wrap.1.data.web_site_page_id",
-        "__get.page_widget._id.__set.temp.grid_render_data.wrap.1.data.web_site_page_widget_id",
-        "__get.page_args.__set.temp.grid_render_data.wrap.1.data.page_args"
+        "__get.render.selection.__set.temp.grid_render_data.wrap.2.data.selection",
+        "__get.web_site_page._id.__set.temp.grid_render_data.wrap.2.data.web_site_page_id",
+        "__get.page_widget._id.__set.temp.grid_render_data.wrap.2.data.web_site_page_widget_id",
+        "__get.page_args.__set.temp.grid_render_data.wrap.2.data.page_args",
+        "__input.[schema_table].__json_encode.__base64_encode.__set.temp.grid_render_data.wrap.2.data.requires"
       ]
     ]
   ],
