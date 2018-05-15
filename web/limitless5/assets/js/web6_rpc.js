@@ -52,7 +52,7 @@ function ProcessRPCData(data) {
             //TODO(g): Is it worth checking if the ID exists in the DOM?  I dont think so, but think about it...
             // Start by clearing the existing data and freeing references
             $("#" + key).empty();
-            alert('Procesing: ' + key + ' :: ' + data[key]);
+            // alert('Procesing: ' + key + ' :: ' + data[key]);
             $("#" + key).html(data[key]);
         }
         // Save our Javascript array until later so we can deal with it then
