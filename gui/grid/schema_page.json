@@ -172,6 +172,7 @@
           "is_primary_key",
           "allow_null",
           "argument_type_id.name",
+          "label_default",
           "_button"
         ],
         "headers": [
@@ -181,6 +182,7 @@
           "Is Primary Key?",
           "Allow NULL?",
           "Type",
+          "Default Label",
           "Action"
         ],
         "info": "List of Schema Table Fields",

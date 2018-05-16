@@ -1,3 +1,8 @@
 <form action="#" id="form_{{index .Map "uuid"}}">
 {{index .Map "value"}}
+
+{{range $key, $value:= index .Map "hidden_fields"}}
+    <input type="hidden" name="{{$key}}" value="{{$value}}"</th>
+{{end}}
+
 </form>

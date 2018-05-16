@@ -258,13 +258,18 @@
         "__get.web_site_page._id.__set.temp.grid_render_data.wrap.2.data.web_site_page_id",
         "__get.page_widget._id.__set.temp.grid_render_data.wrap.2.data.web_site_page_widget_id",
         "__get.page_args.__set.temp.grid_render_data.wrap.2.data.page_args",
-        "__input.[schema_table].__json_encode.__base64_encode.__set.temp.grid_render_data.wrap.2.data.requires"
+        "__input.[schema_table].__json_encode.__base64_encode.__set.temp.grid_render_data.wrap.2.data.requires",
+
+        "__get.temp.grid_render_data.wrap.0.data.hidden_fields.__map_key_set.(__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}._id').(__get.temp.data_schema_table_field._id.__debug_output)",
+        "__set.temp.grid_render_data.wrap.0.data.hidden_fields"
+
       ]
     ]
   ],
   "wrap": [
     {
       "data": {
+        "hidden_fields": {}
       },
       "input": "value",
       "widget": "core_form"
