@@ -17,9 +17,9 @@
                         // If this is a Bootstrap Switch based Checkbox
                         if (input.attr('type') == 'checkbox' && input.attr('class').indexOf('switch') !== -1) {
                             if ($(input).bootstrapSwitch('state') == true) {
-                                data[input.attr('name')] = 1;
+                                data[input.attr('name')] = true;
                             } else {
-                                data[input.attr('name')] = 0;
+                                data[input.attr('name')] = false;
                             }
                         } else {
                             data[input.attr('name')] = input.val();
@@ -37,6 +37,7 @@
 
                 var rpc_data = {'data': CollectDataSubmit_{{index .Map "uuid"}}()};
 
+                rpc_data["uuid"] = "{{index .Map "uuid"}}"
                 rpc_data["requires"] = "{{index .Map "requires"}}"
 
                 rpc_data["web_site_page_id"] = "{{index .Map "web_site_page_id"}}"

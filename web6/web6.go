@@ -627,11 +627,11 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 		// Get any static content associated with this page widget.  Then we dont need to worry about quoting or other stuff
 		widget_static := make(map[string]interface{})
 		udn_data["widget_static"] = widget_static
-		if site_page_widget["static_data_json"] != nil {
+		if site_page_widget["static_data_json"] != nil && site_page_widget["static_data_json"] != "" {
 			err := json.Unmarshal([]byte(site_page_widget["static_data_json"].(string)), &widget_static)
 			if err != nil {
 				UdnLogLevel(nil, log_trace, "Static JSON Data: %s\n", site_page_widget["static_data_json"].(string))
-				log.Panic(err)
+				//log.Panic(err)
 			}
 		}
 
