@@ -41,6 +41,8 @@
                 rpc_data["requires"] = "{{index .Map "requires"}}"
 
                 rpc_data["web_site_page_id"] = "{{index .Map "web_site_page_id"}}"
+
+                // If the submit fails, we need to re-render ourselves to display the errors
                 rpc_data["web_site_page_widget_id"] = "{{index .Map "web_site_page_widget_id"}}"
 
                 // Store all our Page Args information in the global JS dict
