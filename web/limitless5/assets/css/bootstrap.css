@@ -1453,6 +1453,7 @@ dt {
   font-weight: bold;
 }
 dd {
+  word-wrap: break-word; 
   margin-left: 0;
 }
 @media (min-width: 769px) {
