@@ -1,4 +1,3 @@
-<!-- Dialog -->
 <div id="dialog-{{index .Map "uuid"}}" title="{{if index .Map "title"}}{{index .Map "title"}}{{else}}{{index .Map "name"}}{{end}}">
 {{index .Map "value"}}
 
@@ -62,19 +61,20 @@
                 RPC('{{index .Map "submit_rpc_url"}}', {'data': JSON.stringify(rpc_data)})
 
                 $(this).closest('.ui-dialog-content').dialog('close');
+                $(this).closest('.ui-dialog-content').dialog('destroy').remove()
 
             });
 
             // Enable our buttons to do their thing
             $('#dialog-cancel-{{index .Map "uuid"}}').click(function() {
                 $(this).closest('.ui-dialog-content').dialog('close');
+                $(this).closest('.ui-dialog-content').dialog('destroy').remove()
             });
 
         });
     </script>
 </p>
 </div>
-<!-- /Dialog -->
 
 <script>
     $(function() {
