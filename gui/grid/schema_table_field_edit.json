@@ -61,6 +61,7 @@
           [
             "__get.temp.data_schema_table_field.__template.'{{index .Map \"_record_label\"}}.name'",
             "__set.render.render_data._field_label",
+            "__get.temp.grid_render_data.data_error.(__get.render.render_data._field_label).__set.render.render_data._error",
             "__get.temp.data_schema_table_field.name.__set.render.render_data.value",
             "__get.render.render_data.__template.(__get.base_widget.core_form_input_text.html)"
           ]
@@ -286,6 +287,8 @@
         "name": "schema_table_field_edit_dialog",
         "title": "Schema Field Edit",
         "size": "1300",
+        "widget": "edit_dialog",
+        "dom_target": "dialog_target",
         "submit_rpc_url": "api/grid_multi_submit"
       },
       "input": "value",

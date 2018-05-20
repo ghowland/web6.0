@@ -28,7 +28,17 @@
     "yudiendata",
     "yudienutil"
   ]
-  revision = "eca5c5b9d78f2179bdd0bc0f3c71cc726bd75268"
+  revision = "de16d8b0d2c01d87f054ea8da9a7077ac5bcbb1f"
+
+[[projects]]
+  name = "github.com/google/go-cmp"
+  packages = [
+    "cmp",
+    "cmp/internal/diff",
+    "cmp/internal/function",
+    "cmp/internal/value"
+  ]
+  revision = "5411ab924f9ffa6566244a9e504bc347edacffd3"
 
 [[projects]]
   branch = "master"
@@ -151,12 +161,6 @@
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   revision = "eb3733d160e74a9c7e442f435eb3bea458e1d19f"
-
-[[projects]]
-  name = "github.com/google/go-cmp"
-  packages = ["."]
-  revision = "5411ab924f9ffa6566244a9e504bc347edacffd3"
-
 
 [solve-meta]
   analyzer-name = "dep"
