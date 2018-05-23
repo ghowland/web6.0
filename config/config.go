@@ -11,6 +11,7 @@ import (
 	"github.com/ghowland/yudien/yudien"
 	"github.com/ghowland/yudien/yudiencore"
 	"github.com/ghowland/yudien/yudiendata"
+	"github.com/ghowland/yudien/yudienutil"
 )
 
 const ( // order matters for log levels
@@ -48,6 +49,8 @@ func LoadConfig(config string) {
 			panic(fmt.Sprintf("Cound not find web6.json in /etc/web6 or %s", config))
 		}
 	}
+	
+	fmt.Printf( "Load Config: %s\n\n", config)
 
 	yudiencore.UdnLogLevel(nil, log_info, "Found web6 config at %s\n", config)
 
@@ -58,5 +61,16 @@ func LoadConfig(config string) {
 	err = json.Unmarshal([]byte(config_str), Config)
 	if err != nil {
 		log.Panic(fmt.Sprintf("Cannot parse JSON config file: %s: %s\n", config, err.Error()))
+	}
+
+	// Format the ConnectOptions based on all our data, for the default database
+	Config.DefaultDatabase.ConnectOptions = yudienutil.TemplateInterface(Config.DefaultDatabase, Config.DefaultDatabase.ConnectOptionsRaw)
+	fmt.Printf("Database Connect String: %s: %s\n\n", Config.DefaultDatabase.Name, Config.DefaultDatabase.ConnectOptions)
+
+
+	// Format the ConnectOptions based on all our data, for all secondary databases
+	for _, db_config := range Config.Databases {
+		db_config.ConnectOptions = yudienutil.TemplateInterface(db_config, db_config.ConnectOptionsRaw)
+		fmt.Printf("Database Connect String: %s: %s\n\n", db_config.Name, db_config.ConnectOptions)
 	}
 }

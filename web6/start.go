@@ -4,10 +4,10 @@ import (
 	"github.com/ghowland/yudien/yudien"
 	"github.com/ghowland/yudien/yudiencore"
 	"github.com/ghowland/yudien/yudiendata"
-	"github.com/ghowland/yudien/yudienutil"
 	. "github.com/ghowland/web6.0/config"
 	//"github.com/ghowland/opsdb/opsdb"
 	"flag"
+	"github.com/ghowland/yudien/yudienutil"
 )
 
 func Start(pidFile *string) {
@@ -31,22 +31,40 @@ func Start(pidFile *string) {
 	yudien.Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
 
 	if false {
-		yudiendata.ImportSchemaJson("data/schema.json")
-		yudiendata.GenerateSchemaJson("data/schema_out.json")
+		// Import the default database
+		ImportDatabase(yudiendata.DefaultDatabase)
 
-		// Test data in same format (ordering/sorting)
-		text := yudienutil.ReadPathData("data/schema.json")
-		data_str, _ := yudienutil.JsonLoadMap(text)
-		data := yudienutil.JsonDump(data_str)
-		yudienutil.WritePathData("data/schema_in.json", data)
+		// Import all the other databases
+		for _, db_config := range Config.Databases {
+			yudiendata.AllDatabases[db_config.Name] = db_config
 
-		yudiencore.UdnLogLevel(nil, log_info, "\n\nEnsure DB\n\n")
-
-		yudiendata.DatamanEnsureDatabases(yudiendata.DefaultDatabase.ConnectOptions, yudiendata.DefaultDatabase.Database, yudiendata.DefaultDatabase.Schema, "data/schema_out.json")
-
+			ImportDatabase(&db_config)
+		}
 	}
 
 	yudiencore.UdnLogLevel(nil, log_info, "Finished starting...\n")
 
 	//go opsdb.RunJobWorkers()
 }
+
+func ImportDatabase(database_config *yudiendata.DatabaseConfig) {
+	yudiencore.UdnLogLevel(nil, log_info, "\n\nEnsure Database: %s: %s\n\n", database_config.Name, yudienutil.JsonDump(database_config))
+
+	//yudiendata.ImportSchemaJson(database_config.Schema)
+
+	yudiendata.DatamanEnsureDatabases(*database_config, nil)
+}
+
+func ExportDatabase(path_out string, path_in_compare interface{}) {
+	yudiendata.GenerateSchemaJson("data/schema_out.json")
+
+	if path_in_compare != nil {
+		// Test data in same format (ordering/sorting)
+		text := yudienutil.ReadPathData(path_in_compare.(string))
+		data_str, _ := yudienutil.JsonLoadMap(text)
+		data := yudienutil.JsonDump(data_str)
+		yudienutil.WritePathData("data/schema_out_compare.json", data)
+	}
+}
+
+

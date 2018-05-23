@@ -20,7 +20,7 @@
   revision = "2eafe38a30c2f610f83d8e8f47f512f48c46547b"
 
 [[projects]]
-  branch = "master"
+  branch = "yudien_zelin_delete3"
   name = "github.com/ghowland/yudien"
   packages = [
     "yudien",
@@ -28,7 +28,7 @@
     "yudiendata",
     "yudienutil"
   ]
-  revision = "de16d8b0d2c01d87f054ea8da9a7077ac5bcbb1f"
+  revision = "72755c59649c8da59a54cfb397f8c97a38372e37"
 
 [[projects]]
   name = "github.com/google/go-cmp"

@@ -22,8 +22,9 @@
 
 
 [[constraint]]
-  branch = "master"
+  #branch = "master"
   name = "github.com/jacksontj/dataman"
+  revision = "25e72fe46f2a38bd5ae368da14b7bbd9994d722d"
 
 [[constraint]]
   name = "github.com/jcasts/gosrv"
