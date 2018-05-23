@@ -9,7 +9,6 @@ import (
 	"os/user"
 
 	"github.com/ghowland/yudien/yudien"
-	"github.com/ghowland/yudien/yudiencore"
 	"github.com/ghowland/yudien/yudiendata"
 	"github.com/ghowland/yudien/yudienutil"
 )
@@ -35,7 +34,7 @@ type Web6Config struct {
 	Logging         yudien.LoggingConfig                 `json:"logging"`
 }
 
-var Config *Web6Config = &Web6Config{}
+var Config Web6Config
 
 func LoadConfig(config string) {
 	_, err := os.Stat(config)
@@ -49,19 +48,18 @@ func LoadConfig(config string) {
 			panic(fmt.Sprintf("Cound not find web6.json in /etc/web6 or %s", config))
 		}
 	}
-	
-	fmt.Printf( "Load Config: %s\n\n", config)
 
-	yudiencore.UdnLogLevel(nil, log_info, "Found web6 config at %s\n", config)
+	fmt.Printf( "Load web6 config: %s\n\n", config)
 
 	config_str, err := ioutil.ReadFile(config)
 	if err != nil {
 		log.Panic(fmt.Sprintf("Cannot read config file: %s: %s\n", config, err.Error()))
 	}
-	err = json.Unmarshal([]byte(config_str), Config)
+	err = json.Unmarshal([]byte(config_str), &Config)
 	if err != nil {
 		log.Panic(fmt.Sprintf("Cannot parse JSON config file: %s: %s\n", config, err.Error()))
 	}
+
 
 	// Format the ConnectOptions based on all our data, for the default database
 	Config.DefaultDatabase.ConnectOptions = yudienutil.TemplateInterface(Config.DefaultDatabase, Config.DefaultDatabase.ConnectOptionsRaw)
@@ -69,8 +67,15 @@ func LoadConfig(config string) {
 
 
 	// Format the ConnectOptions based on all our data, for all secondary databases
-	for _, db_config := range Config.Databases {
-		db_config.ConnectOptions = yudienutil.TemplateInterface(db_config, db_config.ConnectOptionsRaw)
-		fmt.Printf("Database Connect String: %s: %s\n\n", db_config.Name, db_config.ConnectOptions)
+	for db_key, db_config := range Config.Databases {
+		//fmt.Printf("Config DB Raw: %v\n", Config.Databases[db_key].ConnectOptionsRaw)
+		//fmt.Printf("Config DB: %v\n", Config.Databases[db_key].ConnectOptions)
+
+		// Cannot modify structs behind maps because it's not a normal point, as it's behind a hashmap, so copying, changing and copying back
+		real_db_config := Config.Databases[db_key]
+		real_db_config.ConnectOptions = yudienutil.TemplateInterface(db_config, db_config.ConnectOptionsRaw)
+		Config.Databases[db_key] = real_db_config
+		//fmt.Printf("Database Connect String: %s: %s\n\n", real_db_config.Name, real_db_config.ConnectOptions)
+		//fmt.Printf("Config DB After: %v\n", Config.Databases[db_key].ConnectOptions)
 	}
 }
