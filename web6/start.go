@@ -32,9 +32,10 @@ func Start(pidFile *string) {
 
 	yudien.Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
 
-	if true {
-		//// Import the default database
-		//ImportDatabase(yudiendata.DefaultDatabase)
+	//TODO(g): Make this a CLI flag
+	if false {
+		// Import the default database
+		ImportDatabase(yudiendata.DefaultDatabase)
 
 		// Import all the other databases
 		for _, db_config := range Config.Databases {
@@ -50,9 +51,9 @@ func Start(pidFile *string) {
 func ImportDatabase(database_config *yudiendata.DatabaseConfig) {
 	yudiencore.UdnLogLevel(nil, log_info, "\n\nEnsure Database: %s: %s\n\n", database_config.Name, yudienutil.JsonDump(database_config))
 
-	//yudiendata.ImportSchemaJson(database_config.Schema)
+	yudiendata.ImportSchemaJson(database_config.Schema)
 
-	yudiendata.DatamanEnsureDatabases(*database_config, nil)
+	//yudiendata.DatamanEnsureDatabases(*database_config, nil)
 }
 
 func ExportDatabase(path_out string, path_in_compare interface{}) {

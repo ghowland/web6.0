@@ -506,11 +506,6 @@
                   "not_null": true,
                   "provision_state": 3
                 },
-                "database": {
-                  "name": "database",
-                  "field_type": "_string",
-                  "provision_state": 3
-                },
                 "datasource_cluster_id": {
                   "name": "datasource_cluster_id",
                   "field_type": "_int",
@@ -5199,6 +5194,11 @@
                   "not_null": true,
                   "provision_state": 3
                 },
+                "database_name": {
+                  "name": "database_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
                 "datasource_id": {
                   "name": "datasource_id",
                   "field_type": "_int",
@@ -5549,6 +5549,16 @@
                   "field_type": "_json",
                   "provision_state": 3
                 },
+                "length_maximum": {
+                  "name": "length_maximum",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "length_minimum": {
+                  "name": "length_minimum",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
                 "name": {
                   "name": "name",
                   "field_type": "_string",
@@ -5577,6 +5587,16 @@
                     "collection": "schema_type_map_item",
                     "field": "_id"
                   },
+                  "provision_state": 3
+                },
+                "value_maximum": {
+                  "name": "value_maximum",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "value_minimum": {
+                  "name": "value_minimum",
+                  "field_type": "_int",
                   "provision_state": 3
                 }
               },
