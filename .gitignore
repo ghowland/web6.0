@@ -1,3 +1,6 @@
+# Ignore JSON pages
+gui/grid/page_*.json
+
 # Binaries for programs and plugins
 *.exe
 *.dll

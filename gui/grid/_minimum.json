@@ -1,0 +1,162 @@
+{
+  "grid": [
+    [
+      {
+        "render": "item_select",
+        "size": 6,
+        "wrap": [
+          {
+            "data": {},
+            "input": "value",
+            "widget": "form_group"
+          }
+        ]
+      },
+      {
+        "render": "item_button",
+        "size": 6,
+        "style": "text-right"
+      }
+    ],
+    [
+      {
+        "render": "item_fields",
+        "size": 12,
+        "wrap": []
+      }
+    ]
+  ],
+  "name": "item_grid",
+  "render": {
+    "item_button": {
+      "data": {
+        "color": "primary",
+        "icon": "icon-stack3",
+        "onclick": "",
+        "value": "Item Create"
+      },
+      "requires": [
+        "item_select"
+      ],
+      "udn": [
+        [
+          [
+            "__get.render.render_data.__template.(__get.base_widget.button.html)"
+          ]
+        ]
+      ]
+    },
+    "item_select": {
+      "data": {
+        "name": "item_select",
+        "icon": "icon-pencil3",
+        "label": "Datasource Edit",
+        "options": [
+          {
+            "name": "localhost",
+            "selected": true,
+            "value": "1"
+          }
+        ]
+      },
+      "udn": [
+        [
+          [
+            "__get.render.render_data.__template.(__get.base_widget.core_grid_select.html)"
+          ]
+        ]
+      ]
+    },
+    "item_fields": {
+      "data": {
+        "name": "item_fields",
+        "columns": [
+          "_select",
+          "_edit",
+          "name",
+          "parent_id",
+          "documentation_id",
+          "_button"
+        ],
+        "headers": [
+          "<input class=\"styled\" type=\"checkbox\">",
+          "Edit",
+          "Item Name",
+          "Documentation",
+          "Parent",
+          "Action"
+        ],
+        "info": "List of Fields",
+        "items": [],
+        "title": "Fields"
+      },
+      "requires": [
+        "item_select"
+      ],
+      "udn": [
+        [
+          [
+            "__get.render.render_data.__template.(__get.base_widget.core_table.html)"
+          ]
+        ]
+      ]
+    }
+  },
+  "render_data_location": "render_data",
+  "udn": [
+    [
+      [
+        "__comment.--- Selection setup  ****  TODO: Remove this, and see if it still works. I think I already do this. ****  ---",
+        "__get.render.args.0.__set.render.selection",
+
+        "__comment.--- Item :: Query ---",
+        "__data_filter.service.{}.{sort=[name],db=ao}.__set.render.data_item",
+
+        "__comment.--- Item :: Selection ---",
+        "__array_map_find.{_id=(__get.render.selection.item_select)}.__set.render.record.item",
+        "__if.(__get.render.record.item.__is_nil).__get.render.data_item.__get_index.0.__set.render.record.item.__get_index._id.__set.render.selection.item_select.__end_if",
+
+        "__comment.--- Schema Table Fields :: Add Columns ---",
+        "__get.render.data_item.__set.temp.grid_render_data.render.item_fields.data.items",
+        "__get.temp.grid_render_data.render.item_fields.data.items.__array_map_key_set.uuid.(__get.render.uuid).__array_map_template.'_edit'.'<i class=\"icon-quill4\" onclick=\"GridRenderWidget_{{index .Map \"uuid\"}}(||QUOTE||edit_dialog||QUOTE||, ||QUOTE||dialog_target||QUOTE||, ||QUOTE||schema_table_field||QUOTE||, ||QUOTE||{{index .Map \"_id\"}}||QUOTE||)\"></i>'.'_button'.'<button type=\"button\" class=\"btn btn-primary\" onclick=\"alert(||QUOTE||{{index .Map \"_record_label\"}}||QUOTE||)\"><i class=\"icon-image3 position-left\"></i> Action</button>'.'_select'.'<input name=\"{{index .Map \"_record_label\"}}\" class=\"styled\" checked=\"checked\" type=\"checkbox\"><script>$(\".styled, .multiselect-container input\").uniform({radioClass: \"choice\"});</script>'",
+
+        "__comment.--- Select/Options Remap ---",
+        "__get.render.data_item.__array_map_remap.{label=name,name=name,value=_id}.__set.temp.grid_render_data.render.item_select.data.options",
+
+        "__comment.--- Schema Table Fields :: Format ---",
+        "__get.render.record.item.__template.'Fields for Table: {{index .Map \"name\"}}'.__set.temp.grid_render_data.render.item_fields.data.info",
+
+        "__comment.--- Wrap Data Insertion ---",
+        "__get.render.item.__set.temp.grid_render_data.wrap.1.data.selection",
+
+        "__comment.--- Embed Page Info---",
+        "__get.web_site_page._id.__set.temp.grid_render_data.wrap.1.data.web_site_page_id",
+        "__get.page_widget._id.__set.temp.grid_render_data.wrap.1.data.web_site_page_widget_id",
+        "__get.page_args.__set.temp.grid_render_data.wrap.1.data.page_args"
+      ]
+    ]
+  ],
+  "wrap": [
+    {
+      "data": {},
+      "input": "value",
+      "widget": "core_form"
+    },
+    {
+      "data": {
+        "api": "grid_multi_submit",
+        "page_args": {},
+        "selection": {}
+      },
+      "input": "value",
+      "widget": "core_grid_control"
+    },
+    {
+      "data": {
+        "name": "Services"
+      },
+      "input": "value",
+      "widget": "base_panel"
+    }
+  ]
+}
