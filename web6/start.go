@@ -34,8 +34,8 @@ func Start(pidFile *string) {
 	yudien.Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
 
 	if true {
-		// Import the default database
-		ImportDatabase(yudiendata.DefaultDatabase)
+		//// Import the default database
+		//ImportDatabase(yudiendata.DefaultDatabase)
 
 		// Import all the other databases
 		for _, db_config := range Config.Databases {

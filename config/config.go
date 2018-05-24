@@ -62,20 +62,15 @@ func LoadConfig(config string) {
 
 
 	// Format the ConnectOptions based on all our data, for the default database
-	Config.DefaultDatabase.ConnectOptions = yudienutil.TemplateInterface(Config.DefaultDatabase, Config.DefaultDatabase.ConnectOptionsRaw)
+	Config.DefaultDatabase.ConnectOptions = yudienutil.TemplateInterface(Config.DefaultDatabase, Config.DefaultDatabase.ConnectOptionsTemplate)
 	fmt.Printf("Database Connect String: %s: %s\n\n", Config.DefaultDatabase.Name, Config.DefaultDatabase.ConnectOptions)
 
 
 	// Format the ConnectOptions based on all our data, for all secondary databases
 	for db_key, db_config := range Config.Databases {
-		//fmt.Printf("Config DB Raw: %v\n", Config.Databases[db_key].ConnectOptionsRaw)
-		//fmt.Printf("Config DB: %v\n", Config.Databases[db_key].ConnectOptions)
-
 		// Cannot modify structs behind maps because it's not a normal point, as it's behind a hashmap, so copying, changing and copying back
 		real_db_config := Config.Databases[db_key]
-		real_db_config.ConnectOptions = yudienutil.TemplateInterface(db_config, db_config.ConnectOptionsRaw)
+		real_db_config.ConnectOptions = yudienutil.TemplateInterface(db_config, db_config.ConnectOptionsTemplate)
 		Config.Databases[db_key] = real_db_config
-		//fmt.Printf("Database Connect String: %s: %s\n\n", real_db_config.Name, real_db_config.ConnectOptions)
-		//fmt.Printf("Config DB After: %v\n", Config.Databases[db_key].ConnectOptions)
 	}
 }
