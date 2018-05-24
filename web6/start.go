@@ -8,7 +8,6 @@ import (
 	//"github.com/ghowland/opsdb/opsdb"
 	"flag"
 	"github.com/ghowland/yudien/yudienutil"
-	"fmt"
 )
 
 func Start(pidFile *string) {
@@ -24,7 +23,7 @@ func Start(pidFile *string) {
 
 	LoadConfig(config_path)
 
-	fmt.Printf("Configure post load: \n%s\n", yudienutil.JsonDump(Config))
+	//fmt.Printf("Configure post load: \n%s\n", yudienutil.JsonDump(Config))
 
 	// If logging is specified in the flag, then override the config file
 	if log != "" {
