@@ -29,6 +29,7 @@
     var element = document.getElementById('plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_id');
 
     var data = plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data;
+
     {{if index .Map "debug_alert"}}alert(data.toSource());{{end}}
 
     Plotly.newPlot(element, data, layout, options);

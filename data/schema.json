@@ -5327,6 +5327,58 @@
               },
               "provision_state": 3
             },
+            "schema_query_safe": {
+              "name": "schema_query_safe",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_serial",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "data_json": {
+                  "name": "data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "schema_table_id": {
+                  "name": "schema_table_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "relation": {
+                    "collection": "schema_table",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "schema_query_safe_name_key": {
+                  "name": "schema_query_safe_name_key",
+                  "fields": [
+                    "name"
+                  ],
+                  "unique": true,
+                  "provision_state": 3
+                },
+                "schema_query_safe_pkey": {
+                  "name": "schema_query_safe_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
             "schema_table": {
               "name": "schema_table",
               "fields": {
