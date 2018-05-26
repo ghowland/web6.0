@@ -1,0 +1,37 @@
+<div id="plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_id"></div>
+
+<script>
+    var plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data = {{index .Map "json_data"}};
+
+    // Ensure that all the Z items (values) are numbers
+    for (var item = 0; item < plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data.length; item ++) {
+        for (var row = 0; row < plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item]["z"].length ; row++ ) {
+            for (var col = 0; col < plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item]["z"][row].length ; col++ ) {
+
+                value = plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item]["z"][row][col];
+
+                // alert("Row: " + row + " Col: " + col + " Value: " + value);
+
+                value = parseFloat(value);
+
+                plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item]["z"][row][col] = value;
+            }
+        }
+    }
+
+    var layout = null;
+    {{if index .Map "json_layout"}}layout = {{index .Map "json_layout"}};{{end}}
+    //alert(layout.toSource())
+
+    var options = null;
+    {{if index .Map "json_options"}}options = {{index .Map "json_options"}};{{end}}
+
+    var element = document.getElementById('plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_id');
+
+    var data = plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data;
+    {{if index .Map "debug_alert"}}alert(data.toSource());{{end}}
+
+    Plotly.newPlot(element, data, layout, options);
+
+</script>
+
