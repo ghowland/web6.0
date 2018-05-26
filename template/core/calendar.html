@@ -1,0 +1,21 @@
+<!-- Calendar-->
+<p>{{index .Map "info"}}</p>
+<div id="calendar_{{index .Map "name"}}_{{index .Map "uuid"}}_id"></div>
+<!-- /Calendar -->
+
+<script>
+    // Event colors
+    var calendar_data_{{index .Map "name"}}_{{index .Map "uuid"}} = {{index .Map "event_json"}};
+
+    // Event colors
+    $('#calendar_{{index .Map "name"}}_{{index .Map "uuid"}}_id').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+        defaultDate: '{{index .Map "date"}}',
+        //editable: true,
+        events: calendar_data_{{index .Map "name"}}_{{index .Map "uuid"}}
+    });
+</script>

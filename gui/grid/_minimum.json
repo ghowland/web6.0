@@ -50,7 +50,7 @@
       "data": {
         "name": "item_select",
         "icon": "icon-pencil3",
-        "label": "Datasource Edit",
+        "label": "Select Item",
         "options": [
           {
             "name": "localhost",
