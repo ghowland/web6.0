@@ -20,6 +20,12 @@
   revision = "2eafe38a30c2f610f83d8e8f47f512f48c46547b"
 
 [[projects]]
+  branch = "master"
+  name = "gopkg.in/russross/blackfriday.v2"
+  packages = ["blackfriday"]
+  revision = "11635eb403ff09dbc3a6b5a007ab5ab09151c229"
+
+[[projects]]
   branch = "yudien_zelin_delete3"
   name = "github.com/ghowland/yudien"
   packages = [

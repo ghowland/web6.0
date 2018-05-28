@@ -1,6 +1,9 @@
 # Ignore JSON pages
 gui/grid/page_*.json
 
+# Ignore private files
+web/limitless5/private/*
+
 # Binaries for programs and plugins
 *.exe
 *.dll
