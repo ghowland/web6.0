@@ -1,0 +1,29 @@
+<!-- User List -->
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h6 class="panel-title">{{index .Map "title"}}</h6>
+        <div class="heading-elements">
+            <span class="badge badge-success heading-text">{{index .Map "count"}}</span>
+        </div>
+    </div>
+
+    <ul class="media-list media-list-linked pb-5">
+        <li class="media-header">{{index .Map "group"}}</li>
+
+        {{range $index, $element := index .Map "item"}}
+        <li class="media">
+            <a href="#" class="media-link">
+                <div class="media-left"><img src="{{$element.image}}" class="img-circle img-md" alt=""></div>
+                <div class="media-body">
+                    <span class="media-heading text-semibold">{{$element.business_user_id.name_first}} {{$element.business_user_id.name_last}}</span>
+                    <span class="media-annotation">{{$element.info}}</span>
+                </div>
+                <div class="media-right media-middle">
+                    <span class="status-mark bg-success"></span>
+                </div>
+            </a>
+        </li>
+        {{end}}
+    </ul>
+</div>
+<!-- /User List -->
