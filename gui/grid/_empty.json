@@ -1,0 +1,70 @@
+{
+  "grid": [
+    [
+      {
+        "render": "item_button",
+        "size": 6,
+        "wrap": [
+          {
+            "data": {},
+            "input": "value",
+            "widget": "core_panel"
+          }
+        ]
+      }
+    ]
+  ],
+  "name": "item_grid",
+  "render": {
+    "item_button": {
+      "data": {
+        "name": "item_button",
+        "color": "primary",
+        "icon": "icon-stack3",
+        "onclick": "",
+        "value": "Item Create"
+      },
+      "requires": [
+      ],
+      "udn": [
+        [
+          [
+            "__get.render.render_data.__template.(__get.base_widget.button.html)"
+          ]
+        ]
+      ]
+    }
+  },
+  "render_data_location": "render_data",
+  "udn": [
+    [
+      [
+        "__comment.--- Selection setup  ****  TODO: Remove this, and see if it still works. I think I already do this. ****  ---",
+        "__get.render.args.0.__set.render.selection"
+      ]
+    ]
+  ],
+  "wrap": [
+    {
+      "data": {},
+      "input": "value",
+      "widget": "core_form"
+    },
+    {
+      "data": {
+        "api": "grid_multi_submit",
+        "page_args": {},
+        "selection": {}
+      },
+      "input": "value",
+      "widget": "core_grid_control"
+    },
+    {
+      "data": {
+        "name": "Services"
+      },
+      "input": "value",
+      "widget": "base_panel"
+    }
+  ]
+}
