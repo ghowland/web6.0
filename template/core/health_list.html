@@ -1,4 +1,4 @@
-<table class="table table-lg" id="monitor_{{index .Map "name"}}_{{index .Map "uuid"}}_id">
+<table class="table table-lg" id="health_{{index .Map "name"}}_{{index .Map "uuid"}}_id">
     <thead>
     <tr>
         <th>#</th>
@@ -14,8 +14,8 @@
     <tbody>
     {{range $index, $element := index .Map "item"}}
     <tr>
-        <td>{{$element.monitor_number}}</td>
-        <td>{{$element.monitor_group}}</td>
+        <td>{{$element.health_number}}</td>
+        <td>{{$element.health_group}}</td>
         <td>
             <h6 class="no-margin">
                 <a href="#">{{$element.name}}</a>
@@ -59,7 +59,7 @@
     // ------------------------------
 
     // Initialize
-    $('#monitor_{{index .Map "name"}}_{{index .Map "uuid"}}_id').DataTable({
+    $('#health_{{index .Map "name"}}_{{index .Map "uuid"}}_id').DataTable({
         autoWidth: false,
         columnDefs: [
             {
