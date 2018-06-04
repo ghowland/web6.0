@@ -7,3 +7,12 @@ body.dragging, body.dragging * {
   opacity: 0.5;
   z-index: 2000;
 }
+
+ol.sortable-draggable li.placeholder {
+  position: relative;
+}
+
+ol.sortable-draggable li.placeholder:before {
+  position: absolute;
+}
+

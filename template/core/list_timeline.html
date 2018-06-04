@@ -1,0 +1,8 @@
+<ul class="list-feed">
+    {{range $index, $element := index .Map "item"}}
+    <li class="border-warning-400">
+        <div class="text-muted text-size-small mb-5">{{$element.info}}</div>
+        {{$element.value}}
+    </li>
+    {{end}}
+</ul>
