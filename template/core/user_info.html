@@ -1,0 +1,45 @@
+<!-- User Info -->
+<div class="content-group">
+    <div class="panel-body bg-blue border-radius-top text-center" style="background-image: url(assets/images/backgrounds/bg.png); background-size: contain;">
+        <div class="content-group-sm">
+            <h5 class="text-semibold no-margin-bottom">
+                {{index .Map "name"}}
+            </h5>
+
+            <span class="display-block">{{index .Map "title"}}</span>
+        </div>
+
+        <a href="#" class="display-inline-block content-group-sm">
+            <img src="{{index .Map "image"}}" class="img-circle img-responsive" alt="" style="width: 120px; height: 120px;">
+        </a>
+
+        <ul class="list-inline no-margin-bottom">
+            <li><a href="#" class="btn bg-blue-700 btn-rounded btn-icon"><i class="icon-phone"></i></a></li>
+            <li><a href="#" class="btn bg-blue-700 btn-rounded btn-icon"><i class="icon-bubbles4"></i></a></li>
+            <li><a href="#" class="btn bg-blue-700 btn-rounded btn-icon"><i class="icon-envelop4"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="panel panel-body no-border-top no-border-radius-top">
+        <div class="form-group mt-5">
+            <label class="text-semibold">Team:</label>
+            <span class="pull-right-sm">{{index .Map "team"}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="text-semibold">Phone number:</label>
+            <span class="pull-right-sm">{{index .Map "phone"}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="text-semibold">Email:</label>
+            <span class="pull-right-sm"><a href="#">{{index .Map "email"}}</a></span>
+        </div>
+
+        <div class="form-group no-margin-bottom">
+            <label class="text-semibold">Last Online:</label>
+            <span class="pull-right-sm"><a href="#">{{index .Map "last_online"}}</a></span>
+        </div>
+    </div>
+</div>
+<!-- /User Info -->

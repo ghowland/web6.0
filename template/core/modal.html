@@ -1,0 +1,27 @@
+<div id="modal_{{index .Map "uuid"}}_id" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title">{{index .Map "title"}}</h6>
+            </div>
+
+            <div class="modal-body">
+                {{index .Map "value"}}
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                {{if index .Map "buttons"}}
+                    {{range $index, $element := index .Map "item"}}
+                        <button type="button" class="btn btn-{{$element.color}}" onclick="{{$element.onclick}}">{{$element.value}}</button>
+                    {{end}}
+                {{end}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#modal_{{index .Map "uuid"}}_id").modal({keyboard: true});
+</script>
