@@ -1,0 +1,15 @@
+<!-- Mini Calendar widget -->
+<div class="datepicker no-border" id="calendar_mini_{{index .Map "name"}}_{{index .Map "uuid"}}_id"></div>
+<!-- /Mini Calendar widget -->
+<script>
+    $("#calendar_mini_{{index .Map "name"}}_{{index .Map "uuid"}}_id").datepicker({
+        dateFormat: 'yy-mm-dd',
+        numberOfMonths: 1
+        {{if index .Map "function"}}
+            , onSelect: function (selected, evt) {
+            {{index .Map "function"}}
+            }
+        {{end}}
+    });
+</script>
+

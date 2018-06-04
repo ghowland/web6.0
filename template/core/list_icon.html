@@ -1,0 +1,16 @@
+<ul class="media-list">
+    {{range $index, $element := index .Map "item"}}
+    <li class="media">
+        <div class="media-left">
+            <a href="#" class="btn border-{{$element.color}} text-{{$element.color}} btn-flat btn-icon btn-rounded btn-sm">
+                <i class="{{$element.icon}}"></i>
+            </a>
+        </div>
+
+        <div class="media-body">
+            {{$element.value}}
+            {{if $element.info}}<div class="media-annotation">{{$element.info}}</div>{{end}}
+        </div>
+    </li>
+    {{end}}
+</ul>
