@@ -834,8 +834,8 @@ func recoverError_500(w http.ResponseWriter, r *http.Request) {
 		//TODO(z): Add config option to include recover stack msg if needed
 		error_message := fmt.Sprintf("Internal panic: %v", recover)
 
-		UdnLogLevel(nil, log_error, "Error: %s", error_message)
-		UdnLogLevel(nil, log_trace, "Error stack: %s", string(debug.Stack()))
+		UdnLogLevel(nil, log_error, "Error: %s\n", error_message)
+		UdnLogLevel(nil, log_trace, "Error stack: %s\n", string(debug.Stack()))
 
 		dynamicPage_500("", w, r)
 	}
