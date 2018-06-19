@@ -1,8 +1,8 @@
 <table class="table table-lg" id="monitor_{{index .Map "name"}}_{{index .Map "uuid"}}_id">
     <thead>
     <tr>
+        <th>Group Label</th>
         <th>#</th>
-        <th>Period</th>
         <th>Name</th>
         <th>Health</th>
         <th>Last 2 Minutes</th>
@@ -18,12 +18,12 @@
         <td>{{$element._id}}</td>
         <td>
             <h6 class="no-margin">
-                <a href="#">{{$element.name}}</a>
+                <a href="#" onclick="GridRenderWidget_{{$element.uuid}}(); return false">{{$element.name}}</a>
                 <small class="display-block text-muted">{{$element.name_info}}</small>
             </h6>
         </td>
         <td>
-            <span class="label label-{{$element.item_status}}">{{$element.health}}</span>
+            <span class="label label-{{$element.health_status}}">{{$element.health}}</span>
         </td>
         <td>{{$element.timeseries_recent}}</td>
         <td>
@@ -51,7 +51,6 @@
     </tbody>
 </table>
 </div>
-<!-- /invoice archive -->
 
 <script>
 
