@@ -18,7 +18,7 @@
         <td>{{$element._id}}</td>
         <td>
             <h6 class="no-margin">
-                <a href="#" onclick="GridRenderWidget_{{$element.uuid}}(); return false">{{$element.name}}</a>
+                <a href="#" onclick="GridRenderWidget_{{$element.uuid}}('dialog_edit_health', 'dialog_target', 'health_check_id', '{{$element._id}}'); return false">{{$element.name}}</a>
                 <small class="display-block text-muted">{{$element.name_info}}</small>
             </h6>
         </td>
