@@ -1,55 +1,56 @@
-<table class="table table-lg" id="monitor_{{index .Map "name"}}_{{index .Map "uuid"}}_id">
-    <thead>
-    <tr>
-        <th>Group Label</th>
-        <th>#</th>
-        <th>Name</th>
-        <th>Health</th>
-        <th>Last 2 Minutes</th>
-        <th>Last Failure</th>
-        <th>Owner</th>
-        <th class="text-center">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    {{range $index, $element := index .Map "item"}}
-    <tr>
-        <td>{{$element.group_label}}</td>
-        <td>{{$element._id}}</td>
-        <td>
-            <h6 class="no-margin">
-                <a href="#" onclick="GridRenderWidget_{{$element.uuid}}('dialog_edit_health', 'dialog_target', 'health_check_id', '{{$element._id}}'); return false">{{$element.name}}</a>
-                <small class="display-block text-muted">{{$element.name_info}}</small>
-            </h6>
-        </td>
-        <td>
-            <span class="label label-{{$element.health_status}}">{{$element.health}}</span>
-        </td>
-        <td>{{$element.timeseries_recent}}</td>
-        <td>
-        {{$element.last_failure}} <small class="display-block text-muted text-size-small">{{$element.last_outage}}</small>
-        </td>
-        <td>
-            <h6 class="no-margin text-bold">{{$element.owner}} <small class="display-block text-muted text-size-small">{{$element.owner_info}}</small></h6>
-        </td>
-        <td class="text-center">
-            <ul class="icons-list">
-                <li><a href="#" data-toggle="modal" data-target="#invoice"><i class="icon-file-eye"></i></a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-file-text2"></i> <span class="caret"></span></a>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="#"><i class="icon-file-download"></i> Download</a></li>
-                        <li><a href="#"><i class="icon-printer"></i> Print</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="icon-file-plus"></i> Share</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </td>
-    </tr>
-    {{end}}
-    </tbody>
-</table>
+<div id="{{index .Map "uuid"}}_{{index .Map "name"}}">
+    <table class="table table-lg" id="monitor_{{index .Map "name"}}_{{index .Map "uuid"}}_id">
+        <thead>
+        <tr>
+            <th>Group Label</th>
+            <th>#</th>
+            <th>Name</th>
+            <th>Health</th>
+            <th>Last 2 Minutes</th>
+            <th>Last Failure</th>
+            <th>Owner</th>
+            <th class="text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $index, $element := index .Map "item"}}
+        <tr>
+            <td>{{$element.group_label}}</td>
+            <td>{{$element._id}}</td>
+            <td>
+                <h6 class="no-margin">
+                    <a href="#" onclick="GridRenderWidget_{{$element.uuid}}('dialog_edit_health', 'dialog_target', 'health_check_id', '{{$element._id}}'); return false">{{$element.name}}</a>
+                    <small class="display-block text-muted">{{$element.name_info}}</small>
+                </h6>
+            </td>
+            <td>
+                <span class="label label-{{$element.health_status}}">{{$element.health}}</span>
+            </td>
+            <td>{{$element.timeseries_recent}}</td>
+            <td>
+            {{$element.last_failure}} <small class="display-block text-muted text-size-small">{{$element.last_outage}}</small>
+            </td>
+            <td>
+                <h6 class="no-margin text-bold">{{$element.owner}} <small class="display-block text-muted text-size-small">{{$element.owner_info}}</small></h6>
+            </td>
+            <td class="text-center">
+                <ul class="icons-list">
+                    <li><a href="#" data-toggle="modal" data-target="#invoice"><i class="icon-file-eye"></i></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-file-text2"></i> <span class="caret"></span></a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="#"><i class="icon-file-download"></i> Download</a></li>
+                            <li><a href="#"><i class="icon-printer"></i> Print</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="icon-file-plus"></i> Share</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        {{end}}
+        </tbody>
+    </table>
 </div>
 
 <script>
