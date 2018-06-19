@@ -1,0 +1,4 @@
+<div id="sparkline_{{index .Map "uuid"}}_{{index .Map "_id"}}"></div>
+<script>
+    $("#sparkline_{{index .Map "uuid"}}_{{index .Map "_id"}}").sparkline({{index .Map "ts_data"}}, {"type": "line"});
+</script>

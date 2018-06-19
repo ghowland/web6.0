@@ -1,4 +1,4 @@
-<table class="table table-lg" id="health_{{index .Map "name"}}_{{index .Map "uuid"}}_id">
+<table class="table table-lg" id="monitor_{{index .Map "name"}}_{{index .Map "uuid"}}_id">
     <thead>
     <tr>
         <th>#</th>
@@ -14,8 +14,8 @@
     <tbody>
     {{range $index, $element := index .Map "item"}}
     <tr>
-        <td>{{$element.health_number}}</td>
-        <td>{{$element.health_group}}</td>
+        <td>{{$element.group_label}}</td>
+        <td>{{$element._id}}</td>
         <td>
             <h6 class="no-margin">
                 <a href="#">{{$element.name}}</a>
@@ -23,7 +23,7 @@
             </h6>
         </td>
         <td>
-            <span class="label label-{{$element.health_status}}">{{$element.health}}</span>
+            <span class="label label-{{$element.item_status}}">{{$element.health}}</span>
         </td>
         <td>{{$element.timeseries_recent}}</td>
         <td>
@@ -59,15 +59,16 @@
     // ------------------------------
 
     // Initialize
-    $('#health_{{index .Map "name"}}_{{index .Map "uuid"}}_id').DataTable({
+    $('#monitor_{{index .Map "name"}}_{{index .Map "uuid"}}_id').DataTable({
         autoWidth: false,
         columnDefs: [
             {
+                visible: false,
                 width: '30px',
                 targets: 0
             },
             {
-                visible: false,
+                visible: true,
                 targets: 1
             },
             {
@@ -103,7 +104,7 @@
             var rows = api.rows( {page:'current'} ).nodes();
             var last=null;
 
-            api.column(1, {page:'current'} ).data().each( function ( group, i ) {
+            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
                             '<tr class="active border-double"><td colspan="8" class="text-semibold">'+group+'</td></tr>'
