@@ -1,5 +1,5 @@
 <div id="{{index .Map "uuid"}}_{{index .Map "name"}}">
-    <table class="table table-lg" id="monitor_{{index .Map "name"}}_{{index .Map "uuid"}}_id">
+    <table class="table table-lg" id="table_{{index .Map "name"}}_{{index .Map "uuid"}}_id">
         <thead>
         <tr>
             <th>Group Label</th>
@@ -28,21 +28,20 @@
             </td>
             <td>{{$element.timeseries_recent}}</td>
             <td>
-            {{$element.last_failure}} <small class="display-block text-muted text-size-small">{{$element.last_outage}}</small>
+                {{$element.last_failure}} <small class="display-block text-muted text-size-small">{{$element.last_outage}}</small>
             </td>
             <td>
                 <h6 class="no-margin text-bold">{{$element.owner}} <small class="display-block text-muted text-size-small">{{$element.owner_info}}</small></h6>
             </td>
             <td class="text-center">
                 <ul class="icons-list">
-                    <li><a href="#" data-toggle="modal" data-target="#invoice"><i class="icon-file-eye"></i></a></li>
+                    <li><a href="#" onclick="GridRenderWidget_{{$element.uuid}}('dialog_edit_health', 'dialog_target', 'health_check_id', '{{$element._id}}'); return false"><i class="icon-file-eye"></i></a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-file-text2"></i> <span class="caret"></span></a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="#"><i class="icon-file-download"></i> Download</a></li>
-                            <li><a href="#"><i class="icon-printer"></i> Print</a></li>
+                            <li><a href="#" onclick="GridRenderWidget_{{$element.uuid}}('dialog_edit_health', 'dialog_target', 'health_check_id', '{{$element._id}}'); return false"><i class="icon-file-eye"></i> Edit</a></li>
                             <li class="divider"></li>
-                            <li><a href="#"><i class="icon-file-plus"></i> Share</a></li>
+                            <li><a href="#" onclick="RPC('api/delete_using_tombstone_multi', {data: JSON.stringify({delete_record: '{{$element._record_label}}'})})"><i class="icon-file-minus"></i> Delete</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -51,6 +50,9 @@
         {{end}}
         </tbody>
     </table>
+
+    <button type="button" class="btn btn-primary" onclick="GridRenderWidget_{{index .Map "uuid"}}('dialog_edit_health', 'dialog_target', 'health_check_id', '-1'); return false"><i class="icon-{{index .Map "create_icon"}} position-left"></i> {{index .Map "create_label"}}</button>
+
 </div>
 
 <script>
@@ -59,7 +61,7 @@
     // ------------------------------
 
     // Initialize
-    $('#monitor_{{index .Map "name"}}_{{index .Map "uuid"}}_id').DataTable({
+    $('#table_{{index .Map "name"}}_{{index .Map "uuid"}}_id').DataTable({
         autoWidth: false,
         columnDefs: [
             {
