@@ -1,5 +1,8 @@
 <label class="control-label">{{index .Map "label"}}</label>
 <select  id="{{index .Map "uuid"}}_{{index .Map "name"}}_id" name="{{index .Map "name"}}" class="selectbox-{{index .Map "name"}}" {{if index .Map "onchange"}}onchange="{{index .Map "onchange"}}"{{end}}>
+{{if index .Map "_allow_null_label"}}
+    <option value="__nil" {{if index .Map "_allow_null_value"}}{{else}}selected="selected"{{end}}>{{if index .Map "_allow_null_label"}}{{index .Map "_allow_null_label"}}{{else}}None{{end}}</option>
+{{end}}
 {{range $index, $element := index .Map "options"}}
     <option value="{{$element.value}}" {{if $element.selected}}selected="selected"{{end}}>{{$element.name}}</option>
 {{end}}
