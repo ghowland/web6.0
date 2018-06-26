@@ -34,7 +34,7 @@
     "yudiendata",
     "yudienutil"
   ]
-  revision = "72755c59649c8da59a54cfb397f8c97a38372e37"
+  revision = "92ce8e872d79ec550b4682c762504e524fe3b33e"
 
 [[projects]]
   name = "github.com/google/go-cmp"
