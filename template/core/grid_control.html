@@ -38,6 +38,22 @@
         GridSelectionUpdate_{{index .Map "uuid"}}(requires);
     }
 
+    function GridSelectionSelectMulti_{{index .Map "uuid"}}(requires, selection_key, selection_value, selection_update)
+    {
+        var uuid = "{{index .Map "uuid"}}";
+
+        __js_data["selection"][uuid][selection_key] = selection_value;
+
+        for (var key in selection_update) {
+            // alert('Select Multi: ' + key + ' = ' + selection_update[key])
+            __js_data["selection"][uuid][key] = selection_update[key];
+        }
+
+        // alert('Grid Select: ' + requires + '  Select: ' + selection_key + '  Val: ' + selection_value)
+
+        GridSelectionUpdate_{{index .Map "uuid"}}(requires);
+    }
+
     function GridSelectionUpdate_{{index .Map "uuid"}}(requires, submit_data)
     {
         var uuid = "{{index .Map "uuid"}}";
