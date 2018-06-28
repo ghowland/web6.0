@@ -62,6 +62,8 @@
                     rpc_data["page_args"]["{{$key}}"] = "{{$value}}";
                 {{end}}
 
+                {{if index .Map "post_submit_udn"}}rpc_data["post_submit_udn"] = "{{index .Map "post_submit_udn"}}";{{end}}
+
                 RPC('{{index .Map "submit_rpc_url"}}', {'data': JSON.stringify(rpc_data)})
 
                 $(this).closest('.ui-dialog-content').dialog('close');
