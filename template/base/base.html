@@ -183,6 +183,11 @@
                         <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
                         -->
                         <li><a href="web_site_page?web_site_page_id={{index .Map "page_id"}}"><i class="icon-codepen"></i> Edit This Webpage</a></li>
+                        <li><a href="web_site_pages"><i class="icon-wrench"></i> Manage Webpages</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#" onclick="RPC('api/log_level', {'level': 'info'})"><i class="icon-meter-fast"></i> Log Level: Info</a></li>
+                        <li><a href="#" onclick="RPC('api/log_level', {'level': 'trace'})"><i class="icon-bug2"></i> Log Level: Trace</a></li>
+                        <li class="divider"></li>
                         <li><a href="#" onclick="UserLogout(); return false;"><i class="icon-switch2"></i> Logout</a></li>
                     </ul>
                 </li>
@@ -317,7 +322,7 @@
 
     <div class="navbar-collapse collapse" id="footer">
         <div class="navbar-text">
-            &copy; 2018. <a href="/about" class="navbar-link">OpsDB</a> by <a href="http://github.com/ghowland" class="navbar-link" target="_blank">Geoff Howland</a>
+            &copy; 2018. <a href="www.monitormountain.com" class="navbar-link">Monitor Mountain</a> by <a href="http://www.monitormountain.com" class="navbar-link" target="_blank">Automated Operations LLC</a>
         </div>
 
         <div class="navbar-right">

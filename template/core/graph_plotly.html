@@ -1,4 +1,4 @@
-<div id="plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_id"></div>
+<div id="{{index .Map "uuid"}}_{{index .Map "name"}}"></div>
 
 <script>
     var plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data = {{index .Map "json_data"}};
@@ -26,12 +26,16 @@
     var options = null;
     {{if index .Map "json_options"}}options = {{index .Map "json_options"}};{{end}}
 
-    var element = document.getElementById('plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_id');
+    var element = document.getElementById('{{index .Map "uuid"}}_{{index .Map "name"}}');
 
     var data = plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data;
 
     {{if index .Map "debug_alert"}}alert(data.toSource());{{end}}
 
+    // Clear the HTML in the current element
+    $(element).html('');
+
+    // Init the Plotly graph in the element
     Plotly.newPlot(element, data, layout, options);
 
 </script>

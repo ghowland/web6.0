@@ -1,19 +1,21 @@
-<ol class="media-list sortable-draggable" id="list_sortable_{{index .Map "name"}}_{{index .Map "uuid"}}_id">
-    {{range $index, $element := index .Map "item"}}
-    <li class="media">
-        <div class="media-left">
-            <a href="#" class="btn border-{{$element.color}} text-{{$element.color}} btn-flat btn-icon btn-rounded btn-sm">
-                <i class="{{$element.icon}} drag-handle"></i>
-            </a>
-        </div>
+<div id="{{index .Map "uuid"}}_{{index .Map "name"}}">
+    <ol class="media-list sortable-draggable" id="list_sortable_{{index .Map "name"}}_{{index .Map "uuid"}}_id">
+        {{range $index, $element := index .Map "item"}}
+        <li class="media">
+            <div class="media-left">
+                <a href="#" class="btn border-{{$element.color}} text-{{$element.color}} btn-flat btn-icon btn-rounded btn-sm">
+                    <i class="{{$element.icon}} drag-handle"></i>
+                </a>
+            </div>
 
-        <div class="media-body">
-            {{$element.value}}
-            {{if $element.info}}<div class="media-annotation">{{$element.info}}</div>{{end}}
-        </div>
-    </li>
-    {{end}}
-</ol>
+            <div class="media-body">
+                {{$element.value}}
+                {{if $element.info}}<div class="media-annotation">{{$element.info}}</div>{{end}}
+            </div>
+        </li>
+        {{end}}
+    </ol>
+</div>
 
 <script>
     $("#list_sortable_{{index .Map "name"}}_{{index .Map "uuid"}}_id").sortable({

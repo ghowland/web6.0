@@ -1,0 +1,12 @@
+<div class="form-group {{if index .Map "_error"}} has-error{{end}} {{if index .Map "_success"}} has-success{{end}} has-feedback">
+    <label class="control-label text-semibold">{{index .Map "label"}}</label>
+
+    <input id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" name="{{index .Map "_field_label"}}" type="text" class="form-control daterange-time" value="{{index .Map "value"}}">
+
+    <div class="form-control-feedback" style="margin-right: 0.5em;">
+        <i class="{{index .Map "icon"}}"></i>
+    </div>
+{{if index .Map "info"}}<span class="help-block">{{index .Map "info"}}</span>{{end}}
+{{if index .Map "_error"}}<span class="help-block">{{index .Map "_error"}}</span>{{end}}
+</div>
+
