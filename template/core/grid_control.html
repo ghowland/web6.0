@@ -28,30 +28,27 @@
     // Init this Grid Selection system
     GridSelectionInit__{{index .Map "uuid"}}();
 
-    function GridSelectionSelect_{{index .Map "uuid"}}(requires, selection_key, selection_value)
+    function GridSelectionSelect_{{index .Map "uuid"}}(requires, selection_key, selection_value, selection_update)
     {
         var uuid = "{{index .Map "uuid"}}";
         __js_data["selection"][uuid][selection_key] = selection_value;
 
         // alert('Grid Select: ' + requires + '  Select: ' + selection_key + '  Val: ' + selection_value)
+
+        if (selection_update != null) {
+            for (var key in selection_update) {
+                // alert('Select Multi: ' + key + ' = ' + selection_update[key])
+                __js_data["selection"][uuid][key] = selection_update[key];
+            }
+        }
 
         GridSelectionUpdate_{{index .Map "uuid"}}(requires);
     }
 
+    //TODO(g): Remove this function after finding the places I used it, because I made the non-Multi version do the same thing.  Just does a nil check on the selection_update arg
     function GridSelectionSelectMulti_{{index .Map "uuid"}}(requires, selection_key, selection_value, selection_update)
     {
-        var uuid = "{{index .Map "uuid"}}";
-
-        __js_data["selection"][uuid][selection_key] = selection_value;
-
-        for (var key in selection_update) {
-            // alert('Select Multi: ' + key + ' = ' + selection_update[key])
-            __js_data["selection"][uuid][key] = selection_update[key];
-        }
-
-        // alert('Grid Select: ' + requires + '  Select: ' + selection_key + '  Val: ' + selection_value)
-
-        GridSelectionUpdate_{{index .Map "uuid"}}(requires);
+        GridSelectionSelect_{{index .Map "uuid"}}(requires, selection_key, selection_value, selection_update)
     }
 
     function GridSelectionUpdate_{{index .Map "uuid"}}(requires, submit_data)
@@ -89,7 +86,7 @@
         RPC('/api/' + api_endpoint, {data: JSON.stringify(data)});
     }
 
-    function GridRenderWidget_{{index .Map "uuid"}}(widget, dom_target, selection_key, selection_value, options) {
+    function GridRenderWidget_{{index .Map "uuid"}}(widget, dom_target, selection_key, selection_value, options, selection_update) {
         var uuid = "{{index .Map "uuid"}}";
 
         // End point for the API
@@ -118,6 +115,14 @@
 
         // Save the selection information
         __js_data["selection"][uuid][selection_key] = selection_value;
+
+        // If we have selection_update, then update all the selections
+        if (selection_update != null) {
+            for (var key in selection_update) {
+                // alert('Select Multi: ' + key + ' = ' + selection_update[key])
+                __js_data["selection"][uuid][key] = selection_update[key];
+            }
+        }
 
         // Get the selection data
         data["selection"] = __js_data["selection"][uuid];
