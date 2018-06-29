@@ -26,6 +26,12 @@
             if(!container.options.drop)
                 $item.clone().insertAfter($item);
             _super($item, container);
+        },
+        onDrop: function ($item, container, _super, event) {
+            {{if index .Map "function"}}
+            // Dynamic Function
+            {{index .Map "function"}}
+            {{end}}
         }
     });
 </script>
