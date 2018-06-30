@@ -38,5 +38,15 @@
     // Init the Plotly graph in the element
     Plotly.newPlot(element, data, layout, options);
 
+    {{if index .Map "click_function"}}
+    document.getElementById('{{index .Map "uuid"}}_{{index .Map "name"}}').on('plotly_click', function(data){
+        {{if index .Map "click_data"}}
+        var click_data = {{index .Map "click_data"}}
+        {{end}}
+
+        {{index .Map "click_function"}}
+    });
+    {{end}}
+
 </script>
 
