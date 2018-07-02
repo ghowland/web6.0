@@ -17,5 +17,11 @@
         defaultDate: '{{index .Map "date"}}',
         //editable: true,
         events: calendar_data_{{index .Map "name"}}_{{index .Map "uuid"}}
+
+        {{if index .Map "click_function"}}
+        ,dayClick: function(date, event, view) {
+            {{index .Map "click_function"}}
+        }
+        {{end}}
     });
 </script>
