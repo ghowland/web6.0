@@ -1,0 +1,10 @@
+<div class="checkbox checkbox-switchery">
+    <label class="control-label">{{index .Map "label"}}</label>
+
+    <input id="{{index .Map "name"}}_{{index .Map "uuid"}}_input_switch" name="{{index .Map "_field_label"}}" class="switch" data-on-text="True" data-off-text="False" data-on="danger" data-off="warning" {{if index .Map "value"}} checked="checked"{{else}}{{end}} type="checkbox" onchange="{{if index .Map "onchange"}}{{index .Map "onchange"}}; {{end}}GridSelectionSelect_{{index .Map "uuid"}}('{{index .Map "requires"}}', '{{index .Map "name"}}', $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').val())">
+
+</div>
+<script>
+    $('#{{index .Map "name"}}_{{index .Map "uuid"}}_input_switch').bootstrapSwitch();
+
+</script>
