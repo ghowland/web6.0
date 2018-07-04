@@ -1,0 +1,5 @@
+<ul class="icons-list">
+    {{range $index, $element := index .Map "item"}}
+    <li class="{{if $element.color}}text-{{$element.color}}{{end}}"><a href="#" {{if $element.onclick}}onclick="{{$element.onclick}}; return false;"{{end}}><i class="{{$element.icon}}"></i></a></li>
+    {{end}}
+</ul>
