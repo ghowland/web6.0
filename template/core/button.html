@@ -1,1 +1,1 @@
-<button type="button" class="btn btn-{{index .Map "color"}}" onclick="{{index .Map "onclick"}}"><i class="{{index .Map "icon"}} position-left"></i> {{index .Map "value"}}</button>
+<button type="button" class="btn btn-{{index .Map "color"}} {{if index .Map "rounded"}}btn-rounded{{end}}" onclick="{{index .Map "onclick"}}"><i class="{{index .Map "icon"}} position-left"></i>{{if index .Map "value"}} {{index .Map "value"}}{{end}}</button>
