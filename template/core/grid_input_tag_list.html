@@ -1,0 +1,14 @@
+<div class="form-group {{if index .Map "_error"}} has-error{{end}} {{if index .Map "_success"}} has-success{{end}} has-feedback">
+    <label> class="control-label text-semibold">{{index .Map "label"}}</label>
+    <div class="input-group">
+        <span class="input-group-addon"><i class="{{index .Map "icon"}}"></i></span>
+        <input id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" name="{{index .Map "_field_label"}}" placeholder="{{if index .Map "placeholder"}}{{index .Map "placeholder"}}{{end}}"  type="text" class="form-control tokenfield" value="{{index .Map "value"}}" onchange="{{if index .Map "onchange"}}{{index .Map "onchange"}}; {{end}}GridSelectionSelect_{{index .Map "uuid"}}('{{index .Map "requires"}}', '{{index .Map "name"}}', $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').val())">
+    </div>
+
+{{if index .Map "info"}}<span class="help-block">{{index .Map "info"}}</span>{{end}}
+{{if index .Map "_error"}}<span class="help-block">{{index .Map "_error"}}</span>{{end}}
+</div>
+
+<script>
+    $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').tokenfield();
+</script>
