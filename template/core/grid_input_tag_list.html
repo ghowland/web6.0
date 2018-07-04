@@ -1,11 +1,8 @@
 <div class="form-group {{if index .Map "_error"}} has-error{{end}} {{if index .Map "_success"}} has-success{{end}} has-feedback">
     <label class="control-label text-semibold">{{index .Map "label"}}</label>
-    <div class="input-group">
-        <span class="input-group-addon"><i class="{{index .Map "icon"}}"></i></span>
-        <input id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" name="{{index .Map "_field_label"}}" placeholder="{{if index .Map "placeholder"}}{{index .Map "placeholder"}}{{end}}"  type="text" class="form-control tokenfield" value="{{index .Map "value"}}" onchange="{{if index .Map "onchange"}}{{index .Map "onchange"}}; {{end}}GridSelectionSelect_{{index .Map "uuid"}}('{{index .Map "requires"}}', '{{index .Map "name"}}', $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').val())">
-        <div class="form-control-feedback" style="margin-right: 0.5em;">
-            <i class="{{index .Map "icon"}}"></i>
-        </div>
+    <input id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" name="{{index .Map "_field_label"}}" placeholder="{{if index .Map "placeholder"}}{{index .Map "placeholder"}}{{end}}"  type="text" class="form-control tokenfield" value="{{index .Map "value"}}" onchange="{{if index .Map "onchange"}}{{index .Map "onchange"}}; {{end}}GridSelectionSelect_{{index .Map "uuid"}}('{{index .Map "requires"}}', '{{index .Map "name"}}', $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').val())">
+    <div class="form-control-feedback" style="margin-right: 0.5em;">
+        <i class="{{index .Map "icon"}}"></i>
     </div>
 
 {{if index .Map "info"}}<span class="help-block">{{index .Map "info"}}</span>{{end}}
@@ -13,5 +10,27 @@
 </div>
 
 <script>
+    {{if index .Map "color"}}
+    // Add color class on init
+    $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').on('tokenfield:initialize', function (e) {
+        $(this).parent().find('.token').addClass('bg-primary')
+    });
+    {{end}}
+
+
+    // Init the tokenfield
     $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').tokenfield();
+
+
+    {{if index .Map "color"}}
+    // Add color class on init
+    $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').on('tokenfield:initialize', function (e) {
+        $(this).parent().find('.token').addClass('bg-{{index .Map "color"}}')
+    });
+
+    // Add color class when token is created
+    $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').on('tokenfield:createdtoken', function (e) {
+        $(e.relatedTarget).addClass('bg-{{index .Map "color"}}')
+    });
+    {{end}}
 </script>
