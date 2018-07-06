@@ -1,0 +1,24 @@
+<div id="{{index .Map "uuid"}}_{{index .Map "name"}}">
+
+    <label class="control-label text-semibold">{{index .Map "label"}}</label>
+
+    <select  id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" name="{{index .Map "_field_label"}}" class="selectbox-{{index .Map "name"}}" onchange="{{if index .Map "onchange"}}{{index .Map "onchange"}}; {{end}}GridSelectionSelect_{{index .Map "uuid"}}('{{index .Map "requires"}}', '{{index .Map "name"}}', $('#{{index .Map "name"}}_{{index .Map "uuid"}}_id').val())">
+    {{if index .Map "_allow_null_label"}}
+        <option value="__nil" {{if index .Map "_allow_null_value"}}{{else}}selected="selected"{{end}}>{{if index .Map "_allow_null_label"}}{{index .Map "_allow_null_label"}}{{else}}None{{end}}</option>
+    {{end}}
+    {{range $index, $element := index .Map "options"}}
+        <option value="{{$element.value}}" {{if $element.selected}}selected="selected"{{end}}>{{$element.name}}</option>
+    {{end}}
+    </select>
+    <script>
+        $(".selectbox-{{index .Map "name"}}").selectBoxIt({
+            autoWidth: false,
+            downArrowIcon: "{{index .Map "icon"}}"
+        });
+    </script>
+    <span class="help-block">{{index .Map "info"}}</span>
+</div>
+
+<script>
+    $('{{index .Map "name"}}_{{index .Map "uuid"}}_id').combobox();
+</script>
