@@ -19,7 +19,7 @@ func Start(pidFile *string) {
 	flag.StringVar(&config_path, "config", ConfigFile, "Configuration file path (web6.json)")
 	flag.StringVar(&log, "log", "", "Level for logging purposes")
 	flag.StringVar(pidFile, "pid", "", "Specify PID path")
-	var import_database = flag.String("import-database", "false", "Import databases into schema_table, if true")
+	var import_database = flag.Bool("import-database", false, "Import databases into schema_table")
 	flag.Parse()
 
 	LoadConfig(config_path)
@@ -34,7 +34,7 @@ func Start(pidFile *string) {
 	yudien.Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
 
 	//TODO(g): Make this a CLI flag
-	if import_database != nil {
+	if import_database != nil && *import_database == true {
 		// Import the default database
 		ImportDatabase(yudiendata.DefaultDatabase)
 
