@@ -1,0 +1,8 @@
+<div class="btn-group dropdown">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="{{index .Map "icon"}} position-left"></i> {{index .Map "name"}} <span class="caret"></span></button>
+    <ul class="dropdown-menu dropdown-menu-right">
+        {{range $index, $element := index .Map "options"}}
+            <li><a href="#" onclick="{{$element.onclick}}; return false;"><i class="{{$element.icon}}"></i> {{$element.name}}</a></li>
+        {{end}}
+    </ul>
+</div>
