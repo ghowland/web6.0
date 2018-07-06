@@ -34,7 +34,7 @@ func Start(pidFile *string) {
 	yudien.Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
 
 	//TODO(g): Make this a CLI flag
-	if import_database != nil && *import_database == "true" {
+	if import_database != nil {
 		// Import the default database
 		ImportDatabase(yudiendata.DefaultDatabase)
 
