@@ -89,6 +89,7 @@
             autoOpen: true,
             modal: true,
             width: {{index .Map "size"}},
+            {{if index .Map "height"}}height: {{index .Map "height"}},{{end}}
             draggable: true,
             resizable: true,
             create: function(event, ui) {
