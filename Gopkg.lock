@@ -21,46 +21,25 @@
 
 [[projects]]
   branch = "master"
-  name = "gopkg.in/russross/blackfriday.v2"
-  packages = ["blackfriday"]
-  revision = "11635eb403ff09dbc3a6b5a007ab5ab09151c229"
+  name = "github.com/ghowland/web6.0"
+  packages = ["config","web6"]
+  revision = "733be8b0431ecdef1522b612d3cac923bdc1336c"
 
 [[projects]]
   branch = "yudien_zelin_delete3"
   name = "github.com/ghowland/yudien"
-  packages = [
-    "yudien",
-    "yudiencore",
-    "yudiendata",
-    "yudienutil"
-  ]
+  packages = ["yudien","yudiencore","yudiendata","yudienutil"]
   revision = "92ce8e872d79ec550b4682c762504e524fe3b33e"
 
 [[projects]]
   name = "github.com/google/go-cmp"
-  packages = [
-    "cmp",
-    "cmp/internal/diff",
-    "cmp/internal/function",
-    "cmp/internal/value"
-  ]
+  packages = ["cmp","cmp/internal/diff","cmp/internal/function","cmp/internal/value"]
   revision = "5411ab924f9ffa6566244a9e504bc347edacffd3"
 
 [[projects]]
   branch = "master"
   name = "github.com/jacksontj/dataman"
-  packages = [
-    "src/datamantype",
-    "src/httputil",
-    "src/query",
-    "src/router_node/functiondefault",
-    "src/router_node/sharding",
-    "src/storage_node",
-    "src/storage_node/datasource",
-    "src/storage_node/datasource/pgstore",
-    "src/storage_node/metadata",
-    "src/storage_node/metadata/filter"
-  ]
+  packages = ["src/datamantype","src/httputil","src/query","src/router_node/functiondefault","src/router_node/sharding","src/storage_node","src/storage_node/datasource","src/storage_node/datasource/pgstore","src/storage_node/metadata","src/storage_node/metadata/filter"]
   revision = "25e72fe46f2a38bd5ae368da14b7bbd9994d722d"
 
 [[projects]]
@@ -84,10 +63,7 @@
 [[projects]]
   branch = "master"
   name = "github.com/lib/pq"
-  packages = [
-    ".",
-    "oid"
-  ]
+  packages = [".","oid"]
   revision = "017e4c14d80628353eaee677a1aeffe47a10c0dc"
 
 [[projects]]
@@ -111,10 +87,7 @@
 [[projects]]
   branch = "master"
   name = "github.com/rcrowley/go-metrics"
-  packages = [
-    ".",
-    "exp"
-  ]
+  packages = [".","exp"]
   revision = "1f30fe9094a513ce4c700b9a54458bbb0c96996c"
 
 [[projects]]
@@ -137,6 +110,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/shurcooL/sanitized_anchor_name"
+  packages = ["."]
+  revision = "86672fcb3f950f35f2e675df2240550f2a50762f"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
   revision = "9419663f5a44be8b34ca85f08abc5fe1be11f8a3"
@@ -144,10 +123,7 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
-  packages = [
-    "unix",
-    "windows"
-  ]
+  packages = ["unix","windows"]
   revision = "686000749eaec0b8855b8eef5336cf63899fe51d"
 
 [[projects]]
@@ -163,6 +139,12 @@
   version = "v2.5.0"
 
 [[projects]]
+  name = "gopkg.in/russross/blackfriday.v2"
+  packages = ["."]
+  revision = "cadec560ec52d93835bf2f15bd794700d3a2473b"
+  version = "v2.0.0"
+
+[[projects]]
   branch = "v2"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
@@ -171,6 +153,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "57b6917ec5137edad7ca840dc5e30f0a619a67b60e2952194bf3214d2aa6805f"
+  inputs-digest = "7c9ddebe21c5064fed07ab0d67198782f8cc09d3126b91737dac8ff980f6b5dd"
   solver-name = "gps-cdcl"
   solver-version = 1
