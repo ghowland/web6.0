@@ -1,12 +1,10 @@
 package web6
 
 import (
+	"flag"
 	"github.com/ghowland/yudien/yudien"
 	"github.com/ghowland/yudien/yudiencore"
 	"github.com/ghowland/yudien/yudiendata"
-	. "github.com/ghowland/web6.0/config"
-	//"github.com/ghowland/opsdb/opsdb"
-	"flag"
 	"github.com/ghowland/yudien/yudienutil"
 )
 
@@ -68,5 +66,3 @@ func ExportDatabase(path_out string, path_in_compare interface{}) {
 		yudienutil.WritePathData("data/schema_out_compare.json", data)
 	}
 }
-
-

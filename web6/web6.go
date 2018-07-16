@@ -29,12 +29,11 @@ import (
 	"strings"
 	"text/template"
 
-	. "github.com/ghowland/web6.0/config"
-	. "github.com/ghowland/yudien/yudien"
-	. "github.com/ghowland/yudien/yudiencore"
-	. "github.com/ghowland/yudien/yudiendata"
-	. "github.com/ghowland/yudien/yudienutil"
-	_ "github.com/lib/pq"
+	"github.com/ghowland/web6.0/config"
+	"github.com/ghowland/yudien/yudien"
+	"github.com/ghowland/yudien/yudiencore"
+	"github.com/ghowland/yudien/yudiendata"
+	"github.com/ghowland/yudien/yudienutil"
 	"github.com/segmentio/ksuid"
 )
 
@@ -123,17 +122,17 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
-	//UdnLogLevel(nil, log_info, "Connecting to: %s\n", Config.DefaultDatabase.ConnectOptions)
+	//yudiencore.UdnLogLevel(nil, log_info, "Connecting to: %s\n", Config.DefaultDatabase.ConnectOptions)
 
 	// DB
-	db, err := sql.Open("postgres", Config.DefaultDatabase.ConnectOptions)
+	db, err := sql.Open("postgres", config.Config.DefaultDatabase.ConnectOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
 	// DB Web
-	db_web, err := sql.Open("postgres", Config.DefaultDatabase.ConnectOptions)
+	db_web, err := sql.Open("postgres", config.Config.DefaultDatabase.ConnectOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -152,10 +151,10 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 
 	// Match the domain name to an entry in web_site_domain
 	sql := fmt.Sprintf("SELECT * FROM web_site_domain WHERE name = '%s'", host)
-	web_site_host_result := Query(db_web, sql)
+	web_site_host_result := yudiendata.Query(db_web, sql)
 
 	if web_site_host_result == nil || len(web_site_host_result) == 0 {
-		UdnLogLevel(nil, log_error, "Failed to load website domain: %d\n", host)
+		yudiencore.UdnLogLevel(nil, log_error, "Failed to load website domain: %d\n", host)
 		// Rendor 404
 		dynamicPage_404(uri, w, r)
 		return
@@ -166,25 +165,25 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 
 	// Get the path to match from the DB
 	sql = fmt.Sprintf("SELECT * FROM web_site WHERE _id = %d", web_site_id)
-	web_site_result := Query(db_web, sql)
+	web_site_result := yudiendata.Query(db_web, sql)
 	if web_site_result == nil || len(web_site_result) == 0 {
-		UdnLogLevel(nil, log_error, "Failed to load website: %d\n", web_site_id)
+		yudiencore.UdnLogLevel(nil, log_error, "Failed to load website: %d\n", web_site_id)
 		// Rendor 404
 		dynamicPage_404(uri, w, r)
 		return
 	}
 
-	UdnLogLevel(nil, log_debug, "Type: %T\n\n", web_site_result)
+	yudiencore.UdnLogLevel(nil, log_debug, "Type: %T\n\n", web_site_result)
 
 	web_site_row := web_site_result[0]
 	web_site := web_site_row
 
-	UdnLogLevel(nil, log_info, "\n\nGetting Web Site Page from URI: %s\n\n", uri)
+	yudiencore.UdnLogLevel(nil, log_info, "\n\nGetting Web Site Page from URI: %s\n\n", uri)
 
 	// Get the path to match from the DB
-	sql = fmt.Sprintf("SELECT * FROM web_site_page WHERE web_site_id = %d AND name = '%s'", web_site_id, SanitizeSQL(uri))
-	web_site_page_result := Query(db_web, sql)
-	UdnLogLevel(nil, log_info, "\n\nWeb Page Results: %v\n\n", web_site_page_result)
+	sql = fmt.Sprintf("SELECT * FROM web_site_page WHERE web_site_id = %d AND name = '%s'", web_site_id, yudiendata.SanitizeSQL(uri))
+	web_site_page_result := yudiendata.Query(db_web, sql)
+	yudiencore.UdnLogLevel(nil, log_info, "\n\nWeb Page Results: %v\n\n", web_site_page_result)
 
 	// Check if this is a match for an API call
 	found_api := false
@@ -201,14 +200,14 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 		web_protocol_action := r.Method
 
 		sql = fmt.Sprintf("SELECT _id FROM web_protocol_action WHERE name = '%s'", web_protocol_action)
-		web_protocol_action_id := Query(db_web, sql)[0]["_id"]
+		web_protocol_action_id := yudiendata.Query(db_web, sql)[0]["_id"]
 
 		// Track the path name to provide use in possible regex in the path name
-		name := SanitizeSQL(short_path)
+		name := yudiendata.SanitizeSQL(short_path)
 
 		// Get the path to match from the DB - check for specific web protocol
 		sql = fmt.Sprintf("SELECT * FROM web_site_api WHERE web_site_id = %d AND name = '%s' AND (web_protocol_action_id = '%d' OR web_protocol_action_id IS NULL)", web_site_id, name, web_protocol_action_id)
-		web_site_api_result = Query(db_web, sql)
+		web_site_api_result = yudiendata.Query(db_web, sql)
 
 		if len(web_site_api_result) > 0 {
 			found_api = true
@@ -223,7 +222,7 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 			sql = fmt.Sprintf("SELECT * FROM web_site_api WHERE web_site_id = %d AND name LIKE '%s' AND (web_protocol_action_id = '%d' OR web_protocol_action_id IS NULL)", web_site_id, grep_pattern, web_protocol_action_id)
 
 			// Go through each of the search results and check if there are any matching regex expressions in the web_site_api table
-			web_site_api_result = Query(db_web, sql)
+			web_site_api_result = yudiendata.Query(db_web, sql)
 
 			for _, element := range web_site_api_result {
 				current_exp := strings.Replace(element["name"].(string), "*", ".*", -1)
@@ -245,13 +244,13 @@ func dynamicPage(uri string, w http.ResponseWriter, r *http.Request) {
 
 	// If we found a matching page
 	if found_api {
-		UdnLogLevel(nil, log_info, "\n\nFound API: %v\n\n", web_site_api_entry)
+		yudiencore.UdnLogLevel(nil, log_info, "\n\nFound API: %v\n\n", web_site_api_entry)
 		dynamicPage_API(db_web, db, web_site, web_site_api_entry, uri, w, r)
 	} else if len(web_site_page_result) > 0 {
-		UdnLogLevel(nil, log_info, "\n\nFound Dynamic Page: %v\n\n", web_site_page_result[0])
+		yudiencore.UdnLogLevel(nil, log_info, "\n\nFound Dynamic Page: %v\n\n", web_site_page_result[0])
 		dynamePage_RenderWidgets(db_web, db, web_site, web_site_page_result[0], uri, w, r)
 	} else {
-		UdnLogLevel(nil, log_info, "\n\nPage not found: 404: %v\n\n", web_site_page_result)
+		yudiencore.UdnLogLevel(nil, log_info, "\n\nPage not found: 404: %v\n\n", web_site_page_result)
 
 		dynamicPage_404(uri, w, r)
 	}
@@ -323,13 +322,13 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 	udn_data["web_site"] = web_site
 	udn_data["web_site_page"] = web_site_page
 	if session_value, ok := udn_data["cookie"].(map[string]interface{})["opsdb_session"]; ok {
-		session_sql := fmt.Sprintf("SELECT * FROM web_user_session WHERE web_site_id = %d AND name = '%s'", web_site["_id"], SanitizeSQL(session_value.(string)))
-		session_rows := Query(db_web, session_sql)
+		session_sql := fmt.Sprintf("SELECT * FROM web_user_session WHERE web_site_id = %d AND name = '%s'", web_site["_id"], yudiendata.SanitizeSQL(session_value.(string)))
+		session_rows := yudiendata.Query(db_web, session_sql)
 		if len(session_rows) == 1 {
 			session := session_rows[0]
 			user_id := session["user_id"]
 
-			UdnLogLevel(nil, log_info, "Found User ID: %d  Session: %v\n\n", user_id, session)
+			yudiencore.UdnLogLevel(nil, log_info, "Found User ID: %d  Session: %v\n\n", user_id, session)
 
 			// Load session from json_data
 			target_map := make(map[string]interface{})
@@ -340,13 +339,13 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 				}
 			}
 
-			UdnLogLevel(nil, log_debug, "Session Data: %v\n\n", target_map)
+			yudiencore.UdnLogLevel(nil, log_debug, "Session Data: %v\n\n", target_map)
 
 			udn_data["session"] = target_map
 
 			// Load the user data too
 			user_sql := fmt.Sprintf("SELECT * FROM \"user\" WHERE _id = %d", user_id)
-			user_rows := Query(db_web, user_sql)
+			user_rows := yudiendata.Query(db_web, user_sql)
 			target_map_user := make(map[string]interface{})
 			if len(user_rows) == 1 {
 				// Set the user here
@@ -360,7 +359,7 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 					}
 				}
 			}
-			UdnLogLevel(nil, log_debug, "User Data: %v\n\n", target_map_user)
+			yudiencore.UdnLogLevel(nil, log_debug, "User Data: %v\n\n", target_map_user)
 
 			udn_data["user_data"] = target_map_user
 		}
@@ -383,7 +382,7 @@ func SetCookies(cookie_map map[string]interface{}, w http.ResponseWriter, r *htt
 		new_cookie.Path = "/"
 		http.SetCookie(w, &new_cookie)
 
-		UdnLogLevel(nil, log_info, "** Setting COOKIE: %s = %s\n", key, value)
+		yudiencore.UdnLogLevel(nil, log_info, "** Setting COOKIE: %s = %s\n", key, value)
 	}
 }
 
@@ -463,21 +462,21 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 
 	// Output params if logging is allowed
 	if udn_data["web_site_page"].(map[string]interface{})["allow_logging"].(bool) {
-		UdnLogLevel(nil, log_debug, "Starting UDN Data: %s\n\n", SnippetData(udn_data, 120))
+		yudiencore.UdnLogLevel(nil, log_debug, "Starting UDN Data: %s\n\n", yudienutil.SnippetData(udn_data, 120))
 
-		UdnLogLevel(nil, log_debug, "Params: %s\n\n", SnippetData(param_map, 600))
+		yudiencore.UdnLogLevel(nil, log_debug, "Params: %s\n\n", yudienutil.SnippetData(param_map, 600))
 	}
 
 	// Get the base widget
 	sql := fmt.Sprintf("SELECT * FROM web_widget")
-	all_widgets := Query(db_web, sql)
+	all_widgets := yudiendata.Query(db_web, sql)
 
 	// Save all our base web_widgets, so we can access them anytime we want
-	udn_data["base_widget"] = MapArrayToMap(all_widgets, "name")
+	udn_data["base_widget"] = yudienutil.MapArrayToMap(all_widgets, "name")
 
 	// Get UDN schema per request
 	//TODO(g): Dont do this every request
-	udn_schema := PrepareSchemaUDN(db_web)
+	udn_schema := yudien.PrepareSchemaUDN(db_web)
 
 	// Make sure messages are output to screen and logged when it is allowed to do so
 	udn_schema["allow_logging"] = udn_data["web_site_page"].(map[string]interface{})["allow_logging"].(bool)
@@ -485,16 +484,16 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	// If we are being told to debug, do so
 	if param_map["__debug"] != nil {
 		udn_schema["udn_debug"] = true
-	} else if Debug_Udn_Api == true {
+	} else if yudiencore.Debug_Udn_Api == true {
 		// API calls are harder to change than web page requests, so made a separate in code var to toggle debugging
 		udn_schema["udn_debug"] = true
 	}
 
 	// Process the UDN, which updates the pool at udn_data
 	if web_site_api["udn_data_json"] != nil {
-		ProcessSchemaUDNSet(db_web, udn_schema, web_site_api["udn_data_json"].(string), udn_data)
+		yudien.ProcessSchemaUDNSet(db_web, udn_schema, web_site_api["udn_data_json"].(string), udn_data)
 	} else {
-		UdnLogLevel(nil, log_debug, "UDN Execution: API: %s: None\n\n", web_site_api["name"])
+		yudiencore.UdnLogLevel(nil, log_debug, "UDN Execution: API: %s: None\n\n", web_site_api["name"])
 	}
 
 	// Set Cookies
@@ -505,35 +504,35 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	body, _ := json.Marshal(udn_data["set_api_result"])
 	buffer.Write(body)
 
-	UdnLogLevel(nil, log_info, "Writing API body: %s\n\n", body)
+	yudiencore.UdnLogLevel(nil, log_info, "Writing API body: %s\n\n", body)
 
 	// Write out our output as HTML
-	html_path := UdnDebugWriteHtml(udn_schema)
+	html_path := yudiencore.UdnDebugWriteHtml(udn_schema)
 
 	if udn_schema["allow_logging"].(bool) {
-		UdnLogLevel(nil, log_info, "UDN Debug HTML Log: %s\n", html_path)
+		yudiencore.UdnLogLevel(nil, log_info, "UDN Debug HTML Log: %s\n", html_path)
 	}
 
 	// Write out the final page
 	w.WriteHeader(udn_data["http_response_code"].(int))
 	w.Write([]byte(buffer.String()))
 
-	//UdnLogLevel(nil, log_trace, "API Result:\n\n%s\n", buffer.String())
+	//yudiencore.UdnLogLevel(nil, log_trace, "API Result:\n\n%s\n", buffer.String())
 }
 
 func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_page map[string]interface{}, uri string, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
 	sql := fmt.Sprintf("SELECT * FROM web_site_page_widget WHERE web_site_page_id = %d ORDER BY priority ASC", web_site_page["_id"])
-	web_site_page_widgets := Query(db_web, sql)
+	web_site_page_widgets := yudiendata.Query(db_web, sql)
 
 	// Get the base web site widget.  Only where priority is non-negative.  Negative priority items are considered to be explicit rendering only, so we will render them when they are invoked.
 	sql = fmt.Sprintf("SELECT * FROM web_site_page_widget WHERE _id = %d", web_site_page["base_page_web_site_page_widget_id"])
-	base_page_widgets := Query(db_web, sql)
+	base_page_widgets := yudiendata.Query(db_web, sql)
 
 	// If we couldnt find the base_page_widget, we cannot render the any page for the website - return internal server error
 	if len(base_page_widgets) < 1 {
-		UdnLogLevel(nil, log_error, "No base page widgets found, returning internal server error 500\n")
+		yudiencore.UdnLogLevel(nil, log_error, "No base page widgets found, returning internal server error 500\n")
 
 		dynamicPage_500("Base page cannot be found.", w, r)
 		return
@@ -543,7 +542,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 	// Get the base widget
 	sql = fmt.Sprintf("SELECT * FROM web_widget WHERE _id = %d", base_page_widget["web_widget_id"])
-	base_widgets := Query(db_web, sql)
+	base_widgets := yudiendata.Query(db_web, sql)
 
 	base_page_html := base_widgets[0]["html"].(string)
 
@@ -557,14 +556,14 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	// Get our starting UDN data
 	udn_data := GetStartingUdnData(db_web, db, web_site, web_site_page, uri, web_protocol_action, request_body, param_map, header_map, cookie_array)
 
-	UdnLogLevel(nil, log_debug, "Starting UDN Data: %v\n\n", udn_data)
+	yudiencore.UdnLogLevel(nil, log_debug, "Starting UDN Data: %v\n\n", udn_data)
 
 	// Get the base widget
 	sql = fmt.Sprintf("SELECT * FROM web_widget")
-	all_widgets := Query(db_web, sql)
+	all_widgets := yudiendata.Query(db_web, sql)
 
 	// Save all our base web_widgets, so we can access them anytime we want
-	udn_data["base_widget"] = MapArrayToMap(all_widgets, "name")
+	udn_data["base_widget"] = yudienutil.MapArrayToMap(all_widgets, "name")
 
 	//fmt.Printf("Base Widget: base_list2_header: %v\n\n", udn_data["base_widget"].(map[string]interface{})["base_list2_header"])
 
@@ -576,7 +575,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 		if udn_data["user"].(map[string]interface{})["_id"] == nil {
 			login_page_id := web_site["login_web_site_page_id"].(int64)
 			login_page_sql := fmt.Sprintf("SELECT * FROM web_site_page WHERE _id = %d", login_page_id)
-			login_page_rows := Query(db_web, login_page_sql)
+			login_page_rows := yudiendata.Query(db_web, login_page_sql)
 			if len(login_page_rows) >= 1 {
 				login_page := login_page_rows[0]
 
@@ -593,7 +592,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 	// Get UDN schema per request
 	//TODO(g): Dont do this every request
-	udn_schema := PrepareSchemaUDN(db_web)
+	udn_schema := yudien.PrepareSchemaUDN(db_web)
 
 	// If we are being told to debug, do so
 	if param_map["__debug"] != nil {
@@ -604,7 +603,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	for _, site_page_widget := range web_site_page_widgets {
 		// If we dont have any priority, dont render it on the normal pass.  It must be explicitly asked to be rendered.
 		if site_page_widget["priority"] != nil && site_page_widget["priority"].(int64) < 1 {
-			UdnLogLevel(nil, log_trace, "Skipping Page Widget: %s\n", site_page_widget["name"])
+			yudiencore.UdnLogLevel(nil, log_trace, "Skipping Page Widget: %s\n", site_page_widget["name"])
 			continue
 		}
 
@@ -630,7 +629,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 		if site_page_widget["static_data_json"] != nil && site_page_widget["static_data_json"] != "" {
 			err := json.Unmarshal([]byte(site_page_widget["static_data_json"].(string)), &widget_static)
 			if err != nil {
-				UdnLogLevel(nil, log_trace, "Static JSON Data: %s\n", site_page_widget["static_data_json"].(string))
+				yudiencore.UdnLogLevel(nil, log_trace, "Static JSON Data: %s\n", site_page_widget["static_data_json"].(string))
 				//log.Panic(err)
 			}
 		}
@@ -640,10 +639,10 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 			// Get the base widget
 			sql = fmt.Sprintf("SELECT * FROM web_widget WHERE _id = %d", site_page_widget["web_widget_id"])
-			page_widgets := Query(db_web, sql)
+			page_widgets := yudiendata.Query(db_web, sql)
 			page_widget = page_widgets[0]
 
-			UdnLogLevel(nil, log_debug, "Page Widget: %s: %s\n", site_page_widget["name"], page_widget["name"])
+			yudiencore.UdnLogLevel(nil, log_debug, "Page Widget: %s: %s\n", site_page_widget["name"], page_widget["name"])
 
 			// wigdet_map has all the UDN operations we will be using to embed child-widgets into this widget
 			//TODO(g): We need to use the page_map data here too, because we need to template in the sub-widgets.  Think about this after testing it as-is...
@@ -658,9 +657,9 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 			// Processing UDN: which updates the data pool at udn_data
 			if site_page_widget["udn_data_json"] != nil {
-				ProcessSchemaUDNSet(db_web, udn_schema, site_page_widget["udn_data_json"].(string), udn_data)
+				yudien.ProcessSchemaUDNSet(db_web, udn_schema, site_page_widget["udn_data_json"].(string), udn_data)
 			} else {
-				UdnLogLevel(nil, log_debug, "UDN Execution: %s: None\n\n", site_page_widget["name"])
+				yudiencore.UdnLogLevel(nil, log_debug, "UDN Execution: %s: None\n\n", site_page_widget["name"])
 			}
 
 			// Process the Widget's Rendering UDN statements (singles)
@@ -672,9 +671,9 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 				widget_udn_string := []string{fmt.Sprintf("%v", widget_value)}
 
 				// Process the UDN with our new method.  Only uses Source, as we are getting, but not setting in this phase
-				widget_udn_result := ProcessUDN(db, udn_schema, widget_udn_string, udn_data)
+				widget_udn_result := yudien.ProcessUDN(db, udn_schema, widget_udn_string, udn_data)
 
-				widget_map[widget_key] = fmt.Sprintf("%v", GetResult(widget_udn_result, type_string))
+				widget_map[widget_key] = fmt.Sprintf("%v", yudienutil.GetResult(widget_udn_result, type_string))
 
 				//fmt.Printf("Widget Key Result: %s   Result: %s\n\n", widget_key, SnippetData(widget_map[widget_key], 600))
 			}
@@ -695,12 +694,12 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 			item_template := template.Must(template.New("text").Parse(string(item_html)))
 
-			widget_map_template := NewTextTemplateMap()
+			widget_map_template := yudienutil.NewTextTemplateMap()
 			widget_map_template.Map = widget_map
 
 			//fmt.Printf("  Templating with data: %v\n\n", SnippetData(widget_map, 600))
 
-			item := StringFile{}
+			item := yudienutil.StringFile{}
 			err := item_template.Execute(&item, widget_map_template)
 			if err != nil {
 				log.Panic(err)
@@ -718,15 +717,15 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 		} else if site_page_widget["web_widget_instance_id"] != nil {
 			// Render the Widget Instance
 			udn_update_map := make(map[string]interface{})
-			RenderWidgetInstance(db_web, udn_schema, udn_data, site_page_widget, udn_update_map)
+			yudien.RenderWidgetInstance(db_web, udn_schema, udn_data, site_page_widget, udn_update_map)
 
 		} else if site_page_widget["web_data_widget_instance_id"] != nil {
 			// Render the Widget Instance, from the web_data_widget_instance
 			udn_update_map := make(map[string]interface{})
-			RenderWidgetInstance(db_web, udn_schema, udn_data, site_page_widget, udn_update_map)
+			yudien.RenderWidgetInstance(db_web, udn_schema, udn_data, site_page_widget, udn_update_map)
 
 		} else {
-			UdnLogLevel(nil, log_error, "No web_widget_id, web_widget_instance_id, web_data_widget_instance_id.  Site Page Widgets need at least one of these.")
+			yudiencore.UdnLogLevel(nil, log_error, "No web_widget_id, web_widget_instance_id, web_data_widget_instance_id.  Site Page Widgets need at least one of these.")
 			dynamicPage_404(uri, w, r)
 			return
 		}
@@ -734,7 +733,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	}
 
 	// Get base page widget items.  These were also processed above, as the base_page_widget was included with the page...
-	base_page_widget_map := NewTextTemplateMap()
+	base_page_widget_map := yudienutil.NewTextTemplateMap()
 	err := json.Unmarshal([]byte(base_page_widget["data_json"].(string)), &base_page_widget_map.Map)
 	if err != nil {
 		log.Panic(err)
@@ -748,10 +747,10 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 			value_str := []string{fmt.Sprintf("%v", value)}
 
 			// Process the UDN with our new method.  Only uses Source, as we are getting, but not setting in this phase
-			widget_udn_result := ProcessUDN(db, udn_schema, value_str, udn_data)
+			widget_udn_result := yudien.ProcessUDN(db, udn_schema, value_str, udn_data)
 
 			if widget_udn_result != nil {
-				page_map[key] = fmt.Sprintf("%v", GetResult(widget_udn_result, type_string))
+				page_map[key] = fmt.Sprintf("%v", yudienutil.GetResult(widget_udn_result, type_string))
 			} else {
 				// Use the base page widget, without any processing, because we got back nil
 				page_map[key] = value_str
@@ -762,17 +761,17 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 		}
 	}
 
-	UdnLogLevel(nil, log_info, "Rendering base page\n")
+	yudiencore.UdnLogLevel(nil, log_info, "Rendering base page\n")
 
 	// Put them into the base page
 	base_page_template := template.Must(template.New("text").Parse(string(base_page_html)))
 
 	// Set up the TextTemplateMap for page_map, now that it is map[string]interface{}
-	page_map_text_template_map := NewTextTemplateMap()
+	page_map_text_template_map := yudienutil.NewTextTemplateMap()
 	page_map_text_template_map.Map = page_map
 
 	// Write the base page
-	base_page := StringFile{}
+	base_page := yudienutil.StringFile{}
 	err = base_page_template.Execute(&base_page, page_map_text_template_map)
 	if err != nil {
 		log.Fatal(err)
@@ -782,8 +781,8 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	SetCookies(udn_data["set_cookie"].(map[string]interface{}), w, r)
 
 	// Write out our output as HTML
-	html_path := UdnDebugWriteHtml(udn_schema)
-	UdnLogLevel(nil, log_debug, "UDN Debug HTML Log: %s\n", html_path)
+	html_path := yudiencore.UdnDebugWriteHtml(udn_schema)
+	yudiencore.UdnLogLevel(nil, log_debug, "UDN Debug HTML Log: %s\n", html_path)
 
 	// Write out the final page
 	w.WriteHeader(udn_data["http_response_code"].(int))
@@ -795,7 +794,7 @@ func dynamicPage_404(uri string, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
 	// DB Web
-	db_web, err := sql.Open("postgres", Config.DefaultDatabase.ConnectOptions)
+	db_web, err := sql.Open("postgres", config.Config.DefaultDatabase.ConnectOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -803,7 +802,7 @@ func dynamicPage_404(uri string, w http.ResponseWriter, r *http.Request) {
 
 	// Get the base widget
 	sql := fmt.Sprintf("SELECT * FROM web_widget WHERE name = 'error_404'")
-	base_widgets := Query(db_web, sql)
+	base_widgets := yudiendata.Query(db_web, sql)
 
 	base_html := base_widgets[0]["html"].(string)
 
@@ -834,8 +833,8 @@ func recoverError_500(w http.ResponseWriter, r *http.Request) {
 		//TODO(z): Add config option to include recover stack msg if needed
 		error_message := fmt.Sprintf("Internal panic: %v", recover)
 
-		UdnLogLevel(nil, log_error, "Error: %s\n", error_message)
-		UdnLogLevel(nil, log_trace, "Error stack: %s\n", string(debug.Stack()))
+		yudiencore.UdnLogLevel(nil, log_error, "Error: %s\n", error_message)
+		yudiencore.UdnLogLevel(nil, log_trace, "Error stack: %s\n", string(debug.Stack()))
 
 		dynamicPage_500("", w, r)
 	}
