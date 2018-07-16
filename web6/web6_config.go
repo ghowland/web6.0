@@ -1,4 +1,4 @@
-package config
+package web6
 
 import (
 	"encoding/json"
@@ -8,31 +8,11 @@ import (
 	"os"
 	"os/user"
 
-	"github.com/ghowland/yudien/yudien"
-	"github.com/ghowland/yudien/yudiendata"
 	"github.com/ghowland/yudien/yudienutil"
-)
-
-const ( // order matters for log levels
-	log_off   = iota
-	log_error = iota
-	log_warn  = iota
-	log_info  = iota
-	log_debug = iota
-	log_trace = iota
 )
 
 // This is the location of the Production configuration file.  The development file is in ~/secure/web6.json
 const ConfigFile = "/etc/web6/web6.json"
-
-type Web6Config struct {
-	//Ldap  yudien.LdapConfig  `json:"ldap"`
-	DefaultDatabase yudiendata.DatabaseConfig            `json:"default_database"`
-	Databases       map[string]yudiendata.DatabaseConfig `json:"databases"`
-	LdapOverride    yudiendata.DatabaseConfig            `json:"ldap_override"`
-	Authentication  yudien.AuthenticationConfig          `json:"authentication"`
-	Logging         yudien.LoggingConfig                 `json:"logging"`
-}
 
 var Config Web6Config
 

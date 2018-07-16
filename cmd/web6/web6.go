@@ -4,7 +4,6 @@ import (
 	"github.com/ghowland/web6.0/web6"
 	//go RunJobWorkers()
 
-
 	"github.com/jcasts/gosrv"
 )
 
@@ -23,10 +22,10 @@ func main() {
 
 	// We dont use NewFromFlag() because it doesnt allow adding custom flags.  We have to manage the gosrv config Struct ourselves in config.go
 	/*
-	s, err := gosrv.NewFromFlag()
-	if err != nil {
-		panic("Cannot create web server: " + err.Error() + "\n")
-	}*/
+		s, err := gosrv.NewFromFlag()
+		if err != nil {
+			panic("Cannot create web server: " + err.Error() + "\n")
+		}*/
 
 	s.HandleFunc("/", web6.Handler)
 
