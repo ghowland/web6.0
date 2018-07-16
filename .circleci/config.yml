@@ -10,5 +10,11 @@ jobs:
     steps:
       - checkout
       - run: go get github.com/golang/dep/cmd/dep
-      - run: dep ensure
+      - restore_cache:
+          key: dep-vendor-{{ checksum "Gopkg.lock" }}-{{ arch }}
+      - run: dep ensure -vendor-only
+      - save_cache:
+          key: dep-vendor-{{ checksum "Gopkg.lock" }}-{{ arch }}
+          paths:
+            - vendor
       - run: make build
