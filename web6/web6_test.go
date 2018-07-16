@@ -7,15 +7,17 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/ghowland/web6.0/config"
 	"github.com/ghowland/yudien/yudien"
 	"github.com/ghowland/yudien/yudiendata"
+	_ "github.com/lib/pq"
 )
 
 func TestUDN(t *testing.T) {
-	LoadConfig("")
+	config.LoadConfig("")
 	// Set the proper database schema path
-	Config.DefaultDatabase.Schema = "../data/schema.json"
-	yudien.Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
+	config.Config.DefaultDatabase.Schema = "../data/schema.json"
+	yudien.Configure(&config.Config.DefaultDatabase, config.Config.Databases, &config.Config.Logging, &config.Config.Authentication)
 
 	// DB
 	db, err := sql.Open("postgres", "user=postgres dbname=opsdb password='password' host=localhost sslmode=disable")
