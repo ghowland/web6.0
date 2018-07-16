@@ -2,6 +2,8 @@ package web6
 
 import (
 	"flag"
+
+	"github.com/ghowland/web6.0/config"
 	"github.com/ghowland/yudien/yudien"
 	"github.com/ghowland/yudien/yudiencore"
 	"github.com/ghowland/yudien/yudiendata"
@@ -14,22 +16,22 @@ func Start(pidFile *string) {
 	log := ""
 
 	// Process CLI arguments and flags
-	flag.StringVar(&config_path, "config", ConfigFile, "Configuration file path (web6.json)")
+	flag.StringVar(&config_path, "config", config.ConfigFile, "Configuration file path (web6.json)")
 	flag.StringVar(&log, "log", "", "Level for logging purposes")
 	flag.StringVar(pidFile, "pid", "", "Specify PID path")
 	var import_database = flag.Bool("import-database", false, "Import databases into schema_table")
 	flag.Parse()
 
-	LoadConfig(config_path)
+	config.LoadConfig(config_path)
 
 	//fmt.Printf("Configure post load: \n%s\n", yudienutil.JsonDump(Config))
 
 	// If logging is specified in the flag, then override the config file
 	if log != "" {
-		Config.Logging.Level = log
+		config.Config.Logging.Level = log
 	}
 
-	yudien.Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
+	yudien.Configure(&config.Config.DefaultDatabase, config.Config.Databases, &config.Config.Logging, &config.Config.Authentication)
 
 	//TODO(g): Make this a CLI flag
 	if import_database != nil && *import_database == true {
@@ -37,7 +39,7 @@ func Start(pidFile *string) {
 		ImportDatabase(yudiendata.DefaultDatabase)
 
 		// Import all the other databases
-		for _, db_config := range Config.Databases {
+		for _, db_config := range config.Config.Databases {
 			ImportDatabase(&db_config)
 		}
 	}

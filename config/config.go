@@ -49,7 +49,7 @@ func LoadConfig(config string) {
 		}
 	}
 
-	fmt.Printf( "Load web6 config: %s\n\n", config)
+	fmt.Printf("Load web6 config: %s\n\n", config)
 
 	config_str, err := ioutil.ReadFile(config)
 	if err != nil {
@@ -60,11 +60,9 @@ func LoadConfig(config string) {
 		log.Panic(fmt.Sprintf("Cannot parse JSON config file: %s: %s\n", config, err.Error()))
 	}
 
-
 	// Format the ConnectOptions based on all our data, for the default database
 	Config.DefaultDatabase.ConnectOptions = yudienutil.TemplateInterface(Config.DefaultDatabase, Config.DefaultDatabase.ConnectOptionsTemplate)
 	fmt.Printf("Database Connect String: %s: %s\n\n", Config.DefaultDatabase.Name, Config.DefaultDatabase.ConnectOptions)
-
 
 	// Format the ConnectOptions based on all our data, for all secondary databases
 	for db_key, db_config := range Config.Databases {
