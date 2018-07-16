@@ -18,3 +18,5 @@ jobs:
           paths:
             - vendor
       - run: make build
+      - store_artifacts:
+          path: bin
