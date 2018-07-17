@@ -5,16 +5,22 @@
 
     // Ensure that all the Z items (values) are numbers
     for (var item = 0; item < plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data.length; item ++) {
-        for (var row = 0; row < plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item]["z"].length ; row++ ) {
-            for (var col = 0; col < plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item]["z"][row].length ; col++ ) {
 
-                value = plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item]["z"][row][col];
+        var value_key = "y"
+        if (plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item][value_key]["z"] != undefined) {
+            value_key = "z"
+        }
+
+        for (var row = 0; row < plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item][value_key].length ; row++ ) {
+            for (var col = 0; col < plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item][value_key][row].length ; col++ ) {
+
+                value = plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item][value_key][row][col];
 
                 // alert("Row: " + row + " Col: " + col + " Value: " + value);
 
                 value = parseFloat(value);
 
-                plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item]["z"][row][col] = value;
+                plotly_{{index .Map "name"}}_{{index .Map "uuid"}}_data[item][value_key][row][col] = value;
             }
         }
     }
