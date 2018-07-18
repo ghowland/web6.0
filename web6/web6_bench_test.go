@@ -7,15 +7,17 @@ import (
 	"strconv"
 	"testing"
 
-	. "github.com/ghowland/yudien/yudien"
-	. "github.com/ghowland/yudien/yudiendata"
+	"github.com/ghowland/web6.0/config"
+	"github.com/ghowland/yudien/yudien"
+	"github.com/ghowland/yudien/yudiendata"
+	_ "github.com/lib/pq"
 )
 
 func BenchmarkUDN(b *testing.B) {
-	LoadConfig("")
+	config.LoadConfig("")
 	// Set the proper database schema path
-	Config.DefaultDatabase.Schema = "../data/schema.json"
-	Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
+	config.Config.DefaultDatabase.Schema = "../data/schema.json"
+	yudien.Configure(&config.Config.DefaultDatabase, config.Config.Databases, &config.Config.Logging, &config.Config.Authentication)
 
 	// DB
 	db, err := sql.Open("postgres", "user=postgres dbname=opsdb password='password' host=localhost sslmode=disable")
@@ -27,7 +29,7 @@ func BenchmarkUDN(b *testing.B) {
 	web_site_id := int64(1) // Default is 1
 
 	sql := fmt.Sprintf("SELECT * FROM web_site WHERE _id = %d", web_site_id)
-	web_site_result := Query(db, sql)
+	web_site_result := yudiendata.Query(db, sql)
 	if web_site_result == nil || len(web_site_result) == 0 {
 		b.Fatalf("Cannot find main web_site: %s", err)
 	}
@@ -41,13 +43,13 @@ func BenchmarkUDN(b *testing.B) {
 	udn_data := GetStartingUdnData(db, db, web_site, make(map[string]interface{}), "", "", request_body, make(map[string]interface{}), header_map, nil)
 
 	// Test the UDN Processor
-	udn_schema := PrepareSchemaUDN(db)
+	udn_schema := yudien.PrepareSchemaUDN(db)
 	//fmt.Printf("\n\nUDN Schema: %v\n\n", udn_schema)
 
 	// Fetch test cases from db
 	sql = "SELECT * FROM test ORDER BY name;"
 
-	result := Query(db, sql)
+	result := yudiendata.Query(db, sql)
 
 	for _, test := range result {
 		b.Run(test["name"].(string), func(b *testing.B) {
@@ -57,11 +59,11 @@ func BenchmarkUDN(b *testing.B) {
 				"\"__get_temp.result.udn_data_json.__set.test_udn\","+
 				"\"__get_temp.result.starting_test_memory_data_json.__set.test_start_memory\"]]]", strconv.FormatInt(test["_id"].(int64), 10))
 
-			ProcessSchemaUDNSet(db, udn_schema, executed_udn, udn_data)
+			yudien.ProcessSchemaUDNSet(db, udn_schema, executed_udn, udn_data)
 
 			// Json decode the starting memory if needed
 			executed_udn = fmt.Sprintf("[[[\"__if.(__get.test_start_memory).__get.test_start_memory.__json_decode.__set.test_start_memory.__else.__get_temp.null.__set.test_start_memory.__end_if\"]]]")
-			ProcessSchemaUDNSet(db, udn_schema, executed_udn, udn_data)
+			yudien.ProcessSchemaUDNSet(db, udn_schema, executed_udn, udn_data)
 
 			b.StartTimer()
 
@@ -75,7 +77,7 @@ func BenchmarkUDN(b *testing.B) {
 				// Get starting memory for current benchmark run and execute the udn
 				executed_udn = fmt.Sprintf("[[[\"__get.test_start_memory.__set.test.__execute.(__get.test_udn)\"]]]")
 
-				ProcessSchemaUDNSet(db, udn_schema, executed_udn, udn_data)
+				yudien.ProcessSchemaUDNSet(db, udn_schema, executed_udn, udn_data)
 			}
 		})
 	}

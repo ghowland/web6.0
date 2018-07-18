@@ -7,15 +7,17 @@ import (
 	"strconv"
 	"testing"
 
-	. "github.com/ghowland/yudien/yudien"
-	. "github.com/ghowland/yudien/yudiendata"
+	"github.com/ghowland/web6.0/config"
+	"github.com/ghowland/yudien/yudien"
+	"github.com/ghowland/yudien/yudiendata"
+	_ "github.com/lib/pq"
 )
 
 func TestUDN(t *testing.T) {
-	LoadConfig("")
+	config.LoadConfig("")
 	// Set the proper database schema path
-	Config.DefaultDatabase.Schema = "../data/schema.json"
-	Configure(&Config.DefaultDatabase, Config.Databases, &Config.Logging, &Config.Authentication)
+	config.Config.DefaultDatabase.Schema = "../data/schema.json"
+	yudien.Configure(&config.Config.DefaultDatabase, config.Config.Databases, &config.Config.Logging, &config.Config.Authentication)
 
 	// DB
 	db, err := sql.Open("postgres", "user=postgres dbname=opsdb password='password' host=localhost sslmode=disable")
@@ -27,7 +29,7 @@ func TestUDN(t *testing.T) {
 	web_site_id := int64(1) // Default is 1
 
 	sql := fmt.Sprintf("SELECT * FROM web_site WHERE _id = %d", web_site_id)
-	web_site_result := Query(db, sql)
+	web_site_result := yudiendata.Query(db, sql)
 	if web_site_result == nil || len(web_site_result) == 0 {
 		t.Fatalf("Cannot find main web_site: %s", err)
 	}
@@ -41,19 +43,19 @@ func TestUDN(t *testing.T) {
 	udn_data := GetStartingUdnData(db, db, web_site, make(map[string]interface{}), "", "", request_body, make(map[string]interface{}), header_map, nil)
 
 	// Test the UDN Processor
-	udn_schema := PrepareSchemaUDN(db)
+	udn_schema := yudien.PrepareSchemaUDN(db)
 	//fmt.Printf("\n\nUDN Schema: %v\n\n", udn_schema)
 
 	// Fetch test cases from db
 	sql = "SELECT _id, name FROM test ORDER BY name;"
 
-	result := Query(db, sql)
+	result := yudiendata.Query(db, sql)
 
 	for _, test := range result {
 		t.Run(test["name"].(string), func(t *testing.T) {
 			executed_udn := fmt.Sprintf("[[[\"__function.run_test.%s\"]]]", strconv.FormatInt(test["_id"].(int64), 10))
 
-			result := ProcessSchemaUDNSet(db, udn_schema, executed_udn, udn_data)
+			result := yudien.ProcessSchemaUDNSet(db, udn_schema, executed_udn, udn_data)
 
 			// Error if result does not match expected
 			if result.(map[string]interface{})["success"] != "1" {
