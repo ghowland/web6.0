@@ -323,47 +323,61 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 	udn_data["web_site"] = web_site
 	udn_data["web_site_page"] = web_site_page
 	if session_value, ok := udn_data["cookie"].(map[string]interface{})["opsdb_session"]; ok {
-		session_sql := fmt.Sprintf("SELECT * FROM web_user_session WHERE web_site_id = %d AND name = '%s'", web_site["_id"], SanitizeSQL(session_value.(string)))
-		session_rows := Query(db_web, session_sql)
-		if len(session_rows) == 1 {
-			session := session_rows[0]
-			user_id := session["user_id"]
+		UdnLogLevel(nil, log_info, "Web Site ID: %d  User Session: %v\n\n", web_site["_id"], session_value)
+		//UdnLogLevel(nil, log_info, "Auth Config: %s\n\n", JsonDump(Config.Authentication))
 
-			UdnLogLevel(nil, log_info, "Found User ID: %d  Session: %v\n\n", user_id, session)
+		if Config.Authentication.Method == "database" {
+			// Use the UDN auth method
+			UdnLogLevel(nil, log_info, "Database Verify UDN: %s\n\n", Config.Authentication.DatabaseAuthentication.Verify)
 
-			// Load session from json_data
-			target_map := make(map[string]interface{})
-			if session["data_json"] != nil {
-				err := json.Unmarshal([]byte(session["data_json"].(string)), &target_map)
-				if err != nil {
-					log.Panic(err)
-				}
-			}
+			auth_result := ProcessSingleUDNTarget(db_web, nil, Config.Authentication.DatabaseAuthentication.Verify, nil, udn_data)
 
-			UdnLogLevel(nil, log_debug, "Session Data: %v\n\n", target_map)
+			UdnLogLevel(nil, log_info, "Auth Result: %v\n\n", auth_result)
+		} else {
+			// Use the OpsDB login method (user, web_user_session)
+			session_sql := fmt.Sprintf("SELECT * FROM web_user_session WHERE web_site_id = %d AND name = '%s'", web_site["_id"], SanitizeSQL(session_value.(string)))
+			session_rows := Query(db_web, session_sql)
+			if len(session_rows) == 1 {
+				session := session_rows[0]
+				user_id := session["user_id"]
 
-			udn_data["session"] = target_map
+				UdnLogLevel(nil, log_info, "Found User ID: %d  Session: %v\n\n", user_id, session)
 
-			// Load the user data too
-			user_sql := fmt.Sprintf("SELECT * FROM \"user\" WHERE _id = %d", user_id)
-			user_rows := Query(db_web, user_sql)
-			target_map_user := make(map[string]interface{})
-			if len(user_rows) == 1 {
-				// Set the user here
-				udn_data["user"] = user_rows[0]
-
-				// Load from user data from json_data
-				if user_rows[0]["data_json"] != nil {
-					err := json.Unmarshal([]byte(user_rows[0]["data_json"].(string)), &target_map_user)
+				// Load session from json_data
+				target_map := make(map[string]interface{})
+				if session["data_json"] != nil {
+					err := json.Unmarshal([]byte(session["data_json"].(string)), &target_map)
 					if err != nil {
 						log.Panic(err)
 					}
 				}
-			}
-			UdnLogLevel(nil, log_debug, "User Data: %v\n\n", target_map_user)
 
-			udn_data["user_data"] = target_map_user
+				UdnLogLevel(nil, log_debug, "Session Data: %v\n\n", target_map)
+
+				udn_data["session"] = target_map
+
+				// Load the user data too
+				user_sql := fmt.Sprintf("SELECT * FROM \"user\" WHERE _id = %d", user_id)
+				user_rows := Query(db_web, user_sql)
+				target_map_user := make(map[string]interface{})
+				if len(user_rows) == 1 {
+					// Set the user here
+					udn_data["user"] = user_rows[0]
+
+					// Load from user data from json_data
+					if user_rows[0]["data_json"] != nil {
+						err := json.Unmarshal([]byte(user_rows[0]["data_json"].(string)), &target_map_user)
+						if err != nil {
+							log.Panic(err)
+						}
+					}
+				}
+				UdnLogLevel(nil, log_debug, "User Data: %v\n\n", target_map_user)
+
+				udn_data["user_data"] = target_map_user
+			}
 		}
+
 	}
 
 	// Get the UUID for this request
