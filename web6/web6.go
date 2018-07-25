@@ -331,8 +331,17 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 			UdnLogLevel(nil, log_info, "Database Verify UDN: %s\n\n", Config.Authentication.DatabaseAuthentication.Verify)
 
 			auth_result := ProcessSingleUDNTarget(db_web, nil, Config.Authentication.DatabaseAuthentication.Verify, nil, udn_data)
+			auth_map := auth_result.(map[string]interface{})
 
-			UdnLogLevel(nil, log_info, "Auth Result: %v\n\n", auth_result)
+			UdnLogLevel(nil, log_info, "Auth Result: %v\n\n", auth_map)
+
+			// If we have a user, then we are logged in
+			if auth_map["user"] != nil {
+				UdnLogLevel(nil, log_info, "Auth Success: %v\n\n", auth_map["user"])
+				udn_data["session"] = auth_map["session"]
+				udn_data["user"] = auth_map["user"]
+				udn_data["user_data"] = map[string]interface{}{}		//TODO(g):REMOVE? Need to load the user data?  I dont know if I use this now.  It's already in "user".  Maybe this can be removed?
+			}
 		} else {
 			// Use the OpsDB login method (user, web_user_session)
 			session_sql := fmt.Sprintf("SELECT * FROM web_user_session WHERE web_site_id = %d AND name = '%s'", web_site["_id"], SanitizeSQL(session_value.(string)))
@@ -487,7 +496,8 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	all_widgets := Query(db_web, sql)
 
 	// Save all our base web_widgets, so we can access them anytime we want
-	udn_data["base_widget"] = MapArrayToMap(all_widgets, "name")
+	udn_data["base_widget"] = MapArrayToMap(all_widgets, "name")		//TODO(g): This will be depricated after the old base_* web_widgets, and the grid system UDN is updated
+	udn_data["web_widget"] = MapArrayToMap(all_widgets, "name")		//TODO(g): Convert everything to this
 
 	// Get UDN schema per request
 	//TODO(g): Dont do this every request
