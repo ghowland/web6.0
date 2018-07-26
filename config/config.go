@@ -32,6 +32,7 @@ type Web6Config struct {
 	LdapOverride    yudiendata.DatabaseConfig            `json:"ldap_override"`
 	Authentication  yudien.AuthenticationConfig          `json:"authentication"`
 	Logging         yudien.LoggingConfig                 `json:"logging"`
+	Website			yudien.WebsiteConfig                 `json:"website"`
 }
 
 var Config Web6Config

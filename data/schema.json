@@ -9226,6 +9226,64 @@
               },
               "provision_state": 3
             },
+            "web_widget_copy": {
+              "name": "web_widget_copy",
+              "fields": {
+                "_id": {
+                  "name": "_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "html": {
+                  "name": "html",
+                  "field_type": "_text",
+                  "provision_state": 3
+                },
+                "info": {
+                  "name": "info",
+                  "field_type": "_text",
+                  "provision_state": 3
+                },
+                "name": {
+                  "name": "name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "path": {
+                  "name": "path",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "udn_data_json": {
+                  "name": "udn_data_json",
+                  "field_type": "_json",
+                  "provision_state": 3
+                },
+                "web_widget_theme_id": {
+                  "name": "web_widget_theme_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                },
+                "web_widget_type_id": {
+                  "name": "web_widget_type_id",
+                  "field_type": "_int",
+                  "provision_state": 3
+                }
+              },
+              "indexes": {
+                "web_widget_copy_pkey": {
+                  "name": "web_widget_copy_pkey",
+                  "fields": [
+                    "_id"
+                  ],
+                  "unique": true,
+                  "primary": true,
+                  "provision_state": 3
+                }
+              },
+              "provision_state": 3
+            },
             "web_widget_instance": {
               "name": "web_widget_instance",
               "fields": {
@@ -9528,9 +9586,29 @@
                   "not_null": true,
                   "provision_state": 3
                 },
+                "database_collection_name": {
+                  "name": "database_collection_name",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
+                "database_label": {
+                  "name": "database_label",
+                  "field_type": "_string",
+                  "provision_state": 3
+                },
                 "name": {
                   "name": "name",
                   "field_type": "_string",
+                  "not_null": true,
+                  "provision_state": 3
+                },
+                "parent_id": {
+                  "name": "parent_id",
+                  "field_type": "_int",
+                  "relation": {
+                    "collection": "web_widget_theme",
+                    "field": "_id"
+                  },
                   "provision_state": 3
                 }
               },

@@ -459,6 +459,43 @@ func GetHTTPParams(r *http.Request) map[string]interface{} {
 	return param_map
 }
 
+func GetWebWidgetsFromTheme(web_widget_theme_id int) map[string]interface{} {
+	options := map[string]interface{}{}
+
+	web_widget_theme := DatamanGet("web_widget_theme", web_widget_theme_id, options)
+
+	UdnLogLevel(nil, log_trace, "GetWebWidgetsFromTheme: %d: %s\n", web_widget_theme_id, web_widget_theme["name"])
+
+	web_widget_map := map[string]interface{}{}
+
+	// If we have a parent, start with their map result
+	if web_widget_theme["parent_id"] != nil {
+		web_widget_map = GetWebWidgetsFromTheme(int(web_widget_theme["parent_id"].(int64)))
+	}
+
+	// Prepare the filter and options for the web widget
+	options["db"] = web_widget_theme["database_label"]
+	filter := map[string]interface{}{
+		"web_widget_theme_id": []interface{}{"=", web_widget_theme_id},
+	}
+
+	// Get the collection we want to get widgets from
+	web_widget_collection := "web_widget"
+	if web_widget_theme["database_collection_name"] != nil {
+		web_widget_collection = web_widget_theme["database_collection_name"].(string)
+	}
+
+	web_widget_array := DatamanFilter(web_widget_collection, filter, options)
+
+	// Overwrite anything from out parent
+	for _, web_widget := range web_widget_array {
+		UdnLogLevel(nil, log_trace, "GetWebWidgetsFromTheme: %d: %s: %s\n", web_widget_theme_id, web_widget_theme["name"], web_widget["name"])
+		web_widget_map[web_widget["name"].(string)] = web_widget
+	}
+
+	return web_widget_map
+}
+
 func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}, web_site_api map[string]interface{}, uri string, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
@@ -495,6 +532,7 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 		UdnLogLevel(nil, log_debug, "Params: %s\n\n", SnippetData(param_map, 600))
 	}
 
+	/*
 	// Get the base widget
 	sql := fmt.Sprintf("SELECT * FROM web_widget")
 	all_widgets := Query(db_web, sql)
@@ -502,6 +540,9 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	// Save all our base web_widgets, so we can access them anytime we want
 	udn_data["base_widget"] = MapArrayToMap(all_widgets, "name")		//TODO(g): This will be depricated after the old base_* web_widgets, and the grid system UDN is updated
 	udn_data["web_widget"] = MapArrayToMap(all_widgets, "name")		//TODO(g): Convert everything to this
+	*/
+
+	udn_data["base_widget"] = GetWebWidgetsFromTheme(Config.Website.DefaultWebWidgetThemeId)	//TODO(g): Convert everything to "web_widget", currently there are other things named this, and they need to be renamed and refactored
 
 	// Get UDN schema per request
 	//TODO(g): Dont do this every request
@@ -587,12 +628,17 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 
 	UdnLogLevel(nil, log_debug, "Starting UDN Data: %v\n\n", udn_data)
 
+	/*
 	// Get the base widget
 	sql = fmt.Sprintf("SELECT * FROM web_widget")
 	all_widgets := Query(db_web, sql)
 
 	// Save all our base web_widgets, so we can access them anytime we want
 	udn_data["base_widget"] = MapArrayToMap(all_widgets, "name")
+	*/
+
+	udn_data["base_widget"] = GetWebWidgetsFromTheme(Config.Website.DefaultWebWidgetThemeId)	//TODO(g): Convert everything to "web_widget", currently there are other things named this, and they need to be renamed and refactored
+
 
 	//fmt.Printf("Base Widget: base_list2_header: %v\n\n", udn_data["base_widget"].(map[string]interface{})["base_list2_header"])
 
