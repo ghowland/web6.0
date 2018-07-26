@@ -337,9 +337,13 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 
 			// If we have a user, then we are logged in
 			if auth_map["user"] != nil {
-				UdnLogLevel(nil, log_info, "Auth Success: %v\n\n", auth_map["user"])
-				udn_data["session"] = auth_map["session"]
-				udn_data["user"] = auth_map["user"]
+				UdnLogLevel(nil, log_info, "Auth Success: %s\n\n", JsonDump(auth_map))
+
+				// Set every map key into our udn_data, so that the Auth can decide what to set.  It is expected session/user exist.
+				for key, item := range auth_map {
+					udn_data[key] = item
+				}
+
 				udn_data["user_data"] = map[string]interface{}{}		//TODO(g):REMOVE? Need to load the user data?  I dont know if I use this now.  It's already in "user".  Maybe this can be removed?
 			}
 		} else {
