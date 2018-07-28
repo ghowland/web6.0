@@ -1,6 +1,6 @@
 <div class="form-group {{if index .Map "_error"}} has-error{{end}} {{if index .Map "_success"}} has-success{{end}} has-feedback">
     <label class="control-label text-semibold">{{index .Map "label"}}</label>
-    <input id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" name="{{index .Map "_field_label"}}" type="text" placeholder="{{if index .Map "placeholder"}}{{index .Map "placeholder"}}{{end}}" class="form-control" value="{{index .Map "value"}}">
+    <input id="{{index .Map "name"}}_{{index .Map "uuid"}}_id" name="{{index .Map "_field_label"}}" type="text" placeholder="{{if index .Map "placeholder"}}{{index .Map "placeholder"}}{{end}}" class="form-control" value="{{if index .Map "value"}}{{index .Map "value"}}{{end}}">
     <div class="form-control-feedback" style="margin-right: 0.5em;">
         <i class="{{index .Map "icon"}}"></i>
     </div>

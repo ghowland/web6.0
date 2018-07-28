@@ -328,16 +328,16 @@ func GetStartingUdnData(db_web *sql.DB, db *sql.DB, web_site map[string]interfac
 
 		if Config.Authentication.Method == "database" {
 			// Use the UDN auth method
-			UdnLogLevel(nil, log_info, "Database Verify UDN: %s\n\n", Config.Authentication.DatabaseAuthentication.Verify)
+			//UdnLogLevel(nil, log_info, "Database Verify UDN: %s\n\n", Config.Authentication.DatabaseAuthentication.Verify)
 
 			auth_result := ProcessSingleUDNTarget(db_web, nil, Config.Authentication.DatabaseAuthentication.Verify, nil, udn_data)
 			auth_map := auth_result.(map[string]interface{})
 
-			UdnLogLevel(nil, log_info, "Auth Result: %v\n\n", auth_map)
+			//UdnLogLevel(nil, log_info, "Auth Result: %v\n\n", auth_map)
 
 			// If we have a user, then we are logged in
 			if auth_map["user"] != nil {
-				UdnLogLevel(nil, log_info, "Auth Success: %s\n\n", JsonDump(auth_map))
+				//UdnLogLevel(nil, log_info, "Auth Success: %s\n\n", JsonDump(auth_map))
 
 				// Set every map key into our udn_data, so that the Auth can decide what to set.  It is expected session/user exist.
 				for key, item := range auth_map {
@@ -464,7 +464,7 @@ func GetWebWidgetsFromTheme(web_widget_theme_id int) map[string]interface{} {
 
 	web_widget_theme := DatamanGet("web_widget_theme", web_widget_theme_id, options)
 
-	UdnLogLevel(nil, log_trace, "GetWebWidgetsFromTheme: %d: %s\n", web_widget_theme_id, web_widget_theme["name"])
+	//UdnLogLevel(nil, log_trace, "GetWebWidgetsFromTheme: %d: %s\n", web_widget_theme_id, web_widget_theme["name"])
 
 	web_widget_map := map[string]interface{}{}
 
@@ -489,7 +489,7 @@ func GetWebWidgetsFromTheme(web_widget_theme_id int) map[string]interface{} {
 
 	// Overwrite anything from out parent
 	for _, web_widget := range web_widget_array {
-		UdnLogLevel(nil, log_trace, "GetWebWidgetsFromTheme: %d: %s: %s\n", web_widget_theme_id, web_widget_theme["name"], web_widget["name"])
+		//UdnLogLevel(nil, log_trace, "GetWebWidgetsFromTheme: %d: %s: %s\n", web_widget_theme_id, web_widget_theme["name"], web_widget["name"])
 		web_widget_map[web_widget["name"].(string)] = web_widget
 	}
 
