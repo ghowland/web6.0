@@ -464,7 +464,7 @@ func GetWebWidgetsFromTheme(web_widget_theme_id int) map[string]interface{} {
 
 	web_widget_theme := DatamanGet("web_widget_theme", web_widget_theme_id, options)
 
-	//UdnLogLevel(nil, log_trace, "GetWebWidgetsFromTheme: %d: %s\n", web_widget_theme_id, web_widget_theme["name"])
+	UdnLogLevel(nil, log_trace, "GetWebWidgetsFromTheme: %d: %s\n", web_widget_theme_id, web_widget_theme["name"])
 
 	web_widget_map := map[string]interface{}{}
 
@@ -542,11 +542,13 @@ func dynamicPage_API(db_web *sql.DB, db *sql.DB, web_site map[string]interface{}
 	udn_data["web_widget"] = MapArrayToMap(all_widgets, "name")		//TODO(g): Convert everything to this
 	*/
 
-	udn_data["base_widget"] = GetWebWidgetsFromTheme(Config.Website.DefaultWebWidgetThemeId)	//TODO(g): Convert everything to "web_widget", currently there are other things named this, and they need to be renamed and refactored
-
 	// Get UDN schema per request
 	//TODO(g): Dont do this every request
 	udn_schema := PrepareSchemaUDN(db_web)
+
+	udn_data["base_widget"] = GetWebWidgetsFromTheme(Config.Website.DefaultWebWidgetThemeId)	//TODO(g): Convert everything to "web_widget", currently there are other things named this, and they need to be renamed and refactored
+
+	//UdnLogLevel(nil, log_trace, "API: Base Widget: Core Modal: HTML: %s\n", udn_data["base_widget"].(map[string]interface{})["core_modal"].(map[string]interface{})["html"])
 
 	// Make sure messages are output to screen and logged when it is allowed to do so
 	udn_schema["allow_logging"] = udn_data["web_site_page"].(map[string]interface{})["allow_logging"].(bool)
@@ -637,7 +639,9 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	udn_data["base_widget"] = MapArrayToMap(all_widgets, "name")
 	*/
 
-	udn_data["base_widget"] = GetWebWidgetsFromTheme(Config.Website.DefaultWebWidgetThemeId)	//TODO(g): Convert everything to "web_widget", currently there are other things named this, and they need to be renamed and refactored
+	UdnLogLevel(nil, log_debug, "Web Site Page: %v\n\n", JsonDump(udn_data["web_site_page"]))
+
+	udn_data["base_widget"] = GetWebWidgetsFromTheme(int(udn_data["web_site_page"].(map[string]interface{})["web_widget_theme_id"].(int64)))	//TODO(g): Convert everything to "web_widget", currently there are other things named this, and they need to be renamed and refactored
 
 
 	//fmt.Printf("Base Widget: base_list2_header: %v\n\n", udn_data["base_widget"].(map[string]interface{})["base_list2_header"])

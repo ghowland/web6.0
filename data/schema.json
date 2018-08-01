@@ -8884,6 +8884,16 @@
                     "field": "_id"
                   },
                   "provision_state": 3
+                },
+                "web_widget_theme_id": {
+                  "name": "web_widget_theme_id",
+                  "field_type": "_int",
+                  "not_null": true,
+                  "relation": {
+                    "collection": "web_widget_theme",
+                    "field": "_id"
+                  },
+                  "provision_state": 3
                 }
               },
               "indexes": {
