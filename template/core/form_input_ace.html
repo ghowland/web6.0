@@ -1,5 +1,5 @@
 <label class="control-label"><i class="{{index .Map "icon"}}"></i> {{index .Map "label"}}</label>
-<textarea id="{{index .Map "uuid"}}_{{index .Map "name"}}_id" style="display: none">{{index .Map "value"}}</textarea>
+<textarea id="{{index .Map "uuid"}}_{{index .Map "name"}}_id" style="display: none">{{if index .Map "value"}}{{index .Map "value"}}{{end}}</textarea>
 <div id="ace_editor_{{index .Map "uuid"}}_{{index .Map "name"}}" style="height: 200px;"></div>
 <input type="hidden" name="{{index .Map "_field_label"}}" id="hidden_text_{{index .Map "uuid"}}_{{index .Map "name"}}">
 <script>
