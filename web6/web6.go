@@ -650,7 +650,7 @@ func dynamePage_RenderWidgets(db_web *sql.DB, db *sql.DB, web_site map[string]in
 	page_map := udn_data["page"].(map[string]interface{})
 
 	//TODO(g):HARDCODED: Im just forcing /login for now to make bootstrapping faster, it can come from the data source, think about it
-	if uri != "/login" {
+	if uri != "/login" && web_site_page["login_required"].(bool) == true {
 		if udn_data["user"].(map[string]interface{})["_id"] == nil {
 			login_page_id := web_site["login_web_site_page_id"].(int64)
 			login_page_sql := fmt.Sprintf("SELECT * FROM web_site_page WHERE _id = %d", login_page_id)
